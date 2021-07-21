@@ -3,9 +3,23 @@ import styles from './HomeTemplate.module.scss';
 import bgImg from '../../assets/img/homePage/bgHomePage.jpg';
 import Button from '../../components/UI/Button/Button';
 import Router from 'next/router';
+import { setLot } from '../../store/actions/lotAction';
+import { floorplanAction } from '../../store/actions/floorplan';
+import slots from '../../db/slots';
+import { useDispatch } from 'react-redux';
 
 
 const HomeTemplate = () => {
+
+    //setting a default slot as we are not showing all the slots.
+    const slotData = slots[0]
+    const dispatch = useDispatch()
+
+    const gotoFloorPlan = () => {
+        dispatch(setLot(slotData));
+        dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
+        Router.replace('/select_floorplan');
+    }
 
 
     return (
@@ -19,7 +33,7 @@ const HomeTemplate = () => {
                 <div className={styles.HomeTemplate__wrapButton}>
                     <Button
                         text='Click here to build your next home'
-                        onclick={() => Router.replace('/choose_your_spot')}
+                        onclick={gotoFloorPlan}
                         style={{ height: '70px' }}
                     />
                 </div>
