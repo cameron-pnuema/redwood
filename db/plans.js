@@ -1,6 +1,6 @@
 
 
-//27066
+//27066 
 const plans = [
   {
     id: 2,
@@ -11,7 +11,7 @@ const plans = [
     bedrooms: 4,
     bathrooms: 2,
     ceil: 2.4,
-    s: 2100,
+    s: 2000,
     images: ['/plans/barton2-mhe/img2.webp', '/plans/barton2-mhe/img1.webp'],
     price: 9999999.00,
     title: "Goldberg - Fairmont",
@@ -27,7 +27,7 @@ const plans = [
     bedrooms: 3,
     bathrooms: 2,
     ceil: 4,
-    s: 1512,
+    s: 1500,
     images: ['/plans/davinci-fairmont/img2.webp', '/plans/davinci-fairmont/img1.webp'],
     price: 91656.00,
     title: "Newport - Fairmont",
@@ -43,7 +43,7 @@ const plans = [
     bedrooms: 3,
     bathrooms: 2,
     ceil: 2.4,
-    s: 2147,
+    s: 2000,
     images: [`/plans/barton-mhe/img2.webp`, '/plans/barton-mhe/img1.webp'],
     price: 105897.00,
     title: "Redbud - MHE",
@@ -60,7 +60,7 @@ const plans = [
     bedrooms: 2,
     bathrooms: 2,
     ceil: 2.8,
-    s: 1165,
+    s: 1200,
     images: ['/plans/glenn-creek-mhe/img2.webp', '/plans/glenn-creek-mhe/img1.webp'],
     price: 72887.00,
     title: "Woodland Bay - Fairmont",
@@ -77,7 +77,7 @@ const plans = [
     bedrooms: 3,
     bathrooms: 2,
     ceil: 3,
-    s: 1280,
+    s: 1200,
     images: ['/plans/dyson-fairmont/img2.webp', '/plans/dyson-fairmont/img3.webp'],
     price: 73252.00,
     title: "Barton - MHE",
@@ -94,7 +94,7 @@ const plans = [
     bedrooms: 3,
     bathrooms: 2,
     ceil: 4,
-    s: 1280,
+    s: 1200,
     images: ['/plans/edison-fairmont/img2.webp', '/plans/edison-fairmont/img3.webp'],
     price: 73252.00,
     title: "Barton II - MHE",
@@ -110,7 +110,7 @@ const plans = [
     bedrooms: 3,
     bathrooms: 2,
     ceil: 2.6,
-    s: 1494,
+    s: 1500,
     images: ['/plans/franklin-fairmont/img2.webp', '/plans/franklin-fairmont/img1.webp'],
     price: 84243.00,
     title: "Glenn Forest - MHE",

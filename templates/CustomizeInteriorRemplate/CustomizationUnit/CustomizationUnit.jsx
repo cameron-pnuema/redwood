@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import Router from 'next/router';
 
 import OptionGroup from './OptionsGroup/OptionsGroup';
+import { getBaseContructionCostsPerSqureFit } from '../../../db/baseConstructionCosts';
 
 const formatPrice = (price) => {
     return format(price, {
@@ -92,10 +93,17 @@ const CustomizationUnit = ({
         </>
     );
 
+    const getTotalPrice = () => {
+        const basePrice = selectedPlan?.price
+        const baseConstructionCosts = getBaseContructionCostsPerSqureFit(selectedPlan?.s)
+        return [((basePrice + baseConstructionCosts) * 1.2)/ 100] + totalCustomizationPrice
+    }
+
     if (isAllStepsCompleted) body = (
         <div className={styles.summary}>
-            <div className={styles.summary__total}>Total: ${formatPrice(selectedPlan?.price + totalCustomizationPrice)}</div>
+            <div className={styles.summary__total}>Total: ${formatPrice(getTotalPrice())}</div>
             <div className={styles.summary__item}>Base price:  ${formatPrice(selectedPlan?.price)}</div>
+            <div className={styles.summary__item}>Base construction costs:  ${formatPrice(getBaseContructionCostsPerSqureFit(selectedPlan?.s))}</div>
             <div className={styles.summary__item}>Customizations: ${formatPrice(totalCustomizationPrice)}</div>
             <div className={styles.summary__action}>
                 <Button text="Apply" disabled={currentCategory !== totalCategories} style={{ width: "100%", height: 50 }} onclick={() => Router.replace('/apply')} />
