@@ -13,7 +13,7 @@ const plans = [
     ceil: 2.4,
     s: 2000,
     images: ['/plans/barton2-mhe/img2.webp', '/plans/barton2-mhe/img1.webp'],
-    price: 9999999.00,
+    price: 131443.00,
     title: "Goldberg - Fairmont",
     manufacturer: "Fairmont",
     type: "typeA",
