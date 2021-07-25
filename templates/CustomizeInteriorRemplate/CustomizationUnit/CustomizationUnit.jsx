@@ -96,7 +96,7 @@ const CustomizationUnit = ({
     const getTotalPrice = () => {
         const basePrice = selectedPlan?.price
         const baseConstructionCosts = getBaseContructionCostsPerSqureFit(selectedPlan?.s)
-        return [((basePrice + baseConstructionCosts) * 1.2)/ 100] + totalCustomizationPrice
+        return ((basePrice + baseConstructionCosts) * 1.2) + totalCustomizationPrice
     }
 
     if (isAllStepsCompleted) body = (
