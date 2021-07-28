@@ -28,6 +28,8 @@ const CustomizationUnit = ({
     selectedPlan,
     refForTheScrollToTop
 }) => {
+
+    console.log(optionGroups,'optionGroupsoptionGroups');
     const customizations = useSelector(state => state.customization.customization);
 
     // const topRef = useRef(null)

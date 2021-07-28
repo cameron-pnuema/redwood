@@ -28,7 +28,7 @@ const customizationGroup = [
         name: "Roof Pitch",
         active: null,
         options: [
-          { id: 1, name: '"4/12"', price: 0 },
+          // { id: 1, name: '"4/12"', price: 0 },
           { id: 2, name: '"5/12"', price: 2000 },
           { id: 3, name: '"7/12"', price: 5000 },
         ],
@@ -63,11 +63,15 @@ const customizationGroup = [
         name: "Shutters",
         active: null,
         options: [
-          { id: 5, name: `None`, price: 0 },
-          { id: 1, name: `Berry`, price: 100 },
-          { id: 2, name: `Royal`, price: 100 },
-          { id: 3, name: `Black`, price: 100 },
-          { id: 4, name: `Pine`, price: 100 },
+          { id: 1, name: `White Lineals`, price: 150 },
+          { id: 2, name: `Brown`, price: 100 },
+          { id: 3, name: `Pine`, price: 100 },
+          { id: 4, name: `Sandstone`, price: 100 },
+          { id: 5, name: `White`, price: 100 },
+          { id: 6, name: `Royal`, price: 100 },
+          { id: 7, name: `None`, price: 0 },
+          { id: 8, name: `Berry`, price: 100 },
+          { id: 9, name: `Black`, price: 100 },
         ],
       },
       // {
@@ -110,6 +114,53 @@ const customizationGroup = [
           { id: 2, name: `Craftsman Coach`, price: 200 },
         ],
       },
+      {
+        id: 8,
+        name: "Windows",
+        active: null,
+        options: [
+          { id: 1, name: `Transom 72 x 14`, price: 500 },
+          { id: 2, name: `Glass Block 32 x 40`, price: 600 },
+          { id: 3, name: `Glass Block 8 x 48`, price: 350 },
+          { id: 4, name: `Double Window`, price: 1200 },
+          { id: 5, name: `Single Window `, price: 800 },
+        ],
+      },
+      {
+        id: 9,
+        name: "Front Doors",
+        active: null,
+        options: [
+          { id: 1, name: 'Round Top Glass', price: 1500 },
+          { id: 2, name: 'Round Top Glass Double Sidelight', price: 1800 },
+          { id: 3, name: 'Storm Door', price: 0 },
+          { id: 4, name: 'Standard Front', price: 0 },
+          { id: 5, name: 'Fiberglass Woodgrain', price: 950 },
+        ]
+      },
+      {
+        id: 10,
+        name: "Rear Doors",
+        active: null,
+        options: [
+          { id: 1, name: '9 Lite Storm Door', price: 1100 },
+          { id: 2, name: 'Storm Door', price: 350 },
+          { id: 3, name: '1/4 Lite Storm Door', price: 950 },
+          { id: 4, name: 'Standard Rear Door', price: 0 },
+          { id: 5, name: '1/4 Lite', price: 600 },
+          { id: 6, name: '9 Lite ', price: 750 },
+        ]
+      },
+      {
+        id: 11,
+        name: "Patio Doors",
+        active: null,
+        options: [
+          { id: 1, name: 'Patio (No Grids)', price: 1500 },
+          { id: 2, name: 'French Doors', price: 2500 },
+          { id: 3, name: 'Patio w/ Grids', price: 1500 },
+        ]
+      },
     ],
   },
   {
@@ -129,6 +180,7 @@ const customizationGroup = [
           { id: 5, name: `Ebony Fusion`, price: 0 },
           { id: 6, name: `Azul Aran`, price: 900 },
           { id: 7, name: `Dolce Vita`, price: 900 },
+          { id: 8, name: `Antique Marula Pine`, price: 900 },
           { id: 8, name: `Calcutta Marble`, price: 900 },
         ],
       },
@@ -137,15 +189,20 @@ const customizationGroup = [
         name: `Backsplash`,
         active: null,
         options: [
-          { id: 1, name: `White (One Row)`, price: 500 },
-          { id: 2, name: `Steel (One Row)`, price: 500 },
-          { id: 3, name: `Graphite (One Row)`, price: 500 },
+          { id: 1, name: `White (One Row)`, price: 0 },
+          { id: 2, name: `Steel (One Row)`, price: 0 },
+          { id: 3, name: `Graphite (One Row)`, price: 0 },
           { id: 4, name: `White (Full)`, price: 2000 },
           { id: 5, name: `Steel (Full)`, price: 2000 },
           { id: 6, name: `Graphite (Full)`, price: 2000 },
-          { id: 7, name: `Contemporary Stack (Upgrade)`, price: 2500 },
+          { id: 7, name: `Black Stone`, price: 2000 },
           { id: 8, name: `Split Face Mosaic (Upgrade)`, price: 2500 },
-          { id: 9, name: `Taberna Rye (Upgrade)`, price: 2500 },
+          { id: 9, name: `Pewter Tin`, price: 1500 },
+          { id: 10, name: `Oxide Graphite (One Row)`, price: 0 },
+          { id: 11, name: `San Fransisco`, price: 2500 },
+          { id: 12, name: `White Tin`, price: 1500 },
+          { id: 13, name: `Mystic slate`, price: 1500 },
+          { id: 14, name: `Timberwood`, price: 2500 },
         ],
       },
       {
@@ -158,6 +215,7 @@ const customizationGroup = [
           { id: 3, name: `Rustic Shore`, price: 1000 },
           { id: 4, name: `Vintage Oak`, price: 1000 },
           { id: 5, name: `Stonehenge`, price: 1000 },
+          { id: 6, name: `Cottage Slate`, price: 1000 },
         ],
       },
       {
@@ -328,27 +386,27 @@ const customizationGroup = [
         name: `Trim`,
         active: null,
         options: [
-          { id: 1, name: `Interior Trim - Java Wrapped`, price: 0 },
-          { id: 2, name: `Interior Trim - Ibis Wrapped`, price: 0 },
-          { id: 3, name: `Interior Trim - Wrapped - White`, price: 0 },
+          { id: 1, name: `Java Wrapped`, price: 0 },
+          { id: 2, name: `Ibis Wrapped`, price: 0 },
+          { id: 3, name: `White Wrapped`, price: 0 },
         ],
       },
-      {
-        id: `4-washer-dryer`,
-        name: `Washer/dryer`,
-        active: null,
-        options: [
-          { id: 1, name: `None`, price: 0 },
-          { id: 2, name: `Include`, price: 1200 },
-        ],
-      },
+      // { 
+      //   id: `4-washer-dryer`,
+      //   name: `Washer/dryer`,
+      //   active: null,
+      //   options: [
+      //     { id: 1, name: `None`, price: 0 },
+      //     { id: 2, name: `Include`, price: 1200 },
+      //   ],
+      // },
       {
         id: `5-hot-water-heater`,
         name: `Hot Water Heater`,
         active: null,
         options: [
-          { id: 1, name: `40 Gallon Gas`, price: 0 },
-          { id: 2, name: `50 Gallon Gas`, price: 650 },
+          { id: 1, name: `40 Gallon`, price: 0 },
+          { id: 2, name: `50 Gallon`, price: 650 },
         ],
       },
       {
@@ -363,31 +421,61 @@ const customizationGroup = [
           { id: 4, name: `Deep Sink With Overhead Cab (51")`, price: 1700 },
         ],
       },
+      {
+        id: 12,
+        name: `Additonal Add Ons`,
+        active: null,
+        categoryType: 'quantity',
+        options: [
+          { id: 1, name: `Cost per USB Charging Dock`, price: 75 },
+          { id: 2, name: `Cost per TV/Cable (Running Quanitity)`, price: 75 },
+          { id: 3, name: `Cost per Outlet (Running Quanitity)`, price: 75 },
+          { id: 4, name: `Cost per GFI Outlet (Running Quanitity)`, price: 75 },
+        ],
+      },
+      {
+        id: 13,
+        name: `Lighting`,
+        active: null,
+        categoryType: 'quantity',
+        options: [
+          { id: 1, name: `Globe Light`, price: 75 },
+          { id: 2, name: `Can Light`, price: 75 },
+          { id: 3, name: `Reversible Fan`, price: 350 },
+          { id: 4, name: ` 5 Arm Chandelier`, price: 350 },
+        ],
+      },
     ],
   },
-  // {
-  //     category: 4,
-  //     active: false,
-  //     name: '',
-  //     underCategories: [
-  //         {
-  //             id: 1,
-  //             name: ``,
-  //             active: null,
-  //             options: [
-  //                 { id: 1, name: ``, price: 0 },
-  //                 { id: 2, name: ``, price: 0 },
-  //                 { id: 3, name: ``, price: 0 },
-  //                 { id: 4, name: ``, price: 0 },
-  //                 { id: 5, name: ``, price: 0 },
-  //                 { id: 6, name: ``, price: 0 },
-  //                 { id: 7, name: ``, price: 0 },
-  //                 { id: 8, name: ``, price: 0 },
-  //             ],
-  //         },
+  {
+      category: 4,
+      active: false,
+      name: 'Bathroom',
+      underCategories: [
+          {
+              id: 1,
+              name: ``,
+              active: null,
+              options: [
+                { id: 1, name: `White (One Row)`, price: 0 },
+                { id: 2, name: `Steel (One Row)`, price: 0 },
+                { id: 3, name: `Graphite (One Row)`, price: 0 },
+                { id: 4, name: `White (Full)`, price: 2000 },
+                { id: 5, name: `Steel (Full)`, price: 2000 },
+                { id: 6, name: `Graphite (Full)`, price: 2000 },
+                { id: 7, name: `Black Stone`, price: 2000 },
+                { id: 8, name: `Split Face Mosaic (Upgrade)`, price: 2500 },
+                { id: 9, name: `Pewter Tin`, price: 1500 },
+                { id: 10, name: `Oxide Graphite (One Row)`, price: 0 },
+                { id: 11, name: `San Fransisco`, price: 2500 },
+                { id: 12, name: `White Tin`, price: 1500 },
+                { id: 13, name: `Mystic slate`, price: 1500 },
+                { id: 14, name: `Timberwood`, price: 2500 },
+              ],
+          },
 
-  //     ]
-  // },
+      ]
+  },
 
   {
     category: 5,
@@ -398,6 +486,7 @@ const customizationGroup = [
         id: 1,
         name: `Flooring`,
         active: null,
+        categoryType: 'freeForm',
         options: [
           {
             id: 1,
