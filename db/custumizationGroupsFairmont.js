@@ -118,6 +118,7 @@ const customizationGroup = [
         id: 8,
         name: "Windows",
         active: null,
+        categoryType: 'quantity',
         options: [
           { id: 1, name: `Transom 72 x 14`, price: 500 },
           { id: 2, name: `Glass Block 32 x 40`, price: 600 },
@@ -435,7 +436,7 @@ const customizationGroup = [
       },
       {
         id: 13,
-        name: `Lighting`,
+        name: `Lighting`, 
         active: null,
         categoryType: 'quantity',
         options: [
