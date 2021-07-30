@@ -12,8 +12,7 @@ const OptionsGroup = ({ groupName, categoryType, options, activeOptionId, onChan
 
     console.log(options, categoryType, 'optionsoptionsoptions');
 
-    const isQuantityType = categoryType === selectionFieldTypes.QUANTITY
-    const isMultipleType = categoryType === selectionFieldTypes.SELECT_MULTIPLE
+
 
     
     return (
@@ -24,8 +23,11 @@ const OptionsGroup = ({ groupName, categoryType, options, activeOptionId, onChan
             <div className={styles.group__options}>
                 {
                     options.map((o, endChildIndex) => {
+                        const isQuantityType = o.categoryType === selectionFieldTypes.QUANTITY
+                        const isMultipleType = o.categoryType === selectionFieldTypes.SELECT_MULTIPLE
                         const optionClasses = [styles.option];
                         if (activeOptionId == o.id) optionClasses.push(styles.option_active);
+                        if((!isQuantityType || isMultipleType) && activeOptionId == o.id) optionClasses.push(styles.option_pointer_behaviour_none);
 
                         
                         return (
@@ -35,7 +37,7 @@ const OptionsGroup = ({ groupName, categoryType, options, activeOptionId, onChan
                                    !isQuantityType && onChange(o.id)
                                 }}
                             >
-                                <div className={styles.option__label}>
+                                <div style={{ marginLeft: isQuantityType ? 16: 'unset' }} className={styles.option__label}>
                                     {!isQuantityType && 
                                     <Checkbox
                                         checked={activeOptionId == o.id}
@@ -49,7 +51,7 @@ const OptionsGroup = ({ groupName, categoryType, options, activeOptionId, onChan
                                    {isQuantityType && 
                                     <InputCustomizeOption 
                                         groupId={groupId} 
-                                        inputValue={o.inputValue} 
+                                        noOfUnit={o.noOfUnit} 
                                         activeOptionId={activeOptionId}
                                         onChange={(value) => onChange(o.id, value, endChildIndex)}
                                     />}

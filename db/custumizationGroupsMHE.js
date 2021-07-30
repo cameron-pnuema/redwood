@@ -1,3 +1,5 @@
+import { selectionCategoryNames, selectionFieldTypes } from "./custumizationGroupsFairmont";
+
 const customizationGroup = [
   {
     category: 1,
@@ -86,13 +88,14 @@ const customizationGroup = [
           id: 7,
           name: `Windows`,
           active: null,
-          categoryType: 'quatity',
+          categoryType: selectionFieldTypes.QUANTITY ,
+          categoryName: selectionCategoryNames.WINDOWS,
           options: [
-              { id: 1, name: `30x60`, price: 500 },
-              { id: 2, name: `36x60`, price: 550 },
-              { id: 3, name: `60 x 36 Double Arch Kitchen`, price: 550 },
-              { id: 4, name: `Octagon`, price: 150 },
-              { id: 5, name: `80x14 transom`, price: 350 },
+              { id: 1, name: `30x60`, price: 500, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+              { id: 2, name: `36x60`, price: 550, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+              { id: 3, name: `60 x 36 Double Arch Kitchen`, price: 550, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+              { id: 4, name: `Octagon`, price: 150, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+              { id: 5, name: `80x14 transom`, price: 350, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
           ],
       },
       {
@@ -331,29 +334,32 @@ const customizationGroup = [
       {
         id: 9,
         name: `Additional Add Ons`,
+        categoryName: selectionCategoryNames.ADDITONAL_ADDS_ON,
+        categoryType: selectionFieldTypes.QUANTITY ,
         active: null,
         options: [
-          { id: 1, name: `Cost per GFI Outlet (Running Quanitity)`, price: 75, categoryType: 'quantity', },
-          { id: 2, name: `Closet Caddy`, price: 250, categoryType: 'selectMultiple' },
-          { id: 3, name: `3 Door Pantry Style Cabinet for Bath/Kitchen`, price: 500, categoryType: 'selectMultiple' },
-          { id: 4, name: `Over John Cabinet `, price: 200, categoryType: 'selectMultiple' },
-          { id: 5, name: `Cost per TV/Cable (Running Quanitity)`, price: 75, categoryType: 'quantity',},
-          { id: 6, name: `Coat Rack w/ Bench`, price: 450, categoryType: 'selectMultiple' },
-          { id: 7, name: `Cabinet Over Washer/Dryer`, price: 350, categoryType: 'selectMultiple' },
-          { id: 8, name: `Cost per Outlet (Running Quanitity)`, price: 75, categoryType: 'quantity', },
+          { id: 1, name: `Cost per GFI Outlet (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY , },
+          { id: 2, name: `Closet Caddy`, price: 250, categoryType: selectionFieldTypes.SELECT_MULTIPLE  },
+          { id: 3, name: `3 Door Pantry Style Cabinet for Bath/Kitchen`, price: 500, categoryType: selectionFieldTypes.SELECT_MULTIPLE  },
+          { id: 4, name: `Over John Cabinet `, price: 200, categoryType: selectionFieldTypes.SELECT_MULTIPLE  },
+          { id: 5, name: `Cost per TV/Cable (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY ,},
+          { id: 6, name: `Coat Rack w/ Bench`, price: 450, categoryType: selectionFieldTypes.SELECT_MULTIPLE  },
+          { id: 7, name: `Cabinet Over Washer/Dryer`, price: 350, categoryType: selectionFieldTypes.SELECT_MULTIPLE  },
+          { id: 8, name: `Cost per Outlet (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY , },
         ],
       },
       {
         id: 8,
         name: `Lighting`,
         active: null,
-        categoryType: 'quantity',
+        categoryType: selectionFieldTypes.QUANTITY ,
+        categoryName: selectionCategoryNames.LIGNTING,
         options: [
-          { id: 1, name: `3 Arm Chandelier`, price: 200 },
-          { id: 2, name: `Paddle Fan w/ Light in Bronze`, price: 300 },
-          { id: 3, name: `Globe 2 Bulb`, price: 50 },
-          { id: 4, name: `Hunter Paddle Fan`, price: 350 },
-          { id: 5, name: `Can Light`, price: 50 },
+          { id: 1, name: `3 Arm Chandelier`, price: 200, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY  },
+          { id: 2, name: `Paddle Fan w/ Light in Bronze`, price: 300, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY  },
+          { id: 3, name: `Globe 2 Bulb`, price: 50, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY  },
+          { id: 4, name: `Hunter Paddle Fan`, price: 350, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY  },
+          { id: 5, name: `Can Light`, price: 50, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY  },
         ],
       },
       // {

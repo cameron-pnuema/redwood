@@ -22,6 +22,12 @@ export const selectionFieldTypes = {
   SELECT_MULTIPLE: 'selectMultiple'
 }
 
+export const selectionCategoryNames = {
+  LIGNTING: 'lignting',
+  ADDITONAL_ADDS_ON: 'addtionalAddsOn',
+  WINDOWS: 'windows'
+}
+
 const customizationGroup = [
   {
     category: 1,
@@ -123,8 +129,10 @@ const customizationGroup = [
         id: 8,
         name: "Windows",
         active: null,
+        categoryType: selectionFieldTypes.QUANTITY,
+        categoryName: selectionCategoryNames.WINDOWS,
         options: [
-          { id: 1, name: `Transom 72 x 14`, price: 500, noOfUnit: 1, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 1, name: `Transom 72 x 14`, price: 500, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
           { id: 2, name: `Glass Block 32 x 40`, price: 600, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
           { id: 3, name: `Glass Block 8 x 48`, price: 350, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
           { id: 4, name: `Double Window`, price: 1200, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
@@ -186,7 +194,7 @@ const customizationGroup = [
           { id: 6, name: `Azul Aran`, price: 900 },
           { id: 7, name: `Dolce Vita`, price: 900 },
           { id: 8, name: `Antique Marula Pine`, price: 900 },
-          { id: 8, name: `Calcutta Marble`, price: 900 },
+          { id: 9, name: `Calcutta Marble`, price: 900 },
         ],
       },
       {
@@ -430,22 +438,26 @@ const customizationGroup = [
         id: 12,
         name: `Additonal Add Ons`,
         active: null,
+        categoryType: selectionFieldTypes.QUANTITY,
+        categoryName: selectionCategoryNames.ADDITONAL_ADDS_ON,
         options: [
-          { id: 1, name: `Cost per USB Charging Dock`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
-          { id: 2, name: `Cost per TV/Cable (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
-          { id: 3, name: `Cost per Outlet (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
-          { id: 4, name: `Cost per GFI Outlet (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 1, name: `Cost per USB Charging Dock`, price: 75, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 2, name: `Cost per TV/Cable (Running Quanitity)`, price: 75, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 3, name: `Cost per Outlet (Running Quanitity)`, price: 75, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 4, name: `Cost per GFI Outlet (Running Quanitity)`, price: 75, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
         ],
       },
       {
         id: 13,
         name: `Lighting`, 
         active: null,
+        categoryName: selectionCategoryNames.LIGNTING,
+        categoryType: selectionFieldTypes.QUANTITY,
         options: [
-          { id: 1, name: `Globe Light`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
-          { id: 2, name: `Can Light`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
-          { id: 3, name: `Reversible Fan`, price: 350, categoryType: selectionFieldTypes.QUANTITY },
-          { id: 4, name: ` 5 Arm Chandelier`, price: 350, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 1, name: `Globe Light`, price: 75, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 2, name: `Can Light`, price: 75, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 3, name: `Reversible Fan`, price: 350, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 4, name: ` 5 Arm Chandelier`, price: 350, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
         ],
       },
     ],

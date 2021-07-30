@@ -1,18 +1,19 @@
 import React from 'react';
 
-export default function InputCustomizeOption({ inputValue, onChange = () => null }) {
+export default function InputCustomizeOption({ noOfUnit = 0, onChange = () => null }) {
+  var reg = new RegExp('^[0-9]+$');
   return (
     <input 
         className='input-customize-option'
-        placeholder='Unit'
-        // defaultValue={inputValue}
+        placeholder='No of unit'
         onChange={(event) => {
-          const value = event.target.value
-          if(!isNaN(Number(value.trim()))){
+          let value = event.target.value
+          if(reg.test(value) || !value){
+            value = value || 0
             onChange(Number(value))
           }
         }}
-        value={inputValue}
+        value={noOfUnit}
     />
   );
 }

@@ -36,9 +36,17 @@
             }
         }
 
-        // &_active {
-        //     background: rgba(37, 209, 160, 0.2);
-        //     pointer-events: none;
-        // }
+        &_active {
+            background: rgba(37, 209, 160, 0.2);
+            // pointer-events: none;
+        }
+
+        &_pointer_behaviour_none {
+            pointer-events: none;
+        }
+
+        &_pointer_behaviou_cursor {
+            pointer-events: auto;
+        }
     }
 }

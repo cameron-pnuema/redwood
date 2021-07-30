@@ -71,7 +71,7 @@ const CustomizationUnit = ({
                             <textarea
                                 className={styles.body__card_textArea}
                                 name="flooring"
-                                onChange={(event) => onChange({ inputAnswer: event.target.value })}
+                                onChange={(event) => onChange({ inputAnswer: event.target.value, groupId: og.id })}
                                 value={og.options.find(o => o.id === og.active)?.value}
                             />
                             <p className={styles.body__card__disclaimer}>*Flooring customization will be coming soon. A representative will reach out to you to discuss flooring options.</p>

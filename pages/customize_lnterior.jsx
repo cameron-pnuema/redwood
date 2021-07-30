@@ -4,6 +4,7 @@ import Layout from '../components/layout/layout';
 import CustomizeInteriorRemplate from '../templates/CustomizeInteriorRemplate/CustomizeInteriorRemplate';
 import useTimeout from '../UTILS/useTimeout';
 import { customizationAction } from '../store/actions/customization';
+import { selectionCategoryNames, selectionFieldTypes } from '../db/custumizationGroupsFairmont';
 
 
 export const getTotalCustomizationPrice = (customizations) => {
@@ -17,9 +18,12 @@ export const getTotalCustomizationPrice = (customizations) => {
         const activeOption = c.options.find(o => o.id === c.active);
         if (!activeOption) return;
 
-        if(c.categoryType === 'quantity'){
+        if( c.categoryName === selectionCategoryNames.WINDOWS || 
+            c.categoryName === selectionCategoryNames.LIGNTING || 
+            c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
+        ){
             c.options.map(a => {
-                customizationPrice += (a.price * (a.noOfUnit || 1))
+                if(a.noOfUnit && a.noOfUnit > 0) customizationPrice += (a.price * a.noOfUnit)
             })
 
             return;
@@ -58,39 +62,53 @@ const CustomizeInterior = () => {
             return {
                 ...category,
                 underCategories: category.underCategories.map(uc => {
-                    if (uc.name === 'Flooring' || uc.categoryType === 'quantity') {
-                        return {
-                            ...uc,
-                            active: 1,
-                            options: [
-                                // ...uc.options,
-                                ...uc.options.map((el, index) => {
+                    if (uc.id !== groupId) return uc;
 
-                                    if (el.name === `inputName`) {
-                                        return {
-                                            ...el,
-                                            value: inputAnswer
-                                        }
+                    if (
+                        uc.name === 'Flooring' || 
+                        uc.categoryName === selectionCategoryNames.WINDOWS || 
+                        uc.categoryName === selectionCategoryNames.LIGNTING || 
+                        uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
+                        ) {
 
+
+                        let selectionItem = { ...uc }
+                        selectionItem.active = 1
+                        selectionItem.options = [
+                            ...uc.options.map((el, index) => {
+
+                                if (el.name === `inputName`) {
+                                    return {
+                                        ...el,
+                                        value: inputAnswer
                                     }
 
-                                    if(uc.categoryType === 'quantity'){
-                                        if(index === endChildIndex){
-                                            return {
-                                                ...el,
-                                                noOfUnit: inputAnswer
-                                            }
-                                        }
+                                }
+
+                                if(uc.categoryType === selectionFieldTypes.QUANTITY){
+                                    if(index === endChildIndex){
                                         return {
                                             ...el,
+                                            noOfUnit: inputAnswer || 0
                                         }
                                     }
-                                })
-                            ]
+                                    return {
+                                        ...el,
+                                    }
+                                }
+                            })
+                        ]
+
+                        if( uc.categoryType === selectionFieldTypes.QUANTITY){
+                            const numberOfUnitEntered = selectionItem.options.filter(a => a.noOfUnit && a.noOfUnit > 0)
+                            if(!numberOfUnitEntered.length){
+                                selectionItem.active = null
+                            }
                         }
+
+                        return selectionItem
                     }
 
-                    if (uc.id !== groupId) return uc;
                     return {
                         ...uc,
                         active: optionId
