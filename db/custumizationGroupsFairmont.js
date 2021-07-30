@@ -17,6 +17,11 @@
 // - Trim
 // - Lighting
 
+export const selectionFieldTypes = {
+  QUANTITY: 'quantity',
+  SELECT_MULTIPLE: 'selectMultiple'
+}
+
 const customizationGroup = [
   {
     category: 1,
@@ -118,13 +123,12 @@ const customizationGroup = [
         id: 8,
         name: "Windows",
         active: null,
-        categoryType: 'quantity',
         options: [
-          { id: 1, name: `Transom 72 x 14`, price: 500 },
-          { id: 2, name: `Glass Block 32 x 40`, price: 600 },
-          { id: 3, name: `Glass Block 8 x 48`, price: 350 },
-          { id: 4, name: `Double Window`, price: 1200 },
-          { id: 5, name: `Single Window `, price: 800 },
+          { id: 1, name: `Transom 72 x 14`, price: 500, noOfUnit: 1, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 2, name: `Glass Block 32 x 40`, price: 600, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 3, name: `Glass Block 8 x 48`, price: 350, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 4, name: `Double Window`, price: 1200, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 5, name: `Single Window `, price: 800, noOfUnit: 0, categoryType: selectionFieldTypes.QUANTITY },
         ],
       },
       {
@@ -426,24 +430,22 @@ const customizationGroup = [
         id: 12,
         name: `Additonal Add Ons`,
         active: null,
-        categoryType: 'quantity',
         options: [
-          { id: 1, name: `Cost per USB Charging Dock`, price: 75 },
-          { id: 2, name: `Cost per TV/Cable (Running Quanitity)`, price: 75 },
-          { id: 3, name: `Cost per Outlet (Running Quanitity)`, price: 75 },
-          { id: 4, name: `Cost per GFI Outlet (Running Quanitity)`, price: 75 },
+          { id: 1, name: `Cost per USB Charging Dock`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 2, name: `Cost per TV/Cable (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 3, name: `Cost per Outlet (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 4, name: `Cost per GFI Outlet (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
         ],
       },
       {
         id: 13,
         name: `Lighting`, 
         active: null,
-        categoryType: 'quantity',
         options: [
-          { id: 1, name: `Globe Light`, price: 75 },
-          { id: 2, name: `Can Light`, price: 75 },
-          { id: 3, name: `Reversible Fan`, price: 350 },
-          { id: 4, name: ` 5 Arm Chandelier`, price: 350 },
+          { id: 1, name: `Globe Light`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 2, name: `Can Light`, price: 75, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 3, name: `Reversible Fan`, price: 350, categoryType: selectionFieldTypes.QUANTITY },
+          { id: 4, name: ` 5 Arm Chandelier`, price: 350, categoryType: selectionFieldTypes.QUANTITY },
         ],
       },
     ],

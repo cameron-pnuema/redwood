@@ -6,7 +6,7 @@ import useTimeout from '../UTILS/useTimeout';
 import { customizationAction } from '../store/actions/customization';
 
 
-const getTotalCustomizationPrice = (customizations) => {
+export const getTotalCustomizationPrice = (customizations) => {
     let categories = [];
     customizations.forEach(c => {
         categories = categories.concat(c.underCategories);
@@ -16,6 +16,15 @@ const getTotalCustomizationPrice = (customizations) => {
     categories.forEach(c => {
         const activeOption = c.options.find(o => o.id === c.active);
         if (!activeOption) return;
+
+        if(c.categoryType === 'quantity'){
+            c.options.map(a => {
+                customizationPrice += (a.price * (a.noOfUnit || 1))
+            })
+
+            return;
+
+        }
         customizationPrice += activeOption.price;
     });
 
@@ -30,6 +39,8 @@ const CustomizeInterior = () => {
     const customizations = useSelector(state => state.customization.customization);
     const dispatch = useDispatch();
 
+    console.log(customizations,selectedPlan,'customizationscustomizations');
+
     const activeCustomizationCategory = customizations.find(c => c.active);
     const activeCategoryIndex = customizations.findIndex(c => c.active);
     const totalCustomizationPrice = getTotalCustomizationPrice(customizations);
@@ -37,7 +48,9 @@ const CustomizeInterior = () => {
 
 
 
-    const handleCustomizationChange = ({ groupId, optionId, inputAnswer }) => {
+    const handleCustomizationChange = ({ groupId, optionId, inputAnswer, endChildIndex }) => {
+
+        console.log( groupId, optionId, inputAnswer ,endChildIndex,' groupId, optionId, inputAnswer ');
         const newCustomizations = customizations.map(category => {
 
             if (category.category !== activeCustomizationCategory.category) return category;
@@ -45,13 +58,13 @@ const CustomizeInterior = () => {
             return {
                 ...category,
                 underCategories: category.underCategories.map(uc => {
-                    if (uc.name === 'Flooring') {
+                    if (uc.name === 'Flooring' || uc.categoryType === 'quantity') {
                         return {
                             ...uc,
                             active: 1,
                             options: [
                                 // ...uc.options,
-                                ...uc.options.map(el => {
+                                ...uc.options.map((el, index) => {
 
                                     if (el.name === `inputName`) {
                                         return {
@@ -59,6 +72,18 @@ const CustomizeInterior = () => {
                                             value: inputAnswer
                                         }
 
+                                    }
+
+                                    if(uc.categoryType === 'quantity'){
+                                        if(index === endChildIndex){
+                                            return {
+                                                ...el,
+                                                noOfUnit: inputAnswer
+                                            }
+                                        }
+                                        return {
+                                            ...el,
+                                        }
                                     }
                                 })
                             ]

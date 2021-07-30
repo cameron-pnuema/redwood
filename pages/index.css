@@ -43,3 +43,8 @@ li {
     border: none;
     margin-right: 15px;
 }
+
+.input-customize-option {
+    margin-right: 10px;
+    max-width: 100px;
+}

@@ -29,7 +29,7 @@ const CustomizationUnit = ({
     refForTheScrollToTop
 }) => {
 
-    console.log(optionGroups,'optionGroupsoptionGroups');
+    console.log(optionGroups, totalCategories, currentCategory, isCurrentStepCompleted, categoryName,'optionGroupsoptionGroups');
     const customizations = useSelector(state => state.customization.customization);
 
     // const topRef = useRef(null)
@@ -81,9 +81,20 @@ const CustomizationUnit = ({
                     if (categoryName !== "Flooring") optionGroup = (
                         <OptionGroup
                             groupName={og.name}
+                            categoryType={og.categoryType}
                             options={og.options}
                             activeOptionId={og.active}
-                            onChange={optionId => onChange({ groupId: og.id, optionId })}
+                            groupId={og.id}
+                            onChange={(optionId, value, endChildIndex) => {
+                                
+                                const payload = { groupId: og.id, optionId }
+                                if(value)  payload.inputAnswer = value
+                                if(endChildIndex !==undefined) payload.endChildIndex = endChildIndex
+
+                                console.log(payload,'payloadpayloadpayload');
+
+                                onChange(payload)
+                            }}
                         />
                     );
 
