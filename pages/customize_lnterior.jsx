@@ -16,20 +16,25 @@ export const getTotalCustomizationPrice = (customizations) => {
     let customizationPrice = 0;
     categories.forEach(c => {
         const activeOption = c.options.find(o => o.id === c.active);
-        if (!activeOption) return;
-
+        
         if( c.categoryName === selectionCategoryNames.WINDOWS || 
             c.categoryName === selectionCategoryNames.LIGNTING || 
             c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
         ){
             c.options.map(a => {
-                if(a.noOfUnit && a.noOfUnit > 0) customizationPrice += (a.price * a.noOfUnit)
+                if(Array.isArray(c.active) && c.active.includes(a.id)){
+                    if(a.categoryType === selectionFieldTypes.QUANTITY){
+                        if(a.noOfUnit && a.noOfUnit > 0) customizationPrice += (a.price * a.noOfUnit)
+                    }else{
+                        customizationPrice += a.price
+                    }
+                }
             })
 
-            return;
-
+        }else{
+            if (!activeOption) return;
+            customizationPrice += activeOption.price;
         }
-        customizationPrice += activeOption.price;
     });
 
     return customizationPrice;
@@ -43,8 +48,6 @@ const CustomizeInterior = () => {
     const customizations = useSelector(state => state.customization.customization);
     const dispatch = useDispatch();
 
-    console.log(customizations,selectedPlan,'customizationscustomizations');
-
     const activeCustomizationCategory = customizations.find(c => c.active);
     const activeCategoryIndex = customizations.findIndex(c => c.active);
     const totalCustomizationPrice = getTotalCustomizationPrice(customizations);
@@ -52,9 +55,8 @@ const CustomizeInterior = () => {
 
 
 
-    const handleCustomizationChange = ({ groupId, optionId, inputAnswer, endChildIndex }) => {
+    const handleCustomizationChange = ({ groupId, optionId, inputAnswer, endChildIndex, selectionType }) => {
 
-        console.log( groupId, optionId, inputAnswer ,endChildIndex,' groupId, optionId, inputAnswer ');
         const newCustomizations = customizations.map(category => {
 
             if (category.category !== activeCustomizationCategory.category) return category;
@@ -73,7 +75,6 @@ const CustomizeInterior = () => {
 
 
                         let selectionItem = { ...uc }
-                        selectionItem.active = 1
                         selectionItem.options = [
                             ...uc.options.map((el, index) => {
 
@@ -99,11 +100,34 @@ const CustomizeInterior = () => {
                             })
                         ]
 
-                        if( uc.categoryType === selectionFieldTypes.QUANTITY){
-                            const numberOfUnitEntered = selectionItem.options.filter(a => a.noOfUnit && a.noOfUnit > 0)
-                            if(!numberOfUnitEntered.length){
-                                selectionItem.active = null
+                        if( uc.categoryType === selectionFieldTypes.QUANTITY || selectionType === selectionFieldTypes.SELECT_MULTIPLE ){
+                            
+                            let activeItemsIds = []
+                            if(Array.isArray(selectionItem.active)){
+                                activeItemsIds = selectionItem.active 
                             }
+
+                            if(selectionType === selectionFieldTypes.SELECT_MULTIPLE){
+
+                                if(activeItemsIds.includes(optionId)){
+                                    activeItemsIds = activeItemsIds.filter(a => a !== optionId )
+                                }else{
+                                    activeItemsIds.push(optionId)
+                                }
+                               
+
+                            }else{
+                                const isActive = inputAnswer && inputAnswer > 0
+                                if(isActive && !activeItemsIds.includes(optionId)){
+                                    activeItemsIds.push(optionId)
+                                }else if(!isActive  && activeItemsIds.includes(optionId)){
+                                    activeItemsIds = activeItemsIds.filter(b => b !== optionId )
+                                }
+                            }
+                            selectionItem.active = activeItemsIds.length > 0 ? activeItemsIds : null
+
+                        }else{
+                            selectionItem.active = optionId
                         }
 
                         return selectionItem

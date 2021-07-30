@@ -29,7 +29,6 @@ const CustomizationUnit = ({
     refForTheScrollToTop
 }) => {
 
-    console.log(optionGroups, totalCategories, currentCategory, isCurrentStepCompleted, categoryName,'optionGroupsoptionGroups');
     const customizations = useSelector(state => state.customization.customization);
 
     // const topRef = useRef(null)
@@ -85,14 +84,11 @@ const CustomizationUnit = ({
                             options={og.options}
                             activeOptionId={og.active}
                             groupId={og.id}
-                            onChange={(optionId, value, endChildIndex) => {
-                                
+                            onChange={({ optionId, value, endChildIndex, selectionType }) => {
                                 const payload = { groupId: og.id, optionId }
                                 if(value)  payload.inputAnswer = value
                                 if(endChildIndex !==undefined) payload.endChildIndex = endChildIndex
-
-                                console.log(payload,'payloadpayloadpayload');
-
+                                if(selectionType) payload.selectionType = selectionType
                                 onChange(payload)
                             }}
                         />
