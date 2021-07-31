@@ -1,0 +1,36 @@
+export const staticImagesPlans = {
+    BARTON_I_MHE: {
+        BARTON_1_MHE_EXTERIER_1: '/plans/barton-I-mhe/Barton-I-MHE-Exterior-1.jpg',
+        BARTON_1_MHE_EXTERIER_2: '/plans/barton-I-mhe/Barton-I-MHE-Exterior-2.jpg',
+        BARTON_1_MHE_FLOORPLAN: '/plans/barton-I-mhe/Barton-I-MHE-3D-Floorplan.png',
+        BARTON_1_MHE_INTERIER_1: '/plans/barton-I-mhe/Barton-I-MHE-Interior-1.png',
+        BARTON_1_MHE_INTERIER_2: '/plans/barton-I-mhe/Barton-I-MHE-Interior-2.png',
+        BARTON_1_MHE_INTERIER_3: '/plans/barton-I-mhe/Barton-I-MHE-Interior-3.png',
+        BARTON_1_MHE_INTERIER_4: '/plans/barton-I-mhe/Barton-I-MHE-Interior-4.png',
+        BARTON_1_MHE_INTERIER_5: '/plans/barton-I-mhe/Barton-I-MHE-Interior-5.png',
+        BARTON_1_MHE_INTERIER_6: '/plans/barton-I-mhe/Barton-I-MHE-Interior-6.png',
+        BARTON_1_MHE_INTERIER_7: '/plans/barton-I-mhe/Barton-I-MHE-Interior-7.png',
+        BARTON_1_MHE_INTERIER_8: '/plans/barton-I-mhe/Barton-I-MHE-Interior-8.png',
+        BARTON_1_MHE_INTERIER_9: '/plans/barton-I-mhe/Barton-I-MHE-Interior-9.png',
+        BARTON_1_MHE_INTERIER_10: '/plans/barton-I-mhe/Barton-I-MHE-Interior-10.png',
+        BARTON_1_MHE_INTERIER_11: '/plans/barton-I-mhe/Barton-I-MHE-Interior-11.png',
+    },
+
+    BARTON_II_MHE: {
+        BARTON_II_MHE_EXTERIER_1: '/plans/barton-II-mhe/Barton-II-MHE-Exterior-1.jpg',
+        BARTON_II_MHE_FLOORPLAN: '/plans/barton-II-mhe/Barton-II-MHE-Floorplan.jpg',
+        BARTON_II_MHE_INTERIER_1: '/plans/barton-II-mhe/Barton-II-MHE-Interior-1.jpg',
+        BARTON_II_MHE_INTERIER_2: '/plans/barton-II-mhe/Barton-II-MHE-Interior-2.jpg',
+        BARTON_II_MHE_INTERIER_3: '/plans/barton-II-mhe/Barton-II-MHE-Interior-3.jpg',
+        BARTON_II_MHE_INTERIER_4: '/plans/barton-II-mhe/Barton-II-MHE-Interior-4.jpg',
+        BARTON_II_MHE_INTERIER_5: '/plans/barton-II-mhe/Barton-II-MHE-Interior-5.jpg',
+        BARTON_II_MHE_INTERIER_6: '/plans/barton-II-mhe/Barton-II-MHE-Interior-6.jpg',
+        BARTON_II_MHE_INTERIER_7: '/plans/barton-II-mhe/Barton-II-MHE-Interior-7.jpg',
+        BARTON_II_MHE_INTERIER_8: '/plans/barton-II-mhe/Barton-II-MHE-Interior-8.jpg',
+        BARTON_II_MHE_INTERIER_9: '/plans/barton-II-mhe/Barton-II-MHE-Interior-9.jpg',
+        BARTON_II_MHE_INTERIER_10: '/plans/barton-II-mhe/Barton-II-MHE-Interior-10.jpg',
+        BARTON_II_MHE_INTERIER_11: '/plans/barton-II-mhe/Barton-II-MHE-Interior-11.jpg',
+        BARTON_II_MHE_INTERIER_12: '/plans/barton-II-mhe/Barton-II-MHE-Interior-12.jpg',
+        BARTON_II_MHE_INTERIER_13: '/plans/barton-II-mhe/Barton-II-MHE-Interior-13.jpg',
+    }
+}

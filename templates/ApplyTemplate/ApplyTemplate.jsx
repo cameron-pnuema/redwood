@@ -18,7 +18,7 @@ const ApplyTemplate = ({ errors, register, submit, isCompleted, isLoading }) => 
 
     if (isCompleted) formContent = (
         <div className={styles.thankyou}>
-            <h3>Thank you for trusting GS Courtyard Communities to build your dream home!</h3>
+            <h3>Thank you for trusting GS Courtyard Homes to build your dream home!</h3>
             <Button text="Restart" noArrow style={{ height: 50, width: '100%' }} onclick={() => Router.replace('/')} />
         </div>
     );
@@ -32,7 +32,7 @@ const ApplyTemplate = ({ errors, register, submit, isCompleted, isLoading }) => 
                 <img className={styles.bgImg} src={bgImg} alt="bgImg" />
                 <div className={styles.wrapTitle}>
                     <h1>Time To Apply</h1>
-                    <h2>TO GS COURTYARD COMMUNITIES</h2>
+                    <h2>TO GS COURTYARD HOME</h2>
                     <p><i>Here’s what to expect next</i></p>
 
                     <h3>STEP 1: Application</h3>

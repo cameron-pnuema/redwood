@@ -11,6 +11,12 @@ import { format } from 'number-currency-format';
 import { getLetter } from '../assets/letter';
 import imgToBase64 from '../UTILS/imgToBase64';
 
+
+const emailJsConfigs = {
+    USER_ID: "user_2Bq5Rvgr1IGkLbUwbjy7z",
+    SERVICE_ID: "service_brx7i6k"
+}
+
 const formatPrice = (price) => {
     return format(price, {
         showDecimals: 'NEVER',
@@ -47,101 +53,109 @@ const Apply = () => {
     useTimeout();
 
     async function sendEmail(e) {
-        setIsLoading(true);
-        let html = ``;
-        let price = 0;
-        сustomizations?.forEach(c => {
-            html += `<h3 style="text-align: center;">${c.name}</h3>`
-            html += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
-            c.underCategories.forEach(cc => {
-                const option = cc.options.find(o => o.id === cc.active);
+        try {
+            setIsLoading(true);
+            let html = ``;
+            let price = 0;
+            html += `<h3 style="border: 1px solid #000000; padding: 10px;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`
+            сustomizations?.forEach(c => {
+                html += `<h3 style="text-align: center;">${c.name}</h3>`
+                html += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
+                c.underCategories.forEach(cc => {
+                    const option = cc.options.find(o => o.id === cc.active);
 
-                price += option?.price
+                    price += option?.price
 
-                let shownFieldToUser = `<span>${option?.name} ($${formatPrice(option?.price)})</span>`
-                if (option?.type === 'textarea') shownFieldToUser = `<span>${option.value ? option?.value : 'not specified'}</span>`;
+                    let shownFieldToUser = `<span>${option?.name} ($${formatPrice(option?.price)})</span>`
+                    if (option?.type === 'textarea') shownFieldToUser = `<span>${option.value ? option?.value : 'not specified'}</span>`;
 
+                    html += '<li style="text-align: center; margin-left: 0;">';
+                    html += `<span>${cc.name}</span>: ${shownFieldToUser}`;
+                    html += '</li>';
+
+                });
+                html += '</ul>';
+            })
+
+            if (e.Description) {
+                html += `<h3 style="text-align: center;">Misc Notes</h3>`;
+                html += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
                 html += '<li style="text-align: center; margin-left: 0;">';
-                html += `<span>${cc.name}</span>: ${shownFieldToUser}`;
+                html += `${e.Description}`;
                 html += '</li>';
+                html += '</ul>';
+            }
 
+            let financeBlock = ``;
+            if(floorplan.manufacturer === 'Fairmont') {
+                financeBlock += '<h3 style="text-align: center;">Financing Information:</h3>';
+                financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Fairmont Homes, LLC</p>`;
+                financeBlock += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
+                financeBlock += '<li style="text-align: center; margin-left: 0;">'
+                financeBlock += `Model, Size: ${floorplan.title} <b>${floorplan.width} x ${floorplan.length} Fairmont Builder</b>`;
+                financeBlock += '</li>';
+                financeBlock += '<li style="text-align: center; margin-left: 0;">Name of Community: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
+                financeBlock += '</ul>';
+            }else if (floorplan.manufacturer === 'MHE') {
+                financeBlock += '<h3 style="text-align: center;">Financing Information:</h3>';
+                financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Manufactured Housing Enterprises, Inc</p>`;
+                financeBlock += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
+                financeBlock += '<li style="text-align: center; margin-left: 0;">'
+                financeBlock += `Model, Size: ${floorplan.title} ${floorplan.width} x ${floorplan.length} <b>MHE Builder</b>`;
+                financeBlock += '</li>';
+                financeBlock += '<li style="text-align: center; margin-left: 0;">Name of Community: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
+                financeBlock += '</ul>';
+            }
+
+            let lotName = `№${lot.id}`;
+            let planName = `${Plan.title}`;
+            const obj = { ...e, lot: lotName, Plan: planName, customization: html, financeBlock: financeBlock }
+
+
+            // ReactGA.event({
+            //     category: 'User',
+            //     action: 'Send Email'
+            // });
+
+            // console.log(lot);
+            // console.log(Plan);
+
+            await emailjs.send(emailJsConfigs.SERVICE_ID, 'applicatoin', obj, emailJsConfigs.USER_ID);
+            await emailjs.send(emailJsConfigs.SERVICE_ID, "user_report", {
+                preview: getLetter(Plan.images.map(i => `https://rrc-home-configurator-git-dev-vpilip.vercel.app${i}`)),
+                first_name: e.FirstName,
+                last_name: e.LastName,
+                lot_id: lot.id,
+                lot_area: lot.length * lot.width,
+                lot_width: lot.width,
+                lot_length: lot.length,
+                floorplan_name: Plan.title,
+                floorplan_area: Plan.s,
+                floorplan_bedrooms: Plan.bedrooms,
+                floorplan_bathrooms: Plan.bathrooms,
+                floorplan_price: formatPrice(Plan.price),
+                customizations_price: formatPrice(price),
+                total_price: formatPrice(Plan.price + price),
+                customizatoins: html,
+                financeBlock: financeBlock,
+                to: e.Email,
+            }, emailJsConfigs.USER_ID);
+
+            reset({
+                FirstName: '',
+                LastName: '',
+                Email: '',
+                phone: '',
+                Description: '',
             });
-            html += '</ul>';
-        })
-
-        if (e.Description) {
-            html += `<h3 style="text-align: center;">Misc Notes</h3>`;
-            html += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
-            html += '<li style="text-align: center; margin-left: 0;">';
-            html += `${e.Description}`;
-            html += '</li>';
-            html += '</ul>';
+            setCompleted(true);
+            window && window.dataLayer && window.dataLayer.push({ event: 'ApplyFormSubmitted' });
+            
+        } catch (error) {
+            console.log(error, '>>>>>>>>>>>>>>>>>');
+            setIsLoading(false)
         }
-
-        let financeBlock = ``;
-        if(floorplan.manufacturer === 'Fairmont') {
-            financeBlock += '<h3 style="text-align: center;">Financing Information:</h3>';
-            financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Fairmont Homes, LLC</p>`;
-            financeBlock += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
-            financeBlock += '<li style="text-align: center; margin-left: 0;">'
-            financeBlock += `Model, Size: ${floorplan.title} <b>${floorplan.width} x ${floorplan.length} Fairmont Builder</b>`;
-            financeBlock += '</li>';
-            financeBlock += '<li style="text-align: center; margin-left: 0;">Name of Community: Courtyard Communities: 510 N. Range St. Westport, IN 47283</li>';
-            financeBlock += '</ul>';
-        }else if (floorplan.manufacturer === 'MHE') {
-            financeBlock += '<h3 style="text-align: center;">Financing Information:</h3>';
-            financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Manufactured Housing Enterprises, Inc</p>`;
-            financeBlock += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
-            financeBlock += '<li style="text-align: center; margin-left: 0;">'
-            financeBlock += `Model, Size: ${floorplan.title} ${floorplan.width} x ${floorplan.length} <b>MHE Builder</b>`;
-            financeBlock += '</li>';
-            financeBlock += '<li style="text-align: center; margin-left: 0;">Name of Community: Courtyard Communities: 510 N. Range St. Westport, IN 47283</li>';
-            financeBlock += '</ul>';
-        }
-
-        let lotName = `№${lot.id}`;
-        let planName = `${Plan.title}`;
-        const obj = { ...e, lot: lotName, Plan: planName, customization: html, financeBlock: financeBlock }
-
-
-        // ReactGA.event({
-        //     category: 'User',
-        //     action: 'Send Email'
-        // });
-
-        // console.log(lot);
-        // console.log(Plan);
-
-        await emailjs.send('service_pb301o9', 'applicatoin', obj, 'user_2Bq5Rvgr1IGkLbUwbjy7z');
-        await emailjs.send("service_pb301o9", "user_report", {
-            preview: getLetter(Plan.images.map(i => `https://rrc-home-configurator-git-dev-vpilip.vercel.app${i}`)),
-            first_name: e.FirstName,
-            last_name: e.LastName,
-            lot_id: lot.id,
-            lot_area: lot.length * lot.width,
-            lot_width: lot.width,
-            lot_length: lot.length,
-            floorplan_name: Plan.title,
-            floorplan_area: Plan.s,
-            floorplan_bedrooms: Plan.bedrooms,
-            floorplan_bathrooms: Plan.bathrooms,
-            floorplan_price: formatPrice(Plan.price),
-            customizations_price: formatPrice(price),
-            total_price: formatPrice(Plan.price + price),
-            customizatoins: html,
-            financeBlock: financeBlock,
-            to: e.Email,
-        }, 'user_2Bq5Rvgr1IGkLbUwbjy7z');
-
-        reset({
-            FirstName: '',
-            LastName: '',
-            Email: '',
-            phone: '',
-            Description: '',
-        });
-        setCompleted(true);
-        window && window.dataLayer && window.dataLayer.push({ event: 'ApplyFormSubmitted' });
+        
     }
 
     return (
