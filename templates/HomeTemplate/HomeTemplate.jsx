@@ -29,7 +29,7 @@ const HomeTemplate = () => {
 
             <div className={styles.HomeTemplate__centerBlock}>
                 <p className={styles.HomeTemplate__title}>Welcome!</p>
-                <p className={styles.HomeTemplate__subTitle}>TO GS COURTYARD COMMUNITIES</p>
+                <p className={styles.HomeTemplate__subTitle}>TO GS COURTYARD HOMES </p>
                 <div className={styles.HomeTemplate__wrapButton}>
                     <Button
                         text='Click here to build your next home'
