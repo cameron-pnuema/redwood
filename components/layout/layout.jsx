@@ -16,7 +16,7 @@ const Layout = ({ showDisclaimer, noPadding, ...props }) => {
                 <div>
                     All pricing is Turn-Key: Includes Foundation (40” concrete block crawl space), backfill, insulated crawl space, Delivery, Set-up, all interior and exterior finish work, Utility hook-ups (inside the foundation), HVAC (priced as total electric), Gutters, Cleaning, Sales tax.
                  </div>
-            </div>
+            </div> 
         </Container>
     );
 
