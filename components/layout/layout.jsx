@@ -14,7 +14,8 @@ const Layout = ({ showDisclaimer, noPadding, ...props }) => {
             <div className={styles.disclaimer}>
                 <img src={InformationIcon} alt="information" />
                 <div>
-                    All price estimates shown include the base price of the home and all site prep. Please note: site prep includes lot prep, set-up, delivery, footers, skirting, HVAC, Gutters, interior and exterior finish work, all utility hook-ups, cleaning, and a treated lumber front porch.                </div>
+                    All pricing is Turn-Key: Includes Foundation (40” concrete block crawl space), backfill, insulated crawl space, Delivery, Set-up, all interior and exterior finish work, Utility hook-ups (inside the foundation), HVAC (priced as total electric), Gutters, Cleaning, Sales tax.
+                 </div>
             </div>
         </Container>
     );
