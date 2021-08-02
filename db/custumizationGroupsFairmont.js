@@ -469,7 +469,7 @@ const customizationGroup = [
       underCategories: [
           {
               id: 1,
-              name: ``,
+              name: `Backsplash`,
               active: null,
               options: [
                 { id: 1, name: `White (One Row)`, price: 0 },
