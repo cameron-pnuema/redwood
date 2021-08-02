@@ -124,7 +124,7 @@ const CustomizeInterior = () => {
                                     activeItemsIds = activeItemsIds.filter(b => b !== optionId )
                                 }
                             }
-                            selectionItem.active = activeItemsIds.length > 0 ? activeItemsIds : null
+                            selectionItem.active = activeItemsIds.length > 0 ? activeItemsIds : 1
 
                         }else{
                             selectionItem.active = optionId

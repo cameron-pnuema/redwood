@@ -87,7 +87,7 @@ const customizationGroup = [
       {
           id: 7,
           name: `Windows`,
-          active: null,
+          active: 1,
           categoryType: selectionFieldTypes.QUANTITY ,
           categoryName: selectionCategoryNames.WINDOWS,
           options: [
@@ -336,7 +336,7 @@ const customizationGroup = [
         name: `Additional Add Ons`,
         categoryName: selectionCategoryNames.ADDITONAL_ADDS_ON,
         categoryType: selectionFieldTypes.QUANTITY ,
-        active: null,
+        active: 1,
         options: [
           { id: 1, name: `Cost per GFI Outlet (Running Quanitity)`, price: 75, categoryType: selectionFieldTypes.QUANTITY , },
           { id: 2, name: `Closet Caddy`, price: 250, categoryType: selectionFieldTypes.SELECT_MULTIPLE  },
@@ -351,7 +351,7 @@ const customizationGroup = [
       {
         id: 8,
         name: `Lighting`,
-        active: null,
+        active: 1,
         categoryType: selectionFieldTypes.QUANTITY ,
         categoryName: selectionCategoryNames.LIGNTING,
         options: [
