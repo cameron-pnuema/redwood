@@ -14,7 +14,7 @@ import imgToBase64 from '../UTILS/imgToBase64';
 
 const emailJsConfigs = {
     USER_ID: "user_2Bq5Rvgr1IGkLbUwbjy7z",
-    SERVICE_ID: "service_brx7i6k"
+    SERVICE_ID: "service_pb301o9" //admin@redrootscapital.com
 }
 
 const formatPrice = (price) => {
