@@ -18,3 +18,5 @@ const collectionCustomize = [
 ];
 
 export default collectionCustomize;
+
+export const MARK_UP_MULTIPLIER = 1.2

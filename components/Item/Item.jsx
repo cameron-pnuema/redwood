@@ -14,6 +14,7 @@ import { customizationAction } from '../../store/actions/customization';
 import customizationGroupFairmont from '../../db/custumizationGroupsFairmont';
 import customizationGroupMHE from '../../db/custumizationGroupsMHE';
 import { useSelector } from 'react-redux';
+import { MARK_UP_MULTIPLIER } from '../../db/collectiionCustomize';
 
 
 const Item = ({ noButton, data }) => {
@@ -45,7 +46,7 @@ const Item = ({ noButton, data }) => {
                 data && (
                     <>
 
-                        <span className={styles.Item__price}>${format(data.price, {
+                        <span className={styles.Item__price}>${format(data.price * MARK_UP_MULTIPLIER, {
                             spacing: true,
                             showDecimals: 'NEVER',
                         })}</span>
