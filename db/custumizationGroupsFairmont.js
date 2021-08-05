@@ -128,7 +128,7 @@ const customizationGroup = [
       {
         id: 8,
         name: "Windows",
-        active: null,
+        active: 1,
         categoryType: selectionFieldTypes.QUANTITY,
         categoryName: selectionCategoryNames.WINDOWS,
         options: [
@@ -437,7 +437,7 @@ const customizationGroup = [
       {
         id: 12,
         name: `Additonal Add Ons`,
-        active: null,
+        active: 1,
         categoryType: selectionFieldTypes.QUANTITY,
         categoryName: selectionCategoryNames.ADDITONAL_ADDS_ON,
         options: [
@@ -450,7 +450,7 @@ const customizationGroup = [
       {
         id: 13,
         name: `Lighting`, 
-        active: null,
+        active: 1,
         categoryName: selectionCategoryNames.LIGNTING,
         categoryType: selectionFieldTypes.QUANTITY,
         options: [
@@ -469,7 +469,7 @@ const customizationGroup = [
       underCategories: [
           {
               id: 1,
-              name: ``,
+              name: `Backsplash`,
               active: null,
               options: [
                 { id: 1, name: `White (One Row)`, price: 0 },
