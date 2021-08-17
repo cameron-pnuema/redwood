@@ -15,6 +15,7 @@ import customizationGroupFairmont from '../../db/custumizationGroupsFairmont';
 import customizationGroupMHE from '../../db/custumizationGroupsMHE';
 import { useSelector } from 'react-redux';
 import { MARK_UP_MULTIPLIER } from '../../db/collectiionCustomize';
+import { getBaseContructionCostsPerSqureFit } from '../../db/baseConstructionCosts';
 
 
 const Item = ({ noButton, data }) => {
@@ -37,6 +38,8 @@ const Item = ({ noButton, data }) => {
         Router.replace('/detailed_floorplan')
     }
 
+    const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data?.s)
+
 
     return (
 
@@ -46,7 +49,7 @@ const Item = ({ noButton, data }) => {
                 data && (
                     <>
 
-                        <span className={styles.Item__price}>${format(data.price * MARK_UP_MULTIPLIER, {
+                        <span className={styles.Item__price}>${format((data.price + baseConstructionCosts) * MARK_UP_MULTIPLIER, {
                             spacing: true,
                             showDecimals: 'NEVER',
                         })}</span>
