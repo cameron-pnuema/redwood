@@ -53,11 +53,12 @@ const Apply = () => {
     useTimeout();
 
     async function sendEmail(e) {
+        const env = process.env.INVIRONMENT
         try {
             setIsLoading(true);
             let html = ``;
             let price = 0;
-            html += `<h1>${process.env.INVIRONMENT}</h1>`
+            html += `<h1>${env}</h1>`
             html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`
             сustomizations?.forEach(c => {
                 html += `<h3 style="text-align: center;">${c.name}</h3>`

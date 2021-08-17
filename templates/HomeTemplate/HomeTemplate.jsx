@@ -21,10 +21,6 @@ const HomeTemplate = () => {
         Router.replace('/select_floorplan');
     }
 
-    let value = 'he'
-    if(process.env.INVIRONMENT){
-        value = process.env.INVIRONMENT
-    }
 
     return (
         <div className={styles.HomeTemplate}>
@@ -32,7 +28,7 @@ const HomeTemplate = () => {
             <div className={styles.HomeTemplate__background}></div>
 
             <div className={styles.HomeTemplate__centerBlock}>
-                <p className={styles.HomeTemplate__title}>Welcome! {process.env.INVIRONMENT} {process.env.NEXT_PUBLIC_INVIRONMENT} {value}</p>
+                <p className={styles.HomeTemplate__title}>Welcome! {process.env.INVIRONMENT}</p>
                 <p className={styles.HomeTemplate__subTitle}>TO GS COURTYARD HOMES </p>
                 <div className={styles.HomeTemplate__wrapButton}>
                     <Button
