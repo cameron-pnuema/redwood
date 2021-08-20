@@ -21,7 +21,7 @@ const HomeTemplate = () => {
         Router.replace('/select_floorplan');
     }
 
-    console.log(process.env.NEXT_PUBLIC_APP_ENVIRONMENT, 'process.env.NEXT_PUBLIC_APP_ENVIRONMENT');
+    console.log(process.env.NEXT_PUBLIC_APP_NAME, 'process.env.NEXT_PUBLIC_APP_ENVIRONMENT');
 
 
     return (
@@ -30,7 +30,7 @@ const HomeTemplate = () => {
             <div className={styles.HomeTemplate__background}></div>
 
             <div className={styles.HomeTemplate__centerBlock}>
-                <p className={styles.HomeTemplate__title}>Welcome! {process.env.NEXT_PUBLIC_APP_ENVIRONMENT}</p>
+                <p className={styles.HomeTemplate__title}>Welcome! {process.env.NEXT_PUBLIC_APP_NAME}</p>
                 <p className={styles.HomeTemplate__subTitle}>TO GS COURTYARD HOMES </p>
                 <div className={styles.HomeTemplate__wrapButton}>
                     <Button
