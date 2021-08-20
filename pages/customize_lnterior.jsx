@@ -40,7 +40,9 @@ export const getTotalCustomizationPrice = (customizations) => {
     return customizationPrice;
 }
 
-const CustomizeInterior = () => {
+const CustomizeInterior = (props) => {
+
+    console.log(props,'propspropspropspropsprops');
 
     useTimeout();
 
@@ -227,5 +229,10 @@ const CustomizeInterior = () => {
         </Layout>
     );
 };
+
+CustomizeInterior.getInitialProps = async (ctx) => {
+    console.log('getInitialPropsgetInitialPropsgetInitialProps');
+    return { data: process.env.NEXT_PUBLIC_APP_ENVIRONMENT }
+}
 
 export default CustomizeInterior;
