@@ -30,7 +30,7 @@ const HomeTemplate = () => {
             <div className={styles.HomeTemplate__background}></div>
 
             <div className={styles.HomeTemplate__centerBlock}>
-                <p className={styles.HomeTemplate__title}>Welcome! {process.env.NEXT_PUBLIC_APP_NAME}</p>
+                <p className={styles.HomeTemplate__title}>Welcome!  {process.env.NEXT_PUBLIC_APP_NAME}</p>
                 <p className={styles.HomeTemplate__subTitle}>TO GS COURTYARD HOMES </p>
                 <div className={styles.HomeTemplate__wrapButton}>
                     <Button
