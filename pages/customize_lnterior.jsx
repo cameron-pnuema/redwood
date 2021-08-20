@@ -232,7 +232,7 @@ const CustomizeInterior = (props) => {
 
 CustomizeInterior.getInitialProps = async (ctx) => {
     console.log('getInitialPropsgetInitialPropsgetInitialProps');
-    return { data: process.env.NEXT_PUBLIC_APP_ENVIRONMENT }
+    return { data: process.env.APP_ENVIRONMENT }
 }
 
 export default CustomizeInterior;
