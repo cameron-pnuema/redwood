@@ -22,6 +22,7 @@ const HomeTemplate = () => {
     }
 
     console.log(process.env.NEXT_PUBLIC_APP_ENVIRONMENT, 'process.env.NEXT_PUBLIC_APP_ENVIRONMENT');
+    console.log(process.env.APP_ENVIRONMENT, 'process.env.APP_ENVIRONMENT');
 
 
     return (
