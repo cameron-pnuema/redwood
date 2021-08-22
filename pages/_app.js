@@ -12,6 +12,7 @@ import Popup from "../components/UI/Popup/Popup";
 import TimePopup from "../components/TimePopup/TimePopup";
 import { useSelector } from "react-redux";
 import { GTMPageView } from "../UTILS/gtm";
+import { ToastContainer, toast } from 'react-toastify';
 
 import TagManager from "react-gtm-module";
 
@@ -37,6 +38,7 @@ const MyApp = ({ Component, pageProps }) => {
       <Head>
         <title>Build your home | Red Roots Capital</title>
       </Head>
+      <ToastContainer/>
       {selectorPopup && (
         <Popup TimePopup>
           <TimePopup />
