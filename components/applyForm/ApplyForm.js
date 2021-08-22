@@ -56,7 +56,7 @@ const ApplyForm = (props) => {
       <Modal isOpen={isUserInfoModal} className={className}>
         <ModalBody className={styles.modalBody}>
             <Form
-              fromValues={state}
+              formValues={state}
               handleChange={handleChange}
             />
         </ModalBody>

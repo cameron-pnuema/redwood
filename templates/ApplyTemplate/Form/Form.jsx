@@ -4,9 +4,12 @@ import Button from '../../../components/UI/Button/Button';
 import Router from 'next/router';
 import { phoneNumberReg, isValidPhoneNumber } from '../../../UTILS/validator'
 
-const Form = ({ register, submit, isLoading, fromValues = {}, handleChange }) => {
+const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) => {
 
-        const { firstName, lastName, email, phoneNumber, description, errors } = fromValues
+        const { firstName, lastName, email, phoneNumber, description, errors } = formValues
+
+        const isApplyRoute = Router?.router?.pathname?.includes('apply')
+
     return (
         <div className={styles.Form}>
             <div className={styles.Form__wrapForm}>
@@ -72,6 +75,23 @@ const Form = ({ register, submit, isLoading, fromValues = {}, handleChange }) =>
                         onChange={(e) => handleChange(e.target.value, 'description')}
                     ></textarea>
                 </div>
+               {isApplyRoute && 
+                <> 
+                    <Button
+                            text='Click here to apply for new home'
+                            style={{ height: '50px', width: '100%', marginBottom: '20px' }}
+                            isLoading={isLoading}
+                            onclick={submit}
+                        />
+
+                    <Button
+                        text='Back'
+                        style={{ height: '50px', width: '100%' }}
+                        theme3
+                        onclick={() => Router.replace('/customize_lnterior')}
+                    />
+                </>
+                }
             </div>
         </div>
     );

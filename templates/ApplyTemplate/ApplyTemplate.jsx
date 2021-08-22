@@ -6,13 +6,15 @@ import Button from '../../components/UI/Button/Button';
 import Router from 'next/router';
 
 
-const ApplyTemplate = ({ errors, register, submit, isCompleted, isLoading }) => {
+const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isCompleted, isLoading }) => {
     let formContent = (
         <Form
             register={register}
             submit={submit}
             errors={errors}
             isLoading={isLoading}
+            formValues={formValues}
+            handleChange={handleChange}
         />
     );
 

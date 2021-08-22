@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ApplyTemplate from '../templates/ApplyTemplate/ApplyTemplate';
 import useTimeout from '../UTILS/useTimeout';
 import * as yup from 'yup';
@@ -6,10 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import ReactGA from 'react-ga';
 import emailjs from 'emailjs-com';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { format } from 'number-currency-format';
 import { getLetter } from '../assets/letter';
 import imgToBase64 from '../UTILS/imgToBase64';
+import { formValidator } from '../UTILS/validator';
+import { setUserInforModal } from '../store/actions/popup';
 
 
 const emailJsConfigs = {
@@ -23,37 +25,58 @@ const formatPrice = (price) => {
     })
 };
 
-const schema = yup.object().shape({
-    FirstName: yup.string().required('Please enter your first name'),
-    LastName: yup.string().required('Please enter your last name'),
-    phone: yup.string().required('Please enter your phone number'),
-    Email: yup.string().email('Please check your email').required('Please enter your email'),
-    Description: yup.string().optional(),
-});
 
 const Apply = () => {
 
-
-
     const [isCompleted, setCompleted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const { handleSubmit, register, errors, reset } = useForm({
-        resolver: yupResolver(schema)
-    });
+    const dispatch = useDispatch()
+    const [userDetails, setDetails] = useState({
+            firstName: '',
+            lastName: '',
+            phoneNumber: '',
+            email: '',
+            description: '',
+            errors: {}
+        })
 
-
-    const selectorLot = useSelector(state => state.lot);
-    const сustomizations = useSelector(state => state.customization.customization);
-    const floorplan = useSelector(state => state.floorplan.floorplan);
-
-    const lot = selectorLot.lotData;
-    const Plan = selectorLot.planData;
-
+        
+        
+        const selectorLot = useSelector(state => state.lot);
+        const сustomizations = useSelector(state => state.customization.customization);
+        const floorplan = useSelector(state => state.floorplan.floorplan);
+        
+        const lot = selectorLot.lotData;
+        const Plan = selectorLot.planData;
+        
+        
+        useEffect(() => {
+            if(typeof window !== "undefined"){
+                const details = JSON.parse(window.localStorage.getItem('USER_DETAILS'))
+                if(details){
+                    setDetails(details)
+                }
+            }
+        }, [])
+        
+    
+        const handleChange = (value, name) => {
+            const data = { ...userDetails }
+            data[name] = value
+            setDetails(data)
+        }
 
     useTimeout();
 
     async function sendEmail(e) {
         const env = process.env.INVIRONMENT
+        let errors = formValidator(userDetails)
+        if(Object.keys(errors).length){
+            setDetails({ ...userDetails, errors })
+            dispatch(setUserInforModal(true))
+            return
+        }
+        
         try {
             setIsLoading(true);
             let html = ``;
@@ -79,11 +102,11 @@ const Apply = () => {
                 html += '</ul>';
             })
 
-            if (e.Description) {
+            if (userDetails.description) {
                 html += `<h3 style="text-align: center;">Misc Notes</h3>`;
                 html += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
                 html += '<li style="text-align: center; margin-left: 0;">';
-                html += `${e.Description}`;
+                html += `${userDetails.description}`;
                 html += '</li>';
                 html += '</ul>';
             }
@@ -114,19 +137,11 @@ const Apply = () => {
             const obj = { ...e, lot: lotName, Plan: planName, customization: html, financeBlock: financeBlock }
 
 
-            // ReactGA.event({
-            //     category: 'User',
-            //     action: 'Send Email'
-            // });
-
-            // console.log(lot);
-            // console.log(Plan);
-
             await emailjs.send(emailJsConfigs.SERVICE_ID, 'applicatoin', obj, emailJsConfigs.USER_ID);
             await emailjs.send(emailJsConfigs.SERVICE_ID, "user_report", {
                 preview: getLetter(Plan.images.map(i => `https://rrc-home-configurator-git-dev-vpilip.vercel.app${i}`)),
-                first_name: e.FirstName,
-                last_name: e.LastName,
+                first_name: userDetails.firstName,
+                last_name: userDetails.lastName,
                 lot_id: lot.id,
                 lot_area: lot.length * lot.width,
                 lot_width: lot.width,
@@ -140,16 +155,9 @@ const Apply = () => {
                 total_price: formatPrice(Plan.price + price),
                 customizatoins: html,
                 financeBlock: financeBlock,
-                to: e.Email,
+                to: userDetails.email,
             }, emailJsConfigs.USER_ID);
 
-            reset({
-                FirstName: '',
-                LastName: '',
-                Email: '',
-                phone: '',
-                Description: '',
-            });
             setCompleted(true);
             window && window.dataLayer && window.dataLayer.push({ event: 'ApplyFormSubmitted' });
             
@@ -163,11 +171,11 @@ const Apply = () => {
     return (
         <>
             <ApplyTemplate
-                register={register}
-                submit={handleSubmit(sendEmail)}
-                errors={errors}
+                submit={sendEmail}
                 isCompleted={isCompleted}
                 isLoading={isLoading}
+                formValues={userDetails}
+                handleChange={handleChange}
             />
         </>
     );
