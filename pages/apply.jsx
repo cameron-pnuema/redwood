@@ -37,6 +37,10 @@ const Apply = () => {
             phoneNumber: '',
             email: '',
             description: '',
+            city: '', 
+            state: '', 
+            zipCode: '', 
+            country: '',
             errors: {}
         })
 
@@ -69,7 +73,7 @@ const Apply = () => {
     useTimeout();
 
     async function sendEmail(e) {
-        const env = process.env.INVIRONMENT
+        const env = 'Staging'
         let errors = formValidator(userDetails)
         if(Object.keys(errors).length){
             setDetails({ ...userDetails, errors })

@@ -86,7 +86,7 @@ const customizationGroup = [
       },
       {
           id: 7,
-          name: `Windows`,
+          name: `Windows (Optional)`,
           active: 1,
           categoryType: selectionFieldTypes.QUANTITY ,
           categoryName: selectionCategoryNames.WINDOWS,
@@ -333,7 +333,7 @@ const customizationGroup = [
       },
       {
         id: 9,
-        name: `Additional Add Ons`,
+        name: `Additional Add Ons (Optional)`,
         categoryName: selectionCategoryNames.ADDITONAL_ADDS_ON,
         categoryType: selectionFieldTypes.QUANTITY ,
         active: 1,
@@ -350,7 +350,7 @@ const customizationGroup = [
       },
       {
         id: 8,
-        name: `Lighting`,
+        name: `Lighting (Optional)`,
         active: 1,
         categoryType: selectionFieldTypes.QUANTITY ,
         categoryName: selectionCategoryNames.LIGNTING,

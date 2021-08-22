@@ -22,6 +22,10 @@ const ApplyForm = (props) => {
     phoneNumber: '',
     email: '',
     description: '',
+    city: '', 
+    state: '', 
+    zipCode: '', 
+    country: '',
     errors: {}
   })
 

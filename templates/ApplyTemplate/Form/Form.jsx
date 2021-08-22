@@ -6,7 +6,7 @@ import { phoneNumberReg, isValidPhoneNumber } from '../../../UTILS/validator'
 
 const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) => {
 
-        const { firstName, lastName, email, phoneNumber, description, errors } = formValues
+        const { firstName, lastName, email, phoneNumber, description, city, state, zipCode, country, errors } = formValues
 
         const isApplyRoute = Router?.router?.pathname?.includes('apply')
 
@@ -67,7 +67,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                     <span className={styles.errors}>{errors?.email}</span>
                 </div>
                 <div className={styles.wrap}>
-                    <span className={styles.label}>Anything you'd like to add?</span>
+                    <span className={styles.label}>Build Site Street Address (Optional)</span>
                     <textarea
                         name="Description"
                         id=""
@@ -76,6 +76,42 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         value={description}
                         onChange={(e) => handleChange(e.target.value, 'description')}
                     ></textarea>
+                </div>
+                <div className={styles.wrap}>
+                    <span className={styles.label}>City (Optional)</span>
+                    <input
+                        name="city"
+                        id=""
+                        value={city}
+                        onChange={(e) => handleChange(e.target.value, 'city')}
+                    ></input>
+                </div>
+                <div className={styles.wrap}>
+                    <span className={styles.label}> State (Optional)</span>
+                    <input
+                        name="state"
+                        id=""
+                        value={state}
+                        onChange={(e) => handleChange(e.target.value, 'state')}
+                    ></input>
+                </div>
+                <div className={styles.wrap}>
+                    <span className={styles.label}>Zip Code (Optional)</span>
+                    <input
+                        name="zipCode"
+                        id=""
+                        value={zipCode}
+                        onChange={(e) => handleChange(e.target.value, 'zipCode')}
+                    ></input>
+                </div>
+                <div className={styles.wrap}>
+                    <span className={styles.label}>County (Optional)</span>
+                    <input
+                        name="country"
+                        id=""
+                        value={country}
+                        onChange={(e) => handleChange(e.target.value, 'country')}
+                    ></input>
                 </div>
                {isApplyRoute && 
                 <> 

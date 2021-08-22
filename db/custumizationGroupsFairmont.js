@@ -127,7 +127,7 @@ const customizationGroup = [
       },
       {
         id: 8,
-        name: "Windows",
+        name: "Windows (Optional)",
         active: 1,
         categoryType: selectionFieldTypes.QUANTITY,
         categoryName: selectionCategoryNames.WINDOWS,
@@ -173,6 +173,25 @@ const customizationGroup = [
           { id: 2, name: 'French Doors', price: 2500 },
           { id: 3, name: 'Patio w/ Grids', price: 1500 },
         ]
+      },
+      {
+        id: 12,
+        name: `Master Bathroom: Vanity`,
+        active: null,
+        options: [
+          { id: 1, name: `Single Bowl`, price: 0 },
+          { id: 2, name: `Standard Double Vanity`, price: 0 },
+          { id: 3, name: `Double Vanity w/Drawers`, price: 500 },
+        ],
+      },
+      {
+        id: 13,
+        name: `Guest Bathroom: Vanity`,
+        active: null,
+        options: [
+          { id: 1, name: `Single Bowl w/ Single Door`, price: 0 },
+          { id: 2, name: `Single Bowl w/ Double Door`, price: 250 },
+        ],
       },
     ],
   },
@@ -301,7 +320,7 @@ const customizationGroup = [
     ],
   },
   {
-    category: 5,
+    category: 4,
     active: false,
     name: "General",
     underCategories: [
@@ -436,7 +455,7 @@ const customizationGroup = [
       },
       {
         id: 12,
-        name: `Additonal Add Ons`,
+        name: `Additonal Add Ons (Optional)`,
         active: 1,
         categoryType: selectionFieldTypes.QUANTITY,
         categoryName: selectionCategoryNames.ADDITONAL_ADDS_ON,
@@ -449,7 +468,7 @@ const customizationGroup = [
       },
       {
         id: 13,
-        name: `Lighting`, 
+        name: `Lighting (Optional)`, 
         active: 1,
         categoryName: selectionCategoryNames.LIGNTING,
         categoryType: selectionFieldTypes.QUANTITY,
@@ -463,7 +482,7 @@ const customizationGroup = [
     ],
   },
   {
-      category: 4,
+      category: 5,
       active: false,
       name: 'Bathroom',
       underCategories: [
@@ -493,7 +512,7 @@ const customizationGroup = [
   },
 
   {
-    category: 5,
+    category: 6,
     active: false,
     name: "Flooring",
     underCategories: [
