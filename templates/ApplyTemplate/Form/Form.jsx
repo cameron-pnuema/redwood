@@ -13,9 +13,11 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
     return (
         <div className={styles.Form}>
             <div className={styles.Form__wrapForm}>
-                <p className={styles.Form__title}>
-                    Please Fill Out The Form Below. Since, We Require Some Information About You.
-                </p>
+               {!isApplyRoute &&
+                    <p className={styles.Form__title}>
+                        Please fill out the form before building your dream home
+                    </p>
+                }
                 <div className={styles.row}>
                     <div className={styles.wrap}>
                         <span className={styles.label}>First Name<span className={styles.asterisk}>*</span></span>

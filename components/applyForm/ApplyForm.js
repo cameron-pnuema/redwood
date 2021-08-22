@@ -61,7 +61,7 @@ const ApplyForm = (props) => {
             />
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={handleSubmit}>Submit</Button>{' '}
+          <Button className={styles.submitButton} onClick={handleSubmit}>Submit</Button>{' '}
         </ModalFooter>
       </Modal>
     </div>
