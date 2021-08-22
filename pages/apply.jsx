@@ -85,7 +85,7 @@ const Apply = () => {
             setIsLoading(true);
             let html = ``;
             let price = 0;
-            html += `<h1>${env}</h1>`
+            html += `<div>Enviroment: <h1>${env}</h1></div>`
             html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`
             сustomizations?.forEach(c => {
                 html += `<h3 style="text-align: center;">${c.name}</h3>`
