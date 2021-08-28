@@ -52,6 +52,8 @@ const Apply = () => {
         
         const lot = selectorLot.lotData;
         const Plan = selectorLot.planData;
+
+        console.log(floorplan, "floorplan >>>>", lot, ">>>>>>> lot", Plan, '>>>>>>> plan', сustomizations, "сustomizations>>>>>>" )
         
         
         useEffect(() => {
@@ -91,16 +93,38 @@ const Apply = () => {
                 html += `<h3 style="text-align: center;">${c.name}</h3>`
                 html += '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
                 c.underCategories.forEach(cc => {
-                    const option = cc.options.find(o => o.id === cc.active);
+                    const options = cc.options.filter(o => {
+                        if(Array.isArray(cc.active)){
+                            return cc.active.includes(o.id)
+                        }
 
-                    price += option?.price
+                        return cc.name === "Flooring" || o.id === cc.active
+                    });
 
-                    let shownFieldToUser = `<span>${option?.name} ($${formatPrice(option?.price)})</span>`
-                    if (option?.type === 'textarea') shownFieldToUser = `<span>${option.value ? option?.value : 'not specified'}</span>`;
+                    options.map(option => {
+                        price += option?.price
 
-                    html += '<li style="text-align: center; margin-left: 0;">';
-                    html += `<span>${cc.name}</span>: ${shownFieldToUser}`;
-                    html += '</li>';
+                        if(option.noOfUnit && option.noOfUnit < 1){
+                            return
+                        }
+
+                        const numOfUnit = option.noOfUnit ? `> Number Of Quantity: ${option.noOfUnit}` : ''
+
+                        let itemPrice = option?.price
+
+                        if(option.noOfUnit){
+                            itemPrice = itemPrice * option.noOfUnit
+                        }
+
+                        const categoryName = cc.name.replace('(Optional)', '')
+
+                        let shownFieldToUser = `<span>${option?.name} ($${formatPrice(itemPrice)}) ${numOfUnit} </span>`
+                        if (option?.type === 'textarea') shownFieldToUser = `<span>${option.value ? option?.value : 'not specified'}</span>`;
+    
+                        html += '<li style="text-align: center; margin-left: 0;">';
+                        html += `<span>${categoryName}</span>: ${shownFieldToUser}`;
+                        html += '</li>';
+                    })
 
                 });
                 html += '</ul>';
