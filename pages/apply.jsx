@@ -52,8 +52,6 @@ const Apply = () => {
         
         const lot = selectorLot.lotData;
         const Plan = selectorLot.planData;
-
-        console.log(floorplan, "floorplan >>>>", lot, ">>>>>>> lot", Plan, '>>>>>>> plan', сustomizations, "сustomizations>>>>>>" )
         
         
         useEffect(() => {
