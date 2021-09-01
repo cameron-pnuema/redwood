@@ -21,7 +21,6 @@ import { getBaseContructionCostsPerSqureFit } from '../../db/baseConstructionCos
 const Item = ({ noButton, data }) => {
 
     const dispatch = useDispatch();
-    console.log(data)
     const floorplan = useSelector(state => state.floorplan.floorplan);
 
     const selectPlan = () => {

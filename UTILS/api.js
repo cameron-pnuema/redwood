@@ -111,3 +111,27 @@ export const getUser = async (token) => {
     const res = await axios.post(`${host}/get_user`, { token });
     return res;
 }
+
+const getTables = async() => {
+
+    try {
+        const res = await axios({
+            method: 'get',
+            url: 'https://api.airtable.com/v0/meta/bases',
+            headers: {
+                'Authorization': 'Bearer keyybLhK60Knqwrh2',
+                'X-Airtable-Client-Secret': 'keyybLhK60Knqwrh2'
+
+            },
+        })
+
+        console.log(res,'resresresresres');
+    
+    } catch (error) {
+        console.log(error, '>>>>>>>>>>>>>>>>>');
+    }
+}
+
+export const airtableApis = {
+    getTables
+}

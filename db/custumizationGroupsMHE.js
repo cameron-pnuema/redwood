@@ -284,10 +284,12 @@ const customizationGroup = [
         active: null,
         options: [
           { id: 1, name: `Black Standard`, price: 0 },
-          { id: 2, name: `White Standard`, price: 0 },
+          { id: 2, name: `Electric`, price: 0 },
+          { id: 3, name: `White Standard`, price: 0 },
           { id: 4, name: `Black Side-By-Side With Ice Maker`, price: 600 },
           { id: 5, name: `White Side-By-Side With Ice Maker`, price: 600 },
-          { id: 3, name: `Stainless Package`, price: 1900 },
+          { id: 6, name: `Gas`, price: 3500 },
+          { id: 7, name: `Stainless Package`, price: 1900 },
           
         ],
       },

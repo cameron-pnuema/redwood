@@ -166,8 +166,8 @@ const customizationGroup = [
       },
       {
         id: 11,
-        name: "Patio Doors",
-        active: null,
+        name: "Patio Doors (Optional)",
+        active: false,
         options: [
           { id: 1, name: 'Patio (No Grids)', price: 1500 },
           { id: 2, name: 'French Doors', price: 2500 },
@@ -370,8 +370,10 @@ const customizationGroup = [
         active: null,
         options: [
           { id: 1, name: `Black Standard`, price: 0 },
-          { id: 2, name: `Black Upgraded`, price: 1800 },
-          { id: 3, name: `Stainless Upgrade`, price: 1800 },
+          { id: 2, name: `Electric`, price: 0 },
+          { id: 3, name: `Black Upgraded`, price: 1800 },
+          { id: 4, name: `Stainless Upgrade`, price: 1800 },
+          { id: 5, name: `Gas`, price: 3500 },
         ],
       },
       {
