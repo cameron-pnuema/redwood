@@ -121,7 +121,7 @@ const customizationGroup = [
         name: "Outdoor Lighting",
         active: null,
         options: [
-          { id: 1, name: `Rust Coach`, price: 175 },
+          { id: 1, name: `Rust Coach`, price: 0 },
           { id: 2, name: `Craftsman Coach`, price: 200 },
         ],
       },
