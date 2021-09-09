@@ -23,9 +23,15 @@ export const selectionFieldTypes = {
 }
 
 export const selectionCategoryNames = {
-  LIGNTING: 'lignting',
-  ADDITONAL_ADDS_ON: 'addtionalAddsOn',
+  LIGNTING: 'lighting',
+  ADDITONAL_ADDS_ON: 'additionalAddOns',
   WINDOWS: 'windows'
+}
+
+export const selectionCategoryFullNames = {
+  QUANTITY: 'quantity',
+  SELECT_ONE: 'select_one',
+  MULTIPLE_SELECT: 'select_multiple'
 }
 
 const customizationGroup = [

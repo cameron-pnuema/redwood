@@ -22,16 +22,19 @@ const Item = ({ noButton, data }) => {
 
     const dispatch = useDispatch();
     const floorplan = useSelector(state => state.floorplan.floorplan);
+    const airtableCustomization = useSelector(state => state.customization.airtableCustomization);
+    
+    console.log(airtableCustomization, 'airtableCustomizationairtableCustomization');
 
     const selectPlan = () => {
         dispatch(setPlan(data));
         const { manufacturer, title, s } = data;
         if (data.manufacturer === 'MHE') {
-            dispatch(customizationAction(customizationGroupMHE));
+            dispatch(customizationAction(airtableCustomization.MHE));
             dispatch(floorplanAction({...floorplan, manufacturer: manufacturer, title: title}));
         }
         if (data.manufacturer === 'Fairmont') {
-            dispatch(customizationAction(customizationGroupFairmont));
+            dispatch(customizationAction(airtableCustomization.Fairmont));
             dispatch(floorplanAction({...floorplan, manufacturer: manufacturer, title: title}));
         }
         Router.replace('/detailed_floorplan')

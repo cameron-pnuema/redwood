@@ -15,7 +15,7 @@ export const getTotalCustomizationPrice = (customizations) => {
 
     let customizationPrice = 0;
     categories.forEach(c => {
-        const activeOption = c.options.find(o => o.id === c.active);
+        const activeOption = c.options.find(o => o?.id === c.active);
         
         if( c.categoryName === selectionCategoryNames.WINDOWS || 
             c.categoryName === selectionCategoryNames.LIGNTING || 

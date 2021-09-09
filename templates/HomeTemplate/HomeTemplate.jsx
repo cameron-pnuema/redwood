@@ -9,8 +9,36 @@ import slots from '../../db/slots';
 import { useDispatch } from 'react-redux';
 import table from 'airtable'
 import _ from 'lodash'
+import { setAirtablecustomizationAction } from '../../store/actions/customization';
+import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames } from '../../db/custumizationGroupsFairmont';
 
-const HomeTemplate = () => {
+const FLOORING = 'Flooring'
+
+const getCategoryType = (categoryName) => {
+    const cName = categoryName?.split(" ")?.join('_').toLowerCase()
+
+    if(cName == selectionCategoryFullNames.QUANTITY){
+        return selectionFieldTypes.QUANTITY
+    }else if(cName == selectionCategoryFullNames.MULTIPLE_SELECT){
+        return selectionFieldTypes.SELECT_MULTIPLE
+    }
+
+    return null
+}
+
+const getCategoryName = (airtableCategoryName) => {
+    let categoryName = ''
+    const keys = Object.keys(selectionCategoryNames)
+    keys.map(key => {
+        if(airtableCategoryName?.toLowerCase()?.split(" ")?.join("").includes(selectionCategoryNames[key].toLowerCase())){
+            categoryName = selectionCategoryNames[key]
+        }
+    })
+
+    return categoryName
+}
+
+const HomeTemplate = (categoryType) => {
     const totalRecords = useRef([])
     let manufacturerData = useRef({
         
@@ -25,21 +53,8 @@ const HomeTemplate = () => {
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
         Router.replace('/select_floorplan');
     }
+    
 
-    // {
-    //     category: 1,
-    //     active: true,
-    //     name: "Exterior",
-    //     underCategories: [
-    //       {
-    //         id: 1,
-    //         name: `Roof Pitch`,
-    //         active: null,
-    //         options: [
-    //           { id: 1, name: `"5/12"`, price: 0 },
-    //           { id: 2, name: `"7/12"`, price: 5000 },
-    //         ],
-    //       },
 
     const handleFetch = async(offsetId) => {
     
@@ -96,25 +111,56 @@ const HomeTemplate = () => {
                     _(pageGroup).groupBy(x => x.fields.category).map((categoryGroup, categoryName, cateIndex, index) => {
 
 
-                        let item = {
+                    let item = {
                             id: 1,
                             name: '',
                             active: null,
                             options: [
                             //   { id: 1, name: '', price: 0 },
                             ],
-                          }
+                        }
 
-                          item.id = mainOptionIndex + 1
-                          item.name = categoryName
+                        item.id = mainOptionIndex + 1
+                        item.name = categoryName
 
                        categoryGroup.sort((a, b) => (a.fields?.price || 0) - (b.fields?.price) || 0 ).
                        map((mainOption, mainIndex) => {
-                            item.options.push({
-                                id: mainIndex +1,
-                                name: mainOption.fields.selectionOption,
-                                price: mainOption.fields.price || 0
-                            })
+                           let itemObject = {}
+
+                           if(categoryName === FLOORING){
+                            itemObject = {
+                                id: 1,
+                                name: `inputName`,
+                                type: 'textarea',
+                                active: 1,
+                                price: 0,
+                                value: " ",
+                              }
+                           }else{
+                            itemObject =  {
+                                   id: mainIndex +1,
+                                   name: mainOption.fields.selectionOption,
+                                   price: mainOption.fields.price || 0
+                               }
+                           }
+
+                           if(getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY ){
+                            itemObject.categoryType = selectionFieldTypes.QUANTITY
+                            item.categoryType = selectionFieldTypes.QUANTITY
+                            itemObject.noOfUnit = 0
+
+                           }else if(getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE ){
+                            itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
+                            item.categoryType = selectionFieldTypes.QUANTITY
+
+                           }
+
+                           if(item.categoryType && getCategoryName(categoryName)){
+                                item.categoryName = getCategoryName(categoryName)
+                            }
+
+                           item.options.push(itemObject)
+
                         })
 
                         mainOptionIndex =+ mainOptionIndex + 1
@@ -135,8 +181,8 @@ const HomeTemplate = () => {
             })
             .value();
 
+            dispatch(setAirtablecustomizationAction(manufacturerData.current))
 
-            console.log(manufacturerData.current,'resultresultresultresult');
       }
     }
 
