@@ -127,7 +127,7 @@ const HomeTemplate = (categoryType) => {
                        map((mainOption, mainIndex) => {
                            let itemObject = {}
 
-                           if(categoryName === FLOORING){
+                           if(categoryName === FLOORING){   
                             itemObject = {
                                 id: 1,
                                 name: `inputName`,
@@ -142,6 +142,10 @@ const HomeTemplate = (categoryType) => {
                                    name: mainOption.fields.selectionOption,
                                    price: mainOption.fields.price || 0
                                }
+                           }
+
+                           if(categoryName.includes('Optional')){ //if the category is optional then let the user to skip it
+                                item.active = 1 
                            }
 
                            if(getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY ){
@@ -180,6 +184,8 @@ const HomeTemplate = (categoryType) => {
                 return group
             })
             .value();
+
+            console.log(manufacturerData.current,'>>>>>>>>>>>>>');
 
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
 
