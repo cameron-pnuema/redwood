@@ -185,8 +185,6 @@ const HomeTemplate = (categoryType) => {
             })
             .value();
 
-            console.log(manufacturerData.current,'>>>>>>>>>>>>>');
-
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
 
       }
@@ -195,10 +193,6 @@ const HomeTemplate = (categoryType) => {
     useEffect(() => {
         handleFetch()
     }, [])
-
-    // console.log(process.env.NEXT_PUBLIC_APP_ENVIRONMENT, 'process.env.NEXT_PUBLIC_APP_ENVIRONMENT');
-    // console.log(process.env.APP_ENVIRONMENT, 'process.env.APP_ENVIRONMENT');
-
 
     return (
         <div className={styles.HomeTemplate}>

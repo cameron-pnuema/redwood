@@ -24,8 +24,6 @@ const Item = ({ noButton, data }) => {
     const floorplan = useSelector(state => state.floorplan.floorplan);
     const airtableCustomization = useSelector(state => state.customization.airtableCustomization);
     
-    console.log(airtableCustomization, 'airtableCustomizationairtableCustomization');
-
     const selectPlan = () => {
         dispatch(setPlan(data));
         const { manufacturer, title, s } = data;

@@ -100,6 +100,7 @@ const CustomizationUnit = ({
                     );
                 })}
             </div>
+                <h3>Additional Notes</h3>
         </>
     );
 
@@ -112,8 +113,8 @@ const CustomizationUnit = ({
     if (isAllStepsCompleted) body = (
         <div className={styles.summary}>
             <div className={styles.summary__total}>Total: ${formatPrice(getTotalPrice())}</div>
-            <div className={styles.summary__item}>Base price:  ${formatPrice(selectedPlan?.price * MARK_UP_MULTIPLIER)}</div>
-            <div className={styles.summary__item}>Base construction costs:  ${formatPrice(getBaseContructionCostsPerSqureFit(selectedPlan?.s) * MARK_UP_MULTIPLIER)}</div>
+            {/* <div className={styles.summary__item}>Base price:  ${formatPrice(selectedPlan?.price * MARK_UP_MULTIPLIER)}</div>
+            <div className={styles.summary__item}>Base construction costs:  ${formatPrice(getBaseContructionCostsPerSqureFit(selectedPlan?.s) * MARK_UP_MULTIPLIER)}</div> */}
             <div className={styles.summary__item}>Customizations: ${formatPrice(totalCustomizationPrice)}</div>
             <div className={styles.summary__action}>
                 <Button text="Apply" disabled={currentCategory !== totalCategories} style={{ width: "100%", height: 50 }} onclick={() => Router.replace('/apply')} />

@@ -69,7 +69,13 @@ const OptionsGroup = ({ groupName, categoryType, options, activeOptionId, onChan
                         );
                     })
                 }
-
+                {
+                groupName.includes('Optional') &&
+                    <>
+                        <h5 className={styles.additionalNotes} >Additional Notes</h5>
+                        <textarea className={styles.addtionalNotesTextArea} placeholder='Type notes...' />
+                    </>
+                }
 
             </div>
         </div>

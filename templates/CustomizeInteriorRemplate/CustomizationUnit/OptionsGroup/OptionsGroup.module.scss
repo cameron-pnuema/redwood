@@ -4,6 +4,16 @@
     border-radius: 5px;
     padding: 20px;
 
+   .additionalNotes {
+    margin-top: 1rem;
+   }
+
+   .addtionalNotesTextArea{
+    width: 100%;
+    padding: 5px;
+    height: 100px
+   }
+
     &__name {
         font-weight: 600;
         text-transform: uppercase;
@@ -22,6 +32,8 @@
         padding: 5px;
         border-radius: 5px;
         // align-items;
+
+        
 
         &:not(:last-child) {
             margin-bottom: 0px;
