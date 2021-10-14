@@ -116,7 +116,7 @@ const CustomizationUnit = ({
             <div className={styles.summary__item}>Base construction costs:  ${formatPrice(getBaseContructionCostsPerSqureFit(selectedPlan?.s) * MARK_UP_MULTIPLIER)}</div>
             <div className={styles.summary__item}>Customizations: ${formatPrice(totalCustomizationPrice)}</div>
             <div className={styles.summary__action}>
-                <Button text="Apply" disabled={currentCategory !== totalCategories} style={{ width: "100%", height: 50 }} onclick={() => Router.replace('/apply')} />
+                <Button text="Submit" disabled={currentCategory !== totalCategories} style={{ width: "100%", height: 50 }} onclick={() => Router.replace('/apply')} />
             </div>
             <div className={styles.summary__disclaimer}>
                 All pricing is Turn-Key: Includes Foundation (40” concrete block crawl space), backfill, insulated crawl space, Delivery, Set-up, all interior and exterior finish work, Utility hook-ups (inside the foundation), HVAC (priced as total electric), Gutters, Cleaning, Sales tax.
@@ -144,7 +144,7 @@ const CustomizationUnit = ({
                     <div className={styles.header__actions}>
                         {currentCategory > 1 && <Button text="Back" noArrow theme4 onclick={onBack} />}
                         {!isAllStepsCompleted && <Button text="Next" noArrow onclick={onNext} disabled={totalCategories === currentCategory - 1 || !isCurrentStepCompleted} />}
-                        {isAllStepsCompleted && <Button text="Apply" noArrow onclick={() => Router.replace('/apply')} />}
+                        {isAllStepsCompleted && <Button text="Submit" noArrow onclick={() => Router.replace('/apply')} />}
                     </div>
                 </div>
                 <div className={styles.header__progress}>

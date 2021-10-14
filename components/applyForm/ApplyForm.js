@@ -37,10 +37,45 @@ const ApplyForm = (props) => {
     setState(data)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let errors = formValidator(state)
     setState({ ...state, errors })
-  
+
+    const {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      city,
+      description,
+      zipCode,
+      country,
+    } = state;
+
+    let url = `https://api.airtable.com/v0/apprGy8I7xUg9pFUu/Lead%20Capture%20Data`;
+    let x={
+      fields:{
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      city,
+      state:state.state,
+      zipCode,
+      streetAddress: description,
+      country
+    },
+    typecast :true
+    }
+   
+    const res = await fetch(url, {
+      method: "post",
+      headers: new Headers({
+        Authorization: "Bearer keyybLhK60Knqwrh2",
+        'Content-Type': 'application/json'
+      }),
+      body:JSON.stringify(x)
+    });
       try {
         if(!Object.keys(errors).length){
           const data = { ...state }
