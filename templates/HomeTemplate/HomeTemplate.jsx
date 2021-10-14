@@ -127,7 +127,7 @@ const HomeTemplate = (categoryType) => {
                        map((mainOption, mainIndex) => {
                            let itemObject = {}
 
-                           if(categoryName === FLOORING){
+                           if(categoryName === FLOORING){   
                             itemObject = {
                                 id: 1,
                                 name: `inputName`,
@@ -142,6 +142,10 @@ const HomeTemplate = (categoryType) => {
                                    name: mainOption.fields.selectionOption,
                                    price: mainOption.fields.price || 0
                                }
+                           }
+
+                           if(categoryName.includes('Optional')){ //if the category is optional then let the user to skip it
+                                item.active = 1 
                            }
 
                            if(getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY ){
@@ -189,10 +193,6 @@ const HomeTemplate = (categoryType) => {
     useEffect(() => {
         handleFetch()
     }, [])
-
-    // console.log(process.env.NEXT_PUBLIC_APP_ENVIRONMENT, 'process.env.NEXT_PUBLIC_APP_ENVIRONMENT');
-    // console.log(process.env.APP_ENVIRONMENT, 'process.env.APP_ENVIRONMENT');
-
 
     return (
         <div className={styles.HomeTemplate}>

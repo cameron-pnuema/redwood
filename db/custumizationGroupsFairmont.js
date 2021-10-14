@@ -15,7 +15,7 @@
 //Other
 // - Flooring
 // - Trim
-// - Lighting
+// - Lighting 
 
 export const selectionFieldTypes = {
   QUANTITY: 'quantity',
