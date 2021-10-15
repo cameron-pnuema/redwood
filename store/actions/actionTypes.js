@@ -22,3 +22,6 @@ export const IS_POPUP = 'IS_POPUP';
 export const CUSTOMIZATION = 'CUSTOMIZATION';
 export const FLOORPLAN = 'FLOORPLAN';
 
+export const SET_CUSTOMIZATION_PRICE="CUSTOMIZATION_PRICE"
+
+

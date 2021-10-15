@@ -21,6 +21,12 @@ const reducer = (state = initialState, action) => {
         newState.airtableCustomization = action.payload;
         return newState;
     }
+
+    if (action.type === actionTypes.SET_CUSTOMIZATION_PRICE) {
+        const newState = { ...state };
+        newState.customizationPrice = action.payload;
+        return newState;
+    }
     return state;
 
 };

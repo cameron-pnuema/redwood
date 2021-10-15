@@ -47,6 +47,9 @@ const Apply = () => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
+  const customizationPrice = useSelector(
+    (state) => state.customization.customizationPrice
+  );
   const floorplan = useSelector((state) => state.floorplan.floorplan);
 
   const lot = selectorLot.lotData;
@@ -210,7 +213,7 @@ const Apply = () => {
           floorplan_price: formatPrice(Plan.price),
           customizations_price: formatPrice(price),
           total_price: formatPrice(
-            (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER
+            ((Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER)+(customizationPrice || 0)
           ),
           customizatoins: html,
           financeBlock: financeBlock,

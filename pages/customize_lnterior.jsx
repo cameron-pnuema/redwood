@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../components/layout/layout';
 import CustomizeInteriorRemplate from '../templates/CustomizeInteriorRemplate/CustomizeInteriorRemplate';
 import useTimeout from '../UTILS/useTimeout';
-import { customizationAction } from '../store/actions/customization';
+import { customizationAction,setCustomizationPriceAction } from '../store/actions/customization';
 import { selectionCategoryNames, selectionFieldTypes } from '../db/custumizationGroupsFairmont';
 
 
@@ -140,7 +140,9 @@ const CustomizeInterior = () => {
                 })
             }
         })
+        console.log(newCustomizations,'newCustomizations',totalCustomizationPrice);
         dispatch(customizationAction(newCustomizations))
+        dispatch(setCustomizationPriceAction(totalCustomizationPrice))
     };
 
     const handleNextCategory = () => {
