@@ -27,7 +27,9 @@ const CustomizationUnit = ({
     isCurrentStepCompleted,
     isAllStepsCompleted,
     selectedPlan,
-    refForTheScrollToTop
+    refForTheScrollToTop,
+    handleIconClick,
+    notesState
 }) => {
 
     const customizations = useSelector(state => state.customization.customization);
@@ -85,13 +87,17 @@ const CustomizationUnit = ({
                             options={og.options}
                             activeOptionId={og.active}
                             groupId={og.id}
-                            onChange={({ optionId, value, endChildIndex, selectionType }) => {
+                            onChange={({ optionId, value, endChildIndex, selectionType,notes }) => {
                                 const payload = { groupId: og.id, optionId }
                                 if(value)  payload.inputAnswer = value
                                 if(endChildIndex !==undefined) payload.endChildIndex = endChildIndex
                                 if(selectionType) payload.selectionType = selectionType
+                                if(notes) {payload.notes = notes}
+
                                 onChange(payload)
                             }}
+                            handleIconClick={()=>handleIconClick(og)}
+                            notesState={notesState}
                         />
                     );
 

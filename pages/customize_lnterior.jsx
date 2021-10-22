@@ -47,16 +47,17 @@ const CustomizeInterior = () => {
     const selectedPlan = useSelector(state => state.lot.planData);
     const customizations = useSelector(state => state.customization.customization);
     const dispatch = useDispatch();
+const [notesState,setNotesState]=useState([])
 
     const activeCustomizationCategory = customizations.find(c => c.active);
     const activeCategoryIndex = customizations.findIndex(c => c.active);
     const totalCustomizationPrice = getTotalCustomizationPrice(customizations);
     const [isAllStepsCompleted, setAllStepsCompleted] = useState(activeCategoryIndex === customizations.length - 1);
 
+console.log(customizations,'customizationscustomizations');
 
-
-    const handleCustomizationChange = ({ groupId, optionId, inputAnswer, endChildIndex, selectionType }) => {
-
+    const handleCustomizationChange = ({ groupId, optionId, inputAnswer, endChildIndex, selectionType,notes }) => {
+console.log(notes,'textDatatextData');
         const newCustomizations = customizations.map(category => {
 
             if (category.category !== activeCustomizationCategory.category) return category;
@@ -65,6 +66,10 @@ const CustomizeInterior = () => {
                 ...category,
                 underCategories: category.underCategories.map(uc => {
                     if (uc.id !== groupId) return uc;
+                    if(notes){
+                        uc.notes=notes?.event?.target?.value
+                        return uc
+                    }
 
                     if (
                         uc.name === 'Flooring' || 
@@ -132,7 +137,7 @@ const CustomizeInterior = () => {
 
                         return selectionItem
                     }
-
+                   if(notes)uc.notes=notes?.event?.target?.value
                     return {
                         ...uc,
                         active: optionId
@@ -206,6 +211,15 @@ const CustomizeInterior = () => {
     const numberGroupsInStep = activeCustomizationCategory?.underCategories?.length;
     const numberCompletedGroupsInStep = activeCustomizationCategory?.underCategories.filter(uc => uc.active !== null).length;
 
+    const handleIconClick=(data)=>{
+        const key=data.name+data.id
+        const filteredNote=notesState.find((value)=>value===key)
+        if(!filteredNote)setNotesState(notesState.concat(key))
+        if(filteredNote){
+            const nonSelectedNote=notesState.filter((value)=>value!==key)
+            setNotesState(nonSelectedNote)
+        }
+    }
     return (
         <Layout>
             <CustomizeInteriorRemplate
@@ -219,7 +233,8 @@ const CustomizeInterior = () => {
                 totalCustomizationPrice={totalCustomizationPrice}
                 isCurrentStepCompleted={numberGroupsInStep === numberCompletedGroupsInStep}
                 isAllStepsCompleted={isAllStepsCompleted}
-
+handleIconClick={handleIconClick}
+notesState={notesState}
             // selectorPlan={selectorPlan}
             // customization={customization}
             // onSelectCustomization={selectCustomization}

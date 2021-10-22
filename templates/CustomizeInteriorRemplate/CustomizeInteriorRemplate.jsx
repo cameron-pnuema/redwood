@@ -16,7 +16,7 @@ const formatPrice = (price) => {
     })
 };
 
-const CustomizeInteriorRemplate = ({ activeCustomizationCategory, onCustomizationChange, onNext, onBack, totalCategories, currentCategory, totalCustomizationPrice, isCurrentStepCompleted, selectedPlan, isAllStepsCompleted }) => {
+const CustomizeInteriorRemplate = ({ activeCustomizationCategory, onCustomizationChange, onNext, onBack, totalCategories, currentCategory, totalCustomizationPrice, isCurrentStepCompleted, selectedPlan, isAllStepsCompleted,handleIconClick,notesState }) => {
 
     // let categories = [];
     // customization.forEach(c => {
@@ -57,6 +57,8 @@ const CustomizeInteriorRemplate = ({ activeCustomizationCategory, onCustomizatio
                                 isAllStepsCompleted={isAllStepsCompleted}
                                 selectedPlan={selectedPlan}
                                 refForTheScrollToTop={refForTheScrollToTop}
+                                handleIconClick={handleIconClick}
+                                notesState={notesState}
                             />
 
                         </div>

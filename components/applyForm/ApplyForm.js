@@ -80,7 +80,7 @@ const ApplyForm = (props) => {
         if(!Object.keys(errors).length){
           const data = { ...state }
           delete data.errors
-          // typeof window !== "undefined" && window.localStorage.setItem('USER_DETAILS', JSON.stringify(data))
+          typeof window !== "undefined" && window.sessionStorage.setItem('USER_DETAILS', JSON.stringify(data))
           dispatch(setUserInforModal(false))
           toast('Your details are saved successfully.')
         }

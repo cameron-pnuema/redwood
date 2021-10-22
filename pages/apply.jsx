@@ -130,6 +130,11 @@ const Apply = () => {
             html += '<li style="text-align: center; margin-left: 0;">';
             html += `<span>${categoryName}</span>: ${shownFieldToUser}`;
             html += "</li>";
+          if( cc?.notes){
+            html += '<li style="text-align: center; margin-left: 0;">';
+            html += `<span>Addition Notes</span>: ${cc.notes}`;
+            html += "</li>";
+          }
           });
         });
         html += "</ul>";
