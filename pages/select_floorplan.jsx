@@ -18,7 +18,7 @@ const SelectFloorPlan = () => {
 
     useEffect(() => {
         if(typeof window !== "undefined" && !window.sessionStorage.getItem('USER_DETAILS')){
-            dispatch(setUserInforModal(false))
+            dispatch(setUserInforModal(true))
         }
     }, [])
 
