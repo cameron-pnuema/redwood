@@ -76,7 +76,7 @@ const HomeTemplate = (categoryType) => {
       const realRes = await res.json()
 
       totalRecords.current = [...totalRecords.current, ...realRes.records]
-
+console.log(totalRecords,'7777777777');
       if(realRes.offset){
         handleFetch(realRes.offset)
       }else{
@@ -116,7 +116,6 @@ const HomeTemplate = (categoryType) => {
                             name: '',
                             active: null,
                             options: [
-                            //   { id: 1, name: '', price: 0 },
                             ],
                         }
 

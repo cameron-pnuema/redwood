@@ -6,6 +6,7 @@ import { formValidator } from '../../UTILS/validator';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInforModal } from '../../store/actions/popup';
 import { toast } from 'react-toastify';
+import { setUserData } from "../../store/actions/user";
 
 const ApplyForm = (props) => {
   const {
@@ -35,6 +36,9 @@ const ApplyForm = (props) => {
     const data = { ...state }
     data[name] = value
     setState(data)
+    dispatch(setUserData(data));
+
+    console.log('55555555');
   }
 
   const handleSubmit = async () => {
@@ -92,7 +96,7 @@ const ApplyForm = (props) => {
   return (
     <div>
       <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
-      <Modal isOpen={isUserInfoModal} className={className}>
+      <Modal isOpen={isUserInfoModal && false} className={className}>
         <ModalBody className={styles.modalBody}>
             <Form
               formValues={state}

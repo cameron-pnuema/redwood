@@ -33,9 +33,7 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
                 <div className={styles.filter}></div>
                 <img className={styles.bgImg} src={bgImg} alt="bgImg" />
                 <div className={styles.wrapTitle}>
-                    <h1>Time To Apply</h1>
-                    <h2>TO GS COURTYARD HOME</h2>
-                    <p><i>Here’s what to expect next</i></p>
+                    <h2>Here’s what to expect next</h2>
 
                     <h3>STEP 1: Application</h3>
                     <p>

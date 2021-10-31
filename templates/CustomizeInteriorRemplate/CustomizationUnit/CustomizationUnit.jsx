@@ -1,57 +1,59 @@
-import react, { useRef } from 'react'
-import styles from './CustomizationUntit.module.scss';
-import Button from '../../../components/UI/Button/Button';
-import { format } from 'number-currency-format';
-import { useSelector } from 'react-redux';
-import Router from 'next/router';
+import react, { useRef } from "react";
+import styles from "./CustomizationUntit.module.scss";
+import Button from "../../../components/UI/Button/Button";
+import { format } from "number-currency-format";
+import { useSelector } from "react-redux";
+import Router from "next/router";
 
-import OptionGroup from './OptionsGroup/OptionsGroup';
-import { getBaseContructionCostsPerSqureFit } from '../../../db/baseConstructionCosts';
-import { MARK_UP_MULTIPLIER } from '../../../db/collectiionCustomize';
+import OptionGroup from "./OptionsGroup/OptionsGroup";
+import { getBaseContructionCostsPerSqureFit } from "../../../db/baseConstructionCosts";
+import { MARK_UP_MULTIPLIER } from "../../../db/collectiionCustomize";
 
 const formatPrice = (price) => {
-    return format(price, {
-        showDecimals: 'NEVER',
-    })
+  return format(price, {
+    showDecimals: "NEVER",
+  });
 };
 
 const CustomizationUnit = ({
-    categoryName,
-    optionGroups,
-    onChange,
-    onNext,
-    onBack,
-    totalCategories,
-    currentCategory,
-    totalCustomizationPrice,
-    isCurrentStepCompleted,
-    isAllStepsCompleted,
-    selectedPlan,
-    refForTheScrollToTop,
-    handleIconClick,
-    notesState
+  categoryName,
+  optionGroups,
+  onChange,
+  onNext,
+  onBack,
+  totalCategories,
+  currentCategory,
+  totalCustomizationPrice,
+  isCurrentStepCompleted,
+  isAllStepsCompleted,
+  selectedPlan,
+  refForTheScrollToTop,
+  handleIconClick,
+  notesState,
 }) => {
+  const customizations = useSelector(
+    (state) => state.customization.customization
+  );
 
-    const customizations = useSelector(state => state.customization.customization);
+  // const topRef = useRef(null)
 
-    // const topRef = useRef(null)
+  let progressWidth = `${(100 * (currentCategory - 1)) / totalCategories}%`;
+  if (isAllStepsCompleted) progressWidth = "100%";
 
-    let progressWidth = `${100 * (currentCategory - 1) / totalCategories}%`;
-    if (isAllStepsCompleted) progressWidth = '100%';
+  let totalCompleted = currentCategory - 1;
+  if (isAllStepsCompleted) totalCompleted = currentCategory;
 
-    let totalCompleted = currentCategory - 1;
-    if (isAllStepsCompleted) totalCompleted = currentCategory;
+  let body = null;
 
-    let body = null;
-
-    if (!isAllStepsCompleted) body = (
-        <>
-            <div className={styles.body__category}>
-                <div className={styles.body__categoryName}>{categoryName}</div>
-                <div className={styles.body__categoryDivider}></div>
-            </div>
-            <div className={styles.body__list}>
-                {/* {categoryName === "Flooring" &&
+  if (!isAllStepsCompleted)
+    body = (
+      <>
+        <div className={styles.body__category}>
+          <div className={styles.body__categoryName}>{categoryName}</div>
+          <div className={styles.body__categoryDivider}></div>
+        </div>
+        <div className={styles.body__list}>
+          {/* {categoryName === "Flooring" &&
                     <div className={styles.body__card}>
                         <p className={styles.body__card_text}>Please note one carpet and one vinyl selection below.</p>
                         <textarea
@@ -63,118 +65,237 @@ const CustomizationUnit = ({
                         <p className={styles.body__card__disclaimer}>*Flooring customization will be coming soon. A representative will reach out to you to discuss flooring options.</p>
                     </div>
                 } */}
-                {optionGroups?.map(og => {
+          {optionGroups?.map((og) => {
+            console.log(og, "7777777099999999999");
 
+            let optionGroup = null;
+            if (categoryName === "Flooring") {
+              if (og.name === "Flooring") {
+                optionGroup = (
+                  <div className={styles.body__card}>
+                    <p className={styles.body__card_text}>
+                      Vinyl Flooring Upgrades(Optional)
+                    </p>
+                    {/* <textarea
+                      className={styles.body__card_textArea}
+                      name="flooring"
+                      onChange={(event) =>
+                        onChange({
+                          inputAnswer: event.target.value,
+                          groupId: og.id,
+                        })
+                      }
+                      value={og.options.find((o) => o.id === og.active)?.value}
+                    /> */}
+                    <div className={styles.body__upgrades}>
+                    <div >
+                    <label for="room">Room Name</label><br/>
+                    <input
+                      type="text"
+                      id="room"
+                      placeholder="Enter Room Name"
+                      value={og.options.find((o) => o.id === og.active)?.value}
+                      onChange={(event) =>
+                        onChange({
+                          inputAnswer: event.target.value,
+                          groupId: og.id,
+                        })
+                      }
+                    />
+                    </div>
+                    <div className={styles.body__currencyInput}>
+                    <span class={styles.body__currency}>$</span>
 
-                    let optionGroup = null;
-                    if (categoryName === "Flooring") optionGroup = (
-                        <div className={styles.body__card}>
-                            <p className={styles.body__card_text}>Please note one carpet and one vinyl selection below.</p>
-                            <textarea
-                                className={styles.body__card_textArea}
-                                name="flooring"
-                                onChange={(event) => onChange({ inputAnswer: event.target.value, groupId: og.id })}
-                                value={og.options.find(o => o.id === og.active)?.value}
-                            />
-                            <p className={styles.body__card__disclaimer}>*Flooring customization will be coming soon. A representative will reach out to you to discuss flooring options.</p>
+                        <input type="number" />
                         </div>
-                    );
+                        </div>
+                    {/* <p className={styles.body__card__disclaimer}>
+                      *Flooring customization will be coming soon. A
+                      representative will reach out to you to discuss flooring
+                      options.
+                    </p> */}
+                  </div>
+                );
+              } else {
+                optionGroup = (
+                  <OptionGroup
+                    groupName={og.name}
+                    categoryType={og.categoryType}
+                    options={og.options}
+                    activeOptionId={og.active}
+                    groupId={og.id}
+                    onChange={({
+                      optionId,
+                      value,
+                      endChildIndex,
+                      selectionType,
+                      notes,
+                    }) => {
+                      const payload = { groupId: og.id, optionId };
+                      if (value) payload.inputAnswer = value;
+                      if (endChildIndex !== undefined)
+                        payload.endChildIndex = endChildIndex;
+                      if (selectionType) payload.selectionType = selectionType;
+                      if (notes) {
+                        payload.notes = notes;
+                      }
 
-                    if (categoryName !== "Flooring") optionGroup = (
-                        <OptionGroup
-                            groupName={og.name}
-                            categoryType={og.categoryType}
-                            options={og.options}
-                            activeOptionId={og.active}
-                            groupId={og.id}
-                            onChange={({ optionId, value, endChildIndex, selectionType,notes }) => {
-                                const payload = { groupId: og.id, optionId }
-                                if(value)  payload.inputAnswer = value
-                                if(endChildIndex !==undefined) payload.endChildIndex = endChildIndex
-                                if(selectionType) payload.selectionType = selectionType
-                                if(notes) {payload.notes = notes}
-
-                                onChange(payload)
-                            }}
-                            handleIconClick={()=>handleIconClick(og)}
-                            notesState={notesState}
-                        />
-                    );
-
-                    return (
-                        optionGroup
-                    );
-                })}
-            </div>
-                <h3>Additional Notes</h3>
-        </>
-    );
-
-    const getTotalPrice = () => {
-        const basePrice = selectedPlan?.price
-        const baseConstructionCosts = getBaseContructionCostsPerSqureFit(selectedPlan?.s)
-        return ((basePrice + baseConstructionCosts) * MARK_UP_MULTIPLIER) + totalCustomizationPrice
-    }
-
-    if (isAllStepsCompleted) body = (
-        <div className={styles.summary}>
-            <div className={styles.summary__total}>Total: ${formatPrice(getTotalPrice())}</div>
-            {/* <div className={styles.summary__item}>Base price:  ${formatPrice(selectedPlan?.price * MARK_UP_MULTIPLIER)}</div>
-            <div className={styles.summary__item}>Base construction costs:  ${formatPrice(getBaseContructionCostsPerSqureFit(selectedPlan?.s) * MARK_UP_MULTIPLIER)}</div> */}
-            <div className={styles.summary__item}>Customizations: ${formatPrice(totalCustomizationPrice)}</div>
-            <div className={styles.summary__action}>
-                <Button text="Submit" disabled={currentCategory !== totalCategories} style={{ width: "100%", height: 50 }} onclick={() => Router.replace('/apply')} />
-            </div>
-            <div className={styles.summary__disclaimer}>
-                All pricing is Turn-Key: Includes Foundation (40” concrete block crawl space), backfill, insulated crawl space, Delivery, Set-up, all interior and exterior finish work, Utility hook-ups (inside the foundation), HVAC (priced as total electric), Gutters, Cleaning, Sales tax.
-            </div>
-        </div>
-    );
-
-    // const ref = useRef(null)
-
-    const handleBottomBtnClick = () => {
-        onNext();
-        refForTheScrollToTop.current.scrollIntoView({
-            behavior: "smooth"
-        })
-    }
-
-    return (
-        <div className={styles.customization}>
-            <div className={[styles.customization__header, styles.header].join(' ')}>
-                <div className={styles.header__top}>
-                    <div className={styles.header__info}>
-                        <h3>Customize your house</h3>
-                        <div>Total completed {totalCompleted} out {totalCategories}, +${formatPrice(totalCustomizationPrice)}</div>
-                    </div>
-                    <div className={styles.header__actions}>
-                        {currentCategory > 1 && <Button text="Back" noArrow theme4 onclick={onBack} />}
-                        {!isAllStepsCompleted && <Button text="Next" noArrow onclick={onNext} disabled={totalCategories === currentCategory - 1 || !isCurrentStepCompleted} />}
-                        {isAllStepsCompleted && <Button text="Submit" noArrow onclick={() => Router.replace('/apply')} />}
-                    </div>
-                </div>
-                <div className={styles.header__progress}>
-                    <div className={styles.header__progressState} style={{ width: progressWidth }}></div>
-                </div>
-            </div>
-            <div className={[styles.customization__body, styles.body].join(' ')}>
-
-                {body}
-            </div>
-            {!isAllStepsCompleted && <div className={styles.customization__bottomAction}>
-                <Button
-                    style={{ fon: "40" }}
-                    text="Next"
-                    noArrow
-                    onclick={handleBottomBtnClick}
-                    disabled={totalCategories === currentCategory - 1 || !isCurrentStepCompleted}
-                />
-            </div>
+                      onChange(payload);
+                    }}
+                    handleIconClick={() => handleIconClick(og)}
+                    notesState={notesState}
+                  />
+                );
+              }
             }
 
+            if (categoryName !== "Flooring")
+              optionGroup = (
+                <OptionGroup
+                  groupName={og.name}
+                  categoryType={og.categoryType}
+                  options={og.options}
+                  activeOptionId={og.active}
+                  groupId={og.id}
+                  onChange={({
+                    optionId,
+                    value,
+                    endChildIndex,
+                    selectionType,
+                    notes,
+                  }) => {
+                    const payload = { groupId: og.id, optionId };
+                    if (value) payload.inputAnswer = value;
+                    if (endChildIndex !== undefined)
+                      payload.endChildIndex = endChildIndex;
+                    if (selectionType) payload.selectionType = selectionType;
+                    if (notes) {
+                      payload.notes = notes;
+                    }
+
+                    onChange(payload);
+                  }}
+                  handleIconClick={() => handleIconClick(og)}
+                  notesState={notesState}
+                />
+              );
+
+            return optionGroup;
+          })}
         </div>
+        <h3>Additional Notes</h3>
+      </>
     );
+
+  const getTotalPrice = () => {
+    const basePrice = selectedPlan?.price;
+    const baseConstructionCosts = getBaseContructionCostsPerSqureFit(
+      selectedPlan?.s
+    );
+    return (
+      (basePrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+      totalCustomizationPrice
+    );
+  };
+
+  if (isAllStepsCompleted)
+    body = (
+      <div className={styles.summary}>
+        <div className={styles.summary__total}>
+          Total: ${formatPrice(getTotalPrice())}
+        </div>
+        {/* <div className={styles.summary__item}>Base price:  ${formatPrice(selectedPlan?.price * MARK_UP_MULTIPLIER)}</div>
+            <div className={styles.summary__item}>Base construction costs:  ${formatPrice(getBaseContructionCostsPerSqureFit(selectedPlan?.s) * MARK_UP_MULTIPLIER)}</div> */}
+        <div className={styles.summary__item}>
+          Customizations: ${formatPrice(totalCustomizationPrice)}
+        </div>
+        <div className={styles.summary__action}>
+          <Button
+            text="Submit"
+            disabled={currentCategory !== totalCategories}
+            style={{ width: "100%", height: 50 }}
+            onclick={() => Router.replace("/apply")}
+          />
+        </div>
+        <div className={styles.summary__disclaimer}>
+          All pricing is Turn-Key: Includes Foundation (40” concrete block crawl
+          space), backfill, insulated crawl space, Delivery, Set-up, all
+          interior and exterior finish work, Utility hook-ups (inside the
+          foundation), HVAC (priced as total electric), Gutters, Cleaning, Sales
+          tax.
+        </div>
+      </div>
+    );
+
+  // const ref = useRef(null)
+
+  const handleBottomBtnClick = () => {
+    onNext();
+    refForTheScrollToTop.current.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <div className={styles.customization}>
+      <div className={[styles.customization__header, styles.header].join(" ")}>
+        <div className={styles.header__top}>
+          <div className={styles.header__info}>
+            <h3>Customize your house</h3>
+            <div>
+              Total completed {totalCompleted} out {totalCategories}, +$
+              {formatPrice(totalCustomizationPrice)}
+            </div>
+          </div>
+          <div className={styles.header__actions}>
+            {currentCategory > 1 && (
+              <Button text="Back" noArrow theme4 onclick={onBack} />
+            )}
+            {!isAllStepsCompleted && (
+              <Button
+                text="Next"
+                noArrow
+                onclick={onNext}
+                disabled={
+                  totalCategories === currentCategory - 1 ||
+                  !isCurrentStepCompleted
+                }
+              />
+            )}
+            {isAllStepsCompleted && (
+              <Button
+                text="Submit"
+                noArrow
+                onclick={() => Router.replace("/apply")}
+              />
+            )}
+          </div>
+        </div>
+        <div className={styles.header__progress}>
+          <div
+            className={styles.header__progressState}
+            style={{ width: progressWidth }}
+          ></div>
+        </div>
+      </div>
+      <div className={[styles.customization__body, styles.body].join(" ")}>
+        {body}
+      </div>
+      {!isAllStepsCompleted && (
+        <div className={styles.customization__bottomAction}>
+          <Button
+            style={{ fon: "40" }}
+            text="Next"
+            noArrow
+            onclick={handleBottomBtnClick}
+            disabled={
+              totalCategories === currentCategory - 1 || !isCurrentStepCompleted
+            }
+          />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default CustomizationUnit;

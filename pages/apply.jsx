@@ -47,6 +47,8 @@ const Apply = () => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
+
+  const userFilledData=useSelector((state)=>state.user.userFilledData)
   const customizationPrice = useSelector(
     (state) => state.customization.customizationPrice
   );
@@ -56,8 +58,10 @@ const Apply = () => {
   const Plan = selectorLot.planData;
 
   useEffect(() => {
+    setDetails(userFilledData)
     if (typeof window !== "undefined") {
       const details = JSON.parse(window.localStorage.getItem("USER_DETAILS"));
+      console.log(details,'7777777777777');
       if (details) {
         setDetails(details);
       }
@@ -69,7 +73,7 @@ const Apply = () => {
     data[name] = value;
     setDetails(data);
   };
-
+console.log(userFilledData,'userFilledDatauserFilledData');
   useTimeout();
 
   async function sendEmail(e) {
@@ -130,7 +134,7 @@ const Apply = () => {
             html += '<li style="text-align: center; margin-left: 0;">';
             html += `<span>${categoryName}</span>: ${shownFieldToUser}`;
             html += "</li>";
-          if( cc?.notes){
+          if( cc.notes){
             html += '<li style="text-align: center; margin-left: 0;">';
             html += `<span>Addition Notes</span>: ${cc.notes}`;
             html += "</li>";

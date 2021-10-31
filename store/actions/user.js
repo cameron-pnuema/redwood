@@ -6,6 +6,8 @@ import axios from 'axios';
 const userAuthStart = () => ({ type: actionTypes.USER_AUTHORIZATION_START });
 const userAuthSuccess = (user) => ({ type: actionTypes.USER_AUTHORIZATION_SUCCESS, user });
 const userAuthFail = () => ({ type: actionTypes.USER_AUTHORIZATION_FAIL });
+const setUserDataSuccess = (payload) => ({ type: actionTypes.USER_FILLED_INFO,payload });
+
 
 export const userLogOut = () => ({ type: actionTypes.USER_LOG_OUT });
 
@@ -63,4 +65,10 @@ export const getUserData = () => {
     }
 }
 
+
+export const setUserData = (data) => {
+    return async (dispatch) => {
+            dispatch(setUserDataSuccess(data))
+    }
+}
 
