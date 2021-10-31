@@ -96,7 +96,7 @@ const ApplyForm = (props) => {
   return (
     <div>
       <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
-      <Modal isOpen={isUserInfoModal && false} className={className}>
+      <Modal isOpen={isUserInfoModal} className={className}>
         <ModalBody className={styles.modalBody}>
             <Form
               formValues={state}

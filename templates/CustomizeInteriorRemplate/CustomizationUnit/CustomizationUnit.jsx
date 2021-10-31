@@ -66,8 +66,6 @@ const CustomizationUnit = ({
                     </div>
                 } */}
           {optionGroups?.map((og) => {
-            console.log(og, "7777777099999999999");
-
             let optionGroup = null;
             if (categoryName === "Flooring") {
               if (og.name === "Flooring") {

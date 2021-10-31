@@ -54,10 +54,8 @@ const [notesState,setNotesState]=useState([])
     const totalCustomizationPrice = getTotalCustomizationPrice(customizations);
     const [isAllStepsCompleted, setAllStepsCompleted] = useState(activeCategoryIndex === customizations.length - 1);
 
-console.log(activeCustomizationCategory,'customizationscustomizations');
 
     const handleCustomizationChange = ({ groupId, optionId, inputAnswer, endChildIndex, selectionType,notes }) => {
-console.log(notes,'textDatatextData');
         const newCustomizations = customizations.map(category => {
 
             if (category.category !== activeCustomizationCategory.category) return category;
