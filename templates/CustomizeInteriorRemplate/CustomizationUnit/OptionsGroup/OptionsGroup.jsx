@@ -22,6 +22,7 @@ const OptionsGroup = ({
   groupId,
   handleIconClick,
   notesState,
+  notes
 }) => {
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
@@ -114,6 +115,7 @@ const OptionsGroup = ({
                 className={styles.addtionalNotesTextArea}
                 placeholder="Type notes..."
                 onChange={(event) => onChange({ notes: { event } })}
+                value={notes}
               />
             )}
           </>

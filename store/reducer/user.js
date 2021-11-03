@@ -40,7 +40,6 @@ const reducer = (state = initialState, action) => {
     }
     if(action.type === actionTypes.USER_FILLED_INFO){
         const newState = {...state};
-        console.log(action,'44444444444');
        newState.userFilledData=action.payload
         return newState;
     }

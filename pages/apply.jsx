@@ -26,6 +26,19 @@ const formatPrice = (price) => {
   });
 };
 
+const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
+  let htmlElement;
+  if (categoryName === "Flooring") {
+    htmlElement = option.value.map((item) => {
+      return `<span>${item?.value} ($${formatPrice(item?.price)})  </span>`;
+    });
+  } else {
+    htmlElement = `<span>${option?.name} ($${formatPrice(
+      itemPrice
+    )}) ${numOfUnit} </span>`;
+  }
+  return htmlElement;
+};
 const Apply = () => {
   const [isCompleted, setCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +61,7 @@ const Apply = () => {
     (state) => state.customization.customization
   );
 
-  const userFilledData=useSelector((state)=>state.user.userFilledData)
+  const userFilledData = useSelector((state) => state.user.userFilledData);
   const customizationPrice = useSelector(
     (state) => state.customization.customizationPrice
   );
@@ -58,10 +71,9 @@ const Apply = () => {
   const Plan = selectorLot.planData;
 
   useEffect(() => {
-    setDetails(userFilledData)
+    setDetails(userFilledData);
     if (typeof window !== "undefined") {
       const details = JSON.parse(window.localStorage.getItem("USER_DETAILS"));
-      console.log(details,'7777777777777');
       if (details) {
         setDetails(details);
       }
@@ -73,11 +85,9 @@ const Apply = () => {
     data[name] = value;
     setDetails(data);
   };
-console.log(userFilledData,'userFilledDatauserFilledData');
   useTimeout();
 
   async function sendEmail(e) {
-    const env = "Staging";
     let errors = formValidator(userDetails);
     if (Object.keys(errors).length) {
       setDetails({ ...userDetails, errors });
@@ -89,7 +99,6 @@ console.log(userFilledData,'userFilledDatauserFilledData');
       setIsLoading(true);
       let html = ``;
       let price = 0;
-      html += `<div>Enviroment: <h1>${env}</h1></div>`;
       html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`;
       сustomizations?.forEach((c) => {
         html += `<h3 style="text-align: center;">${c.name}</h3>`;
@@ -122,23 +131,25 @@ console.log(userFilledData,'userFilledDatauserFilledData');
             }
 
             const categoryName = cc.name.replace("(Optional)", "");
-
-            let shownFieldToUser = `<span>${option?.name} ($${formatPrice(
-              itemPrice
-            )}) ${numOfUnit} </span>`;
-            if (option?.type === "textarea")
-              shownFieldToUser = `<span>${
-                option.value ? option?.value : "not specified"
-              }</span>`;
+            let shownFieldToUser = getFieldToUser({
+              option,
+              itemPrice,
+              numOfUnit,
+              categoryName,
+            });
+            // if (option?.type === "textarea")
+            //   shownFieldToUser = `<span>${
+            //     option.value ? option?.value : "not specified"
+            //   }</span>`;
 
             html += '<li style="text-align: center; margin-left: 0;">';
             html += `<span>${categoryName}</span>: ${shownFieldToUser}`;
             html += "</li>";
-          if( cc.notes){
-            html += '<li style="text-align: center; margin-left: 0;">';
-            html += `<span>Addition Notes</span>: ${cc.notes}`;
-            html += "</li>";
-          }
+            if (cc.notes) {
+              html += '<li style="text-align: center; margin-left: 0;">';
+              html += `<span>Addition Notes</span>: ${cc.notes}`;
+              html += "</li>";
+            }
           });
         });
         html += "</ul>";
@@ -192,7 +203,6 @@ console.log(userFilledData,'userFilledDatauserFilledData');
       };
       const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan?.s);
 
-      // console.log(price,'yyyyyyyyyyy',Plan);
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "applicatoin",
@@ -222,7 +232,8 @@ console.log(userFilledData,'userFilledDatauserFilledData');
           floorplan_price: formatPrice(Plan.price),
           customizations_price: formatPrice(price),
           total_price: formatPrice(
-            ((Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER)+(customizationPrice || 0)
+            (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+              (customizationPrice || 0)
           ),
           customizatoins: html,
           financeBlock: financeBlock,

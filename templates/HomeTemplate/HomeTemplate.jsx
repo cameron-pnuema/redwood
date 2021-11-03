@@ -76,7 +76,6 @@ const HomeTemplate = (categoryType) => {
       const realRes = await res.json()
 
       totalRecords.current = [...totalRecords.current, ...realRes.records]
-console.log(totalRecords,'7777777777');
       if(realRes.offset){
         handleFetch(realRes.offset)
       }else{
@@ -133,7 +132,7 @@ console.log(totalRecords,'7777777777');
                                 type: 'textarea',
                                 active: 1,
                                 price: 0,
-                                value: " ",
+                                value: "",
                               }
                            }else{
                             itemObject =  {
@@ -163,7 +162,6 @@ console.log(totalRecords,'7777777777');
                             }
 
                            item.options.push(itemObject)
-
                         })
 
                         mainOptionIndex =+ mainOptionIndex + 1

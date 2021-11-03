@@ -37,8 +37,6 @@ const ApplyForm = (props) => {
     data[name] = value
     setState(data)
     dispatch(setUserData(data));
-
-    console.log('55555555');
   }
 
   const handleSubmit = async () => {
@@ -96,7 +94,7 @@ const ApplyForm = (props) => {
   return (
     <div>
       <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
-      <Modal isOpen={isUserInfoModal} className={className}>
+      <Modal isOpen={isUserInfoModal && false} className={className}>
         <ModalBody className={styles.modalBody}>
             <Form
               formValues={state}

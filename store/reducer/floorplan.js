@@ -10,7 +10,6 @@ const reducer = (state = initialState, action) => {
         
         const newState = { ...state };
         newState.floorplan = action.payload;
-        console.log(newState);
         return newState;
     }
     return state;

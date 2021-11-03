@@ -391,7 +391,7 @@ const customizationGroup = [
             type: 'textarea',
             active: 1,
             price: 0,
-            value: " ",
+            value: "",
           },
         ],
       },

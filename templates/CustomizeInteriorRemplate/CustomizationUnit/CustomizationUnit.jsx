@@ -8,7 +8,7 @@ import Router from "next/router";
 import OptionGroup from "./OptionsGroup/OptionsGroup";
 import { getBaseContructionCostsPerSqureFit } from "../../../db/baseConstructionCosts";
 import { MARK_UP_MULTIPLIER } from "../../../db/collectiionCustomize";
-
+import FloringUpgrade from "./FloringUpgrade";
 const formatPrice = (price) => {
   return format(price, {
     showDecimals: "NEVER",
@@ -44,7 +44,6 @@ const CustomizationUnit = ({
   if (isAllStepsCompleted) totalCompleted = currentCategory;
 
   let body = null;
-
   if (!isAllStepsCompleted)
     body = (
       <>
@@ -74,44 +73,8 @@ const CustomizationUnit = ({
                     <p className={styles.body__card_text}>
                       Vinyl Flooring Upgrades(Optional)
                     </p>
-                    {/* <textarea
-                      className={styles.body__card_textArea}
-                      name="flooring"
-                      onChange={(event) =>
-                        onChange({
-                          inputAnswer: event.target.value,
-                          groupId: og.id,
-                        })
-                      }
-                      value={og.options.find((o) => o.id === og.active)?.value}
-                    /> */}
-                    <div className={styles.body__upgrades}>
-                    <div >
-                    <label for="room">Room Name</label><br/>
-                    <input
-                      type="text"
-                      id="room"
-                      placeholder="Enter Room Name"
-                      value={og.options.find((o) => o.id === og.active)?.value}
-                      onChange={(event) =>
-                        onChange({
-                          inputAnswer: event.target.value,
-                          groupId: og.id,
-                        })
-                      }
-                    />
-                    </div>
-                    <div className={styles.body__currencyInput}>
-                    <span class={styles.body__currency}>$</span>
 
-                        <input type="number" />
-                        </div>
-                        </div>
-                    {/* <p className={styles.body__card__disclaimer}>
-                      *Flooring customization will be coming soon. A
-                      representative will reach out to you to discuss flooring
-                      options.
-                    </p> */}
+                    <FloringUpgrade og={og} onChange={onChange} />
                   </div>
                 );
               } else {
@@ -142,6 +105,7 @@ const CustomizationUnit = ({
                     }}
                     handleIconClick={() => handleIconClick(og)}
                     notesState={notesState}
+                    notes={og.notes}
                   />
                 );
               }
@@ -175,6 +139,7 @@ const CustomizationUnit = ({
                   }}
                   handleIconClick={() => handleIconClick(og)}
                   notesState={notesState}
+                  notes={og.notes}
                 />
               );
 

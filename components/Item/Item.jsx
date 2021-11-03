@@ -40,7 +40,6 @@ const Item = ({ noButton, data }) => {
 
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data?.s)
 
-console.log(data,'ttttttttttt');
     return (
 
         <div className={styles.Item}>
