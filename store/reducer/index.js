@@ -6,7 +6,7 @@ import lot from './lot';
 import popup from './popup';
 import customization from './customization';
 import floorplan from './floorplan';
-
+import priceFactor from "./priceFactor"
 const rootReducer = combineReducers({
     counter: counterReducer,
     user: userReducer,
@@ -14,7 +14,8 @@ const rootReducer = combineReducers({
     lot,
     popup,
     customization,
-    floorplan
+    floorplan,
+    priceFactor
 });
 
 export default rootReducer;

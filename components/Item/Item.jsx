@@ -14,7 +14,6 @@ import { customizationAction } from '../../store/actions/customization';
 import customizationGroupFairmont from '../../db/custumizationGroupsFairmont';
 import customizationGroupMHE from '../../db/custumizationGroupsMHE';
 import { useSelector } from 'react-redux';
-import { MARK_UP_MULTIPLIER } from '../../db/collectiionCustomize';
 import { getBaseContructionCostsPerSqureFit } from '../../db/baseConstructionCosts';
 
 
@@ -22,6 +21,11 @@ const Item = ({ noButton, data }) => {
 
     const dispatch = useDispatch();
     const floorplan = useSelector(state => state.floorplan.floorplan);
+
+    const markupValue = useSelector(state => state.priceFactor.markup.data);
+    const MARK_UP_MULTIPLIER=markupValue.Notes
+    useSelector(state => state.floorplan.floorplan);
+
     const airtableCustomization = useSelector(state => state.customization.airtableCustomization);
     
     const selectPlan = () => {

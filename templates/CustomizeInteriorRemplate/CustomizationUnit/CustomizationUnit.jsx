@@ -7,8 +7,9 @@ import Router from "next/router";
 
 import OptionGroup from "./OptionsGroup/OptionsGroup";
 import { getBaseContructionCostsPerSqureFit } from "../../../db/baseConstructionCosts";
-import { MARK_UP_MULTIPLIER } from "../../../db/collectiionCustomize";
 import FloringUpgrade from "./FloringUpgrade";
+
+
 const formatPrice = (price) => {
   return format(price, {
     showDecimals: "NEVER",
@@ -34,7 +35,8 @@ const CustomizationUnit = ({
   const customizations = useSelector(
     (state) => state.customization.customization
   );
-
+  const markupValue = useSelector(state => state.priceFactor.markup.data);
+  const MARK_UP_MULTIPLIER=markupValue.Notes
   // const topRef = useRef(null)
 
   let progressWidth = `${(100 * (currentCategory - 1)) / totalCategories}%`;

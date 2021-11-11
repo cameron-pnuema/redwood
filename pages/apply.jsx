@@ -12,7 +12,6 @@ import { getLetter } from "../assets/letter";
 import imgToBase64 from "../UTILS/imgToBase64";
 import { formValidator } from "../UTILS/validator";
 import { setUserInforModal } from "../store/actions/popup";
-import { MARK_UP_MULTIPLIER } from "../db/collectiionCustomize";
 import { getBaseContructionCostsPerSqureFit } from "../db/baseConstructionCosts";
 
 const emailJsConfigs = {
@@ -60,6 +59,9 @@ const Apply = () => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
+
+  const markupValue = useSelector(state => state.priceFactor.markup.data);
+  const MARK_UP_MULTIPLIER=markupValue.Notes
 
   const userFilledData = useSelector((state) => state.user.userFilledData);
   const customizationPrice = useSelector(

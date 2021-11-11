@@ -6,20 +6,25 @@ import plans from '../db/plans';
 import useTimeout from '../UTILS/useTimeout';
 import ApplyForm from '../components/applyForm/ApplyForm';
 import { setUserInforModal } from '../store/actions/popup';
-
+import {getMarkup,getFloorPlan,getConstructionCost} from "../store/actions/priceFactor"
 
 const SelectFloorPlan = () => {
 
     useTimeout();
 
     const selectorLot = useSelector(state => state.lot.lotData);
+    const priceFactor = useSelector(state => state.priceFactor);
+
     const plansSlot = plans.filter(e => e.type === selectorLot?.type)
     const dispatch = useDispatch()
-
+console.log(priceFactor,'priceFactorpriceFactor');
     useEffect(() => {
         if(typeof window !== "undefined" && !window.sessionStorage.getItem('USER_DETAILS')){
             dispatch(setUserInforModal(true))
         }
+        dispatch(getMarkup())
+        dispatch(getFloorPlan())
+        dispatch(getConstructionCost())
     }, [])
 
     return (

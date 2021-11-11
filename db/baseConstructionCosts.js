@@ -85,6 +85,10 @@ export const baseContructionTotalCosts = {
     '2000ft': 32.95
 }
 
+const getData=async ()=>{
+  
+}
+
 export const getBaseContructionCostsPerSqureFit = (squreFit) =>  {
     if(!squreFit) return null
     return baseContructionTotalCosts[squreFit + 'ft'] * squreFit
