@@ -1,11 +1,11 @@
 import { staticImagesPlans } from "../UTILS/static-images";
+import store from "../store";
 
-
-//27066 
+//27066
 const plans = [
   {
     id: 1,
-    img: '/plans/edison-fairmont/img3.webp',
+    img: "/plans/edison-fairmont/img3.webp",
     rums: 6,
     toilet: 3,
     kitchenSize: 12,
@@ -14,14 +14,14 @@ const plans = [
     ceil: 4,
     s: 1200,
     images: Object.values(staticImagesPlans.BARTON_II_MHE),
-    price: 73252.00,
+    price: 73252.0,
     title: "Barton II - MHE",
     manufacturer: "MHE",
     type: "typeA",
   },
   {
     id: 2,
-    img: '/plans/davinci-fairmont/img1.webp',
+    img: "/plans/davinci-fairmont/img1.webp",
     rums: 9,
     toilet: 5,
     kitchenSize: 5,
@@ -30,7 +30,7 @@ const plans = [
     ceil: 4,
     s: 1500,
     images: Object.values(staticImagesPlans.NEWPORT_FAIRMONT),
-    price: 91656.00,
+    price: 91656.0,
     title: "Newport - Fairmont",
     manufacturer: "Fairmont",
     type: "typeA",
@@ -38,7 +38,7 @@ const plans = [
 
   {
     id: 3,
-    img: '/plans/franklin-fairmont/img1.webp',
+    img: "/plans/franklin-fairmont/img1.webp",
     rums: 7,
     toilet: 2,
     kitchenSize: 5,
@@ -47,7 +47,7 @@ const plans = [
     ceil: 2.6,
     s: 1500,
     images: Object.values(staticImagesPlans.GLENN_FOREST_MHE),
-    price: 84243.00,
+    price: 84243.0,
     title: "Glenn Forest - MHE",
     manufacturer: "MHE",
     type: "typeA",
@@ -55,7 +55,7 @@ const plans = [
 
   {
     id: 4,
-    img: '/plans/glenn-creek-mhe/img1.webp',
+    img: "/plans/glenn-creek-mhe/img1.webp",
     rums: 2,
     toilet: 2,
     kitchenSize: 8,
@@ -64,14 +64,14 @@ const plans = [
     ceil: 2.8,
     s: 1200,
     images: Object.values(staticImagesPlans.WOODLAND_NAY_FAIRMONT),
-    price: 72887.00,
+    price: 72887.0,
     title: "Woodland Bay - Fairmont",
     manufacturer: "Fairmont",
     type: "typeA",
   },
   {
     id: 5,
-    img: '/plans/dyson-fairmont/img3.webp',
+    img: "/plans/dyson-fairmont/img3.webp",
     rums: 5,
     toilet: 5,
     kitchenSize: 7,
@@ -80,14 +80,14 @@ const plans = [
     ceil: 3,
     s: 1200,
     images: Object.values(staticImagesPlans.BARTON_I_MHE),
-    price: 73252.00,
+    price: 73252.0,
     title: "Barton - MHE",
     manufacturer: "MHE",
     type: "typeA",
   },
   {
     id: 6,
-    img: '/plans/barton-mhe/img1.webp',
+    img: "/plans/barton-mhe/img1.webp",
     rums: 4,
     toilet: 1,
     kitchenSize: 9,
@@ -96,14 +96,14 @@ const plans = [
     ceil: 2.4,
     s: 2000,
     images: Object.values(staticImagesPlans.REBUD_MHE),
-    price: 105897.00,
+    price: 105897.0,
     title: "Redbud - MHE",
     manufacturer: "MHE",
     type: "typeA",
   },
   {
     id: 7,
-    img: '/plans/barton2-mhe/img1.webp',
+    img: "/plans/barton2-mhe/img1.webp",
     rums: 5,
     toilet: 1,
     kitchenSize: 9,
@@ -112,7 +112,7 @@ const plans = [
     ceil: 2.4,
     s: 2000,
     images: Object.values(staticImagesPlans.GOLDBERG_FAIRMONT),
-    price: 131443.00,
+    price: 131443.0,
     title: "Goldberg - Fairmont",
     manufacturer: "Fairmont",
     type: "typeA",
@@ -151,4 +151,16 @@ const plans = [
   // },
 ];
 
-export default plans;
+const setPlans = () => {
+  const data = store().getState().priceFactor.floorPlan.data;
+  plans.forEach((plan) => {
+    data.forEach((floor) => {
+      const { Floorplan, Manufacturer, Price } = floor.fields;
+      if (plan.title === Floorplan + " - " + Manufacturer) {
+        plan.price = Price;
+      }
+    });
+  });
+  return plans
+};
+export default setPlans;

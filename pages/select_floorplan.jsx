@@ -14,8 +14,8 @@ const SelectFloorPlan = () => {
 
     const selectorLot = useSelector(state => state.lot.lotData);
     const priceFactor = useSelector(state => state.priceFactor);
-
-    const plansSlot = plans.filter(e => e.type === selectorLot?.type)
+console.log(plans(),'qqqqqqqqqqqqqqqqq');
+    const plansSlot = plans().filter(e => e.type === selectorLot?.type)
     const dispatch = useDispatch()
 console.log(priceFactor,'priceFactorpriceFactor');
     useEffect(() => {
