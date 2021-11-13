@@ -14,10 +14,8 @@ const SelectFloorPlan = () => {
 
     const selectorLot = useSelector(state => state.lot.lotData);
     const priceFactor = useSelector(state => state.priceFactor);
-console.log(plans(),'qqqqqqqqqqqqqqqqq');
     const plansSlot = plans().filter(e => e.type === selectorLot?.type)
     const dispatch = useDispatch()
-console.log(priceFactor,'priceFactorpriceFactor');
     useEffect(() => {
         if(typeof window !== "undefined" && !window.sessionStorage.getItem('USER_DETAILS')){
             dispatch(setUserInforModal(true))

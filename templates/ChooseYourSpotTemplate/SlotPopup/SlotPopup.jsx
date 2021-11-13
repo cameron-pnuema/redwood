@@ -16,9 +16,6 @@ const SlotPopup = ({ id, setSlotId }) => {
 
     const dispatch = useDispatch();
     const slotData = slots.find(e => e.id === id);
-
-    console.log(plans(),'xxxxxxxxxxxx');
-
     const prev = plans().filter(e => e.type === slotData.type);
     const price = prev.map(data => data.price);
 
