@@ -28,7 +28,7 @@ const formatPrice = (price) => {
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
   let htmlElement;
   if (categoryName === "Flooring") {
-    htmlElement = option.value.map((item) => {
+    htmlElement = (option.value || []).map((item) => {
       return `<span>${item?.value} ($${formatPrice(item?.price)})  </span>`;
     });
   } else {
