@@ -80,14 +80,12 @@ const HomeTemplate = (categoryType) => {
         handleFetch(realRes.offset)
       }else{
         let mainOptionIndex = 0
-        let mainCategoryIndex = 0
 
         var result = _(totalRecords.current)
             .groupBy(x => x.fields.manufacturer)
             .map((group, groupIndex) => {
                 
                 const buildingManufacturerName = group[0]?.fields.manufacturer
-                mainCategoryIndex = 0
                 let a = []
                 
                 
@@ -101,8 +99,10 @@ const HomeTemplate = (categoryType) => {
                         manufacturerName: ''
                     }
 
-                    mainOption.category = mainCategoryIndex + 1
-                    mainOption.active = mainCategoryIndex  === 0 ? true : false
+                    const pageNumber = pageGroup[0]?.fields?.['Page Number'];
+
+                    mainOption.category = pageNumber;
+                    mainOption.active = pageNumber === 1 ? true : false
                     mainOption.name = pageNameIndex
                     mainOption.manufacturerName = buildingManufacturerName
 
@@ -172,11 +172,10 @@ const HomeTemplate = (categoryType) => {
                     }).value()
 
                     a.push(mainOption)
-                    
-                    mainCategoryIndex =+ mainCategoryIndex + 1
+
                 }).value()
 
-                manufacturerData.current[buildingManufacturerName] = a
+                manufacturerData.current[buildingManufacturerName] = a.sort((a,b) => a.category - b.category);
 
                 return group
             })
