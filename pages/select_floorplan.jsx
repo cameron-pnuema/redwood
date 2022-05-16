@@ -15,6 +15,7 @@ const SelectFloorPlan = () => {
     const selectorLot = useSelector(state => state.lot.lotData);
     const priceFactor = useSelector(state => state.priceFactor);
     const plansSlot = plans().filter(e => e.type === selectorLot?.type)
+
     const dispatch = useDispatch()
     useEffect(() => {
         if(typeof window !== "undefined" && !window.sessionStorage.getItem('USER_DETAILS')){
@@ -27,7 +28,7 @@ const SelectFloorPlan = () => {
 
     return (
         <Layout showDisclaimer>
-            <ApplyForm/>
+            <ApplyForm className="form-modal"/>
             <SelectFloorPlanTemplate
                 plansSlot={plansSlot}
             />

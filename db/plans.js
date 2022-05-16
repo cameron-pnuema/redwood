@@ -5,7 +5,7 @@ import store from "../store";
 const plans = [
   {
     id: 1,
-    img: "/plans/edison-fairmont/img3.webp",
+    img: "/plans/barton-II-mhe/1_Barton_II_Front_of_House.jpg",
     rums: 6,
     toilet: 3,
     kitchenSize: 12,
@@ -21,7 +21,7 @@ const plans = [
   },
   {
     id: 2,
-    img: "/plans/davinci-fairmont/img1.webp",
+    img: "/plans/davinci-fairmont/newport_front_house.jpg",
     rums: 9,
     toilet: 5,
     kitchenSize: 5,
@@ -55,7 +55,7 @@ const plans = [
 
   {
     id: 4,
-    img: "/plans/glenn-creek-mhe/img1.webp",
+    img: "/plans/glenn-creek-mhe/woodland_bay_front_of_home.jpg",
     rums: 2,
     toilet: 2,
     kitchenSize: 8,
@@ -71,7 +71,7 @@ const plans = [
   },
   {
     id: 5,
-    img: "/plans/dyson-fairmont/img3.webp",
+    img: "/plans/barton-mhe/1_Barton_Front_of_House.jpg",
     rums: 5,
     toilet: 5,
     kitchenSize: 7,
@@ -87,7 +87,7 @@ const plans = [
   },
   {
     id: 6,
-    img: "/plans/barton-mhe/img1.webp",
+    img: "/plans/rebud-mhe/1_Redbud_Front_of_House.jpg",
     rums: 4,
     toilet: 1,
     kitchenSize: 9,

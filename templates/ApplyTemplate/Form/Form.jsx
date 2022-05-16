@@ -42,6 +42,8 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         <span className={styles.errors}>{errors?.lastName}</span>
                     </div>
                 </div>
+                <div className={styles.row}>
+
                 <div className={styles.wrap}>
                     <span className={styles.label}>Phone Number<span className={styles.asterisk}>*</span></span>
                     <input
@@ -66,6 +68,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                     />
                     <span className={styles.errors}>{errors?.email}</span>
                 </div>
+                </div>
                 <div className={styles.wrap}>
                     <span className={styles.label}>Build Site Street Address (Optional)</span>
                     <textarea
@@ -77,6 +80,8 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         onChange={(e) => handleChange(e.target.value, 'description')}
                     ></textarea>
                 </div>
+                <div className={styles.row}>
+
                 <div className={styles.wrap}>
                     <span className={styles.label}>City (Optional)</span>
                     <input
@@ -95,6 +100,9 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         onChange={(e) => handleChange(e.target.value, 'state')}
                     ></input>
                 </div>
+                </div>
+                <div className={styles.row}>
+
                 <div className={styles.wrap}>
                     <span className={styles.label}>Zip Code (Optional)</span>
                     <input
@@ -112,6 +120,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         value={country}
                         onChange={(e) => handleChange(e.target.value, 'country')}
                     ></input>
+                </div>
                 </div>
                {isApplyRoute && 
                 <> 
