@@ -91,10 +91,16 @@ const ApplyForm = (props) => {
     }
   }
   console.log(state.firstName,'cccccccccccccc');
+  const isModalOpen=()=>{
+    if(state.firstName=='admin'){
+      return false
+    } 
+    return isUserInfoModal
+  }
   return (
     <div>
       <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
-      <Modal isOpen={isUserInfoModal  && !(state.firstName=='admin') } className={className}>
+      <Modal isOpen={isModalOpen()} className={className}>
         <ModalBody className={styles.modalBody}>
             <Form
               formValues={state}
