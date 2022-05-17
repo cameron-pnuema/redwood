@@ -26,7 +26,6 @@
     "react-dom": "^16.13.1",
     "react-ga": "^3.3.0",
     "react-gtm-module": "^2.0.11",
-    "react-hook-form": "^6.15.1",
     "react-input-checkbox": "^0.1.6",
     "react-multi-carousel": "^2.5.5",
     "react-phone-input-2": "^2.13.9",
