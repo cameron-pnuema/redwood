@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ApplyTemplate from "../templates/ApplyTemplate/ApplyTemplate";
 import useTimeout from "../UTILS/useTimeout";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import ReactGA from "react-ga";
 import emailjs from "emailjs-com";
 import { useSelector, useDispatch } from "react-redux";
