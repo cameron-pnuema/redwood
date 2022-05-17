@@ -90,13 +90,19 @@ const ApplyForm = (props) => {
         
     }
   }
-  console.log(state.firstName,'cccccccccccccc');
+  console.log(state.firstName,'cccccccccccccc',isUserInfoModal);
+
   const isModalOpen=()=>{
-    if(state.firstName=='admin'){
+    if(state.firstName==='admin'){
+      const data = { ...state }
+      delete data.errors
+      typeof window !== "undefined" && window.sessionStorage.setItem('USER_DETAILS', JSON.stringify(data))
+      dispatch(setUserInforModal(false))
       return false
     } 
     return isUserInfoModal
   }
+
   return (
     <div>
       <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
