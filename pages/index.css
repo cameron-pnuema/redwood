@@ -27,6 +27,7 @@ li {
 }
 .react-multi-carousel-track {
     /* height: 65vh; */
+    height: 400px;
 }
 .react-multi-carousel-item {
     border-radius: 5px;
@@ -47,4 +48,8 @@ li {
 .input-customize-option {
     margin-right: 10px;
     max-width: 40px;
+}
+
+.form-modal{
+    max-width: 800px;
 }

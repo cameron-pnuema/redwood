@@ -12,11 +12,11 @@
         font-size: 25px;
         line-height: 150%;
         color: $text;
-        margin-bottom: 44px;
+        margin-bottom: 30px;
     }
 
     &__wrapForm {
-        max-width: 370px;
+        max-width: 670px;
         margin: auto;
     }
 
@@ -34,7 +34,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
 
         .label {
             font-style: normal;
@@ -71,7 +71,7 @@
     }
 
     textarea {
-        height: 135px;
+        height: 50px;
         margin-bottom: 40px;
         border: none;
         outline: none !important;
@@ -80,7 +80,7 @@
         font-weight: 500;
         border-radius: 8px;
         border: 1px solid #c2c9d1;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
     }
 }
 
