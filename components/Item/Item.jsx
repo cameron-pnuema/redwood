@@ -57,7 +57,7 @@ const Item = ({ noButton, data }) => {
 
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data?.s);
   const finalPrice = format(
-    (data.price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
+    (data?.price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
     {
       spacing: true,
       showDecimals: "NEVER",
