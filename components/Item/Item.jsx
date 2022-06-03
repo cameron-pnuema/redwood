@@ -15,7 +15,7 @@ import customizationGroupFairmont from "../../db/custumizationGroupsFairmont";
 import customizationGroupMHE from "../../db/custumizationGroupsMHE";
 import { useSelector } from "react-redux";
 import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
-import {Spinner}  from "reactstrap"
+import { Spinner } from "reactstrap"
 
 const Item = ({ noButton, data }) => {
   const dispatch = useDispatch();
@@ -56,6 +56,16 @@ const Item = ({ noButton, data }) => {
   };
 
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data?.s);
+  const finalPrice = format(
+    (data.price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
+    {
+      spacing: true,
+      showDecimals: "NEVER",
+    }
+  )
+  const setFinalPriceData=(data,finalPrice)=>{
+    data.finalPrice=finalPrice
+  }
   return (
     <div className={styles.Item}>
       {data && (
@@ -63,19 +73,14 @@ const Item = ({ noButton, data }) => {
           {data.price ? (
             <span className={styles.Item__price}>
               $
-              {format(
-                (data.price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
-                {
-                  spacing: true,
-                  showDecimals: "NEVER",
-                }
-              )}
+              {finalPrice}
+              {setFinalPriceData(data,finalPrice)}
             </span>
           ) : (
             <span className={styles.Item__price}>
-                <Spinner animation="border" role="status" size="sm">
-  <span className="visually-hidden">Loading...</span>
-</Spinner>
+              <Spinner animation="border" role="status" size="sm">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
             </span>
           )}
 

@@ -90,7 +90,6 @@ const ApplyForm = (props) => {
         
     }
   }
-  console.log(state.firstName,'cccccccccccccc',isUserInfoModal);
 
   const isModalOpen=()=>{
     if(state.firstName==='admin'){
@@ -100,6 +99,7 @@ const ApplyForm = (props) => {
       dispatch(setUserInforModal(false))
       return false
     } 
+    if(isUserInfoModal && window?.location.hostname==="localhost")return false
     return isUserInfoModal
   }
 
