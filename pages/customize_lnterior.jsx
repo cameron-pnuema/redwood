@@ -39,15 +39,15 @@ export const getTotalCustomizationPrice = (customizations) => {
         if (Array.isArray(c.active) && c.active.includes(a.id)) {
           if (a.categoryType === selectionFieldTypes.QUANTITY) {
             if (a.noOfUnit && a.noOfUnit > 0)
-              customizationPrice += a.price * a.noOfUnit;
+              customizationPrice += a?.price * a.noOfUnit;
           } else {
-            customizationPrice += a.price;
+            customizationPrice += a?.price;
           }
         }
       });
     } else {
       if (!activeOption) return;
-      customizationPrice += activeOption.price;
+      customizationPrice += activeOption?.price;
     }
   });
   return customizationPrice;
