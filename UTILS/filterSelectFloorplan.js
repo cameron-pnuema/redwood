@@ -1,6 +1,6 @@
 export const filterSelectFloorplan = (floorPlanFilter, plansSlot) => {
     return plansSlot.filter((plan) => {
-        let data=true
+        let data = true
         floorPlanFilter.forEach((filterObj) => {
             const filterResult = filterByOperation(filterObj, plan)
             data = data && filterResult
@@ -21,12 +21,12 @@ const filterByOperation = (filterObj, plan) => {
     }
 
 }
-
+const getPrice = (price) => parseFloat(price.replace(/,/g, ''));
 const getDataBetweenRange = (filterObj, plan) => {
     if (filterObj.title === "Square Feet") {
         return ((plan.s >= filterObj.min) && (plan.s <= filterObj.max))
     } else if (filterObj.title === "Price") {
-        return ((plan.finalPrice >= filterObj.min) && (plan.finalPrice <= filterObj.max))
+        return ((getPrice(plan.finalPrice) >= filterObj.min) && (getPrice(plan.finalPrice) <= filterObj.max))
     }
 }
 
