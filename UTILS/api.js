@@ -119,8 +119,8 @@ const getTables = async() => {
             method: 'get',
             url: 'https://api.airtable.com/v0/meta/bases',
             headers: {
-                'Authorization': 'Bearer keyybLhK60Knqwrh2',
-                'X-Airtable-Client-Secret': 'keyybLhK60Knqwrh2'
+                'Authorization': 'Bearer key0AV84zSplHpV5B',
+                'X-Airtable-Client-Secret': 'key0AV84zSplHpV5B'
 
             },
         })

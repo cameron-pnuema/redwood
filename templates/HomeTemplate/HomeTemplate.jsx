@@ -68,7 +68,7 @@ const HomeTemplate = (categoryType) => {
     const res = await fetch(url, { 
         method: 'get', 
         headers: new Headers({
-          'Authorization': "Bearer keyybLhK60Knqwrh2", 
+          'Authorization': "Bearer key0AV84zSplHpV5B", 
           'Content-Type': 'application/x-www-form-urlencoded'
         })
       })
