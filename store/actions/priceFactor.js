@@ -21,7 +21,7 @@ export async function getAirtableData ({url,method}){
     const res = await fetch(url, { 
         method, 
         headers: new Headers({
-          'Authorization': "Bearer keyybLhK60Knqwrh2", 
+          'Authorization': "Bearer key0AV84zSplHpV5B", 
           'Content-Type': 'application/json'
         })
       })
