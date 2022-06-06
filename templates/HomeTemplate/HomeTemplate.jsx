@@ -58,7 +58,7 @@ const HomeTemplate = (categoryType) => {
 
     const handleFetch = async(offsetId) => {
     
-    let url = `https://api.airtable.com/v0/apprGy8I7xUg9pFUu/Selection%20Options`
+    let url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options`
 
     if(offsetId){
         url = url + `?offset=${offsetId}`
@@ -79,6 +79,7 @@ const HomeTemplate = (categoryType) => {
       if(realRes.offset){
         handleFetch(realRes.offset)
       }else{
+          console.log(totalRecords,'fffffffffffffff');
         let mainOptionIndex = 0
 
         var result = _(totalRecords.current)
