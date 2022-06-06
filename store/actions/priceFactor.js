@@ -31,7 +31,7 @@ export async function getAirtableData ({url,method}){
 
 
 export const getMarkup = (data) => {
-    let url="https://api.airtable.com/v0/apprGy8I7xUg9pFUu/Redwood%20-%20Markup/recnUbpz2HnSUBC6F"
+    let url="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Redwood%20-%20Markup/recdREnEIgpbbV70f"
     return async (dispatch) => {
         dispatch(getMarkupRequest());
         try {
@@ -50,7 +50,7 @@ export const getMarkup = (data) => {
 
 
 export const getFloorPlan = (data) => {
-    const url="https://api.airtable.com/v0/apprGy8I7xUg9pFUu/Floorplan%20Costs?maxRecords=100&view=Grid%20view" 
+    const url="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Floorplan%20Costs?maxRecords=100&view=Grid%20view" 
     return async (dispatch) => {
         dispatch(getFloorPlanRequest());
         try {
@@ -68,7 +68,7 @@ export const getFloorPlan = (data) => {
 
 
 export const getConstructionCost = (data) => {
-    const url="https://api.airtable.com/v0/apprGy8I7xUg9pFUu/Construction%20Costs?maxRecords=100&view=Grid%20view"
+    const url="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Construction%20Costs?maxRecords=100&view=Master%20View"
     return async (dispatch) => {
         dispatch(getConstructionCostRequest());
         try {
