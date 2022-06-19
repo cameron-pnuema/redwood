@@ -53,7 +53,8 @@ const SelectFloorPlan = () => {
         const data = filterSelectFloorplan(floorPlanFilter, plansSlot)
         setFilterFloorPlan(data)
     }, [floorPlanFilter])
-    console.log(floorPlanFilter, 'floorPlanFilterfloorPlanFilter');
+
+    console.log(filterFloorPlan, 'floorPlanFilterfloorPlanFilter');
     return (
         <Layout showDisclaimer>
             <Container>

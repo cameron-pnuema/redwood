@@ -15,8 +15,8 @@ const plans = [
     s: 1200,
     images: Object.values(staticImagesPlans.BARTON_II_MHE),
     price: null,
-    title: "Barton II - MHE",
-    manufacturer: "MHE",
+    title: "Barton II",
+    // manufacturer: "MHE",
     type: "typeA",
   },
   {
@@ -31,8 +31,8 @@ const plans = [
     s: 1500,
     images: Object.values(staticImagesPlans.NEWPORT_FAIRMONT),
     price: null,
-    title: "Newport - Fairmont",
-    manufacturer: "Fairmont",
+    title: "Newport",
+    // manufacturer: "Fairmont",
     type: "typeA",
   },
 
@@ -48,8 +48,8 @@ const plans = [
     s: 1500,
     images: Object.values(staticImagesPlans.GLENN_FOREST_MHE),
     price: null,
-    title: "Glenn Forest - MHE",
-    manufacturer: "MHE",
+    title: "Glenn Forest",
+    // manufacturer: "MHE",
     type: "typeA",
   },
 
@@ -65,8 +65,8 @@ const plans = [
     s: 1200,
     images: Object.values(staticImagesPlans.WOODLAND_NAY_FAIRMONT),
     price: null,
-    title: "Woodland Bay - Fairmont",
-    manufacturer: "Fairmont",
+    title: "Woodland Bay",
+    // manufacturer: "Fairmont",
     type: "typeA",
   },
   {
@@ -81,8 +81,8 @@ const plans = [
     s: 1200,
     images: Object.values(staticImagesPlans.BARTON_I_MHE),
     price: null,
-    title: "Barton - MHE",
-    manufacturer: "MHE",
+    title: "Barton",
+    // manufacturer: "MHE",
     type: "typeA",
   },
   {
@@ -97,8 +97,8 @@ const plans = [
     s: 2000,
     images: Object.values(staticImagesPlans.REBUD_MHE),
     price: null,
-    title: "Redbud - MHE",
-    manufacturer: "MHE",
+    title: "Redbud",
+    // manufacturer: "MHE",
     type: "typeA",
   },
   {
@@ -113,51 +113,93 @@ const plans = [
     s: 2000,
     images: Object.values(staticImagesPlans.GOLDBERG_FAIRMONT),
     price: null,
-    title: "Goldberg - Fairmont",
-    manufacturer: "Fairmont",
+    title: "Goldberg",
+    // manufacturer: "Fairmont",
     type: "typeA",
   },
-  // {
-  //   id: 9,
-  //   img: '/plans/leonardo-fairmont/img3.webp',
-  //   rums: 7,
-  //   toilet: 1,
-  //   kitchenSize: 4,
-  //   bedrooms: 4,
-  //   bathrooms: 2,
-  //   ceil: 3,
-  //   s: 1500,
-  //   images: ['/plans/leonardo-fairmont/img2.webp', '/plans/leonardo-fairmont/img3.webp'],
-  //   price: 105946.1,
-  //   title: "Leonardo - Fairmont",
-  //   manufacturer: "Fairmont",
-  //   type: "typeA",
-  // },
-  // {
-  //   id: 4,
-  //   img: '/plans/hazlenut-mhe/img2.webp',
-  //   rums: 8,
-  //   toilet: 4,
-  //   kitchenSize: 3,
-  //   bedrooms: 4,
-  //   bathrooms: 2,
-  //   ceil: 2.6,
-  //   s: 1600,
-  //   images: ['/plans/hazlenut-mhe/img2.webp'],
-  //   price: 104802.1,
-  //   title: "Hazlenut -  MHE",
-  //   manufacturer: "MHE",
-  //   type: "typeA",
-  // },
+
+
+  {
+    id: 8,
+    img: "/plans/barton-II-mhe/1_Barton_II_Front_of_House.jpg",
+    rums: 6,
+    toilet: 3,
+    kitchenSize: 12,
+    bedrooms: 3,
+    bathrooms: 2,
+    ceil: 4,
+    s: 1200,
+    images: Object.values(staticImagesPlans.BARTON_II_MHE),
+    price: null,
+    title: "Barton Creek II",
+    // manufacturer: "MHE",
+    type: "typeA",
+  },
+
+
+  {
+    id: 9,
+    img: "/plans/franklin-fairmont/img1.webp",
+    rums: 7,
+    toilet: 2,
+    kitchenSize: 5,
+    bedrooms: 3,
+    bathrooms: 2,
+    ceil: 2.6,
+    s: 1500,
+    images: Object.values(staticImagesPlans.GLENN_FOREST_MHE),
+    price: null,
+    title: "Glenn Creek",
+    // manufacturer: "MHE",
+    type: "typeA",
+  },
+
+
+  {
+    id: 10,
+    img: "/plans/barton-mhe/1_Barton_Front_of_House.jpg",
+    rums: 5,
+    toilet: 5,
+    kitchenSize: 7,
+    bedrooms: 3,
+    bathrooms: 2,
+    ceil: 3,
+    s: 1200,
+    images: Object.values(staticImagesPlans.BARTON_I_MHE),
+    price: null,
+    title: "Barton Creek",
+    // manufacturer: "MHE",
+    type: "typeA",
+  },
+  {
+    id: 11,
+    img: "/plans/rebud-mhe/1_Redbud_Front_of_House.jpg",
+    rums: 4,
+    toilet: 1,
+    kitchenSize: 9,
+    bedrooms: 3,
+    bathrooms: 2,
+    ceil: 2.4,
+    s: 2000,
+    images: Object.values(staticImagesPlans.REBUD_MHE),
+    price: null,
+    title: "Redbud",
+    // manufacturer: "MHE",
+    type: "typeA",
+  },
+
 ];
 
 const setPlans = () => {
   const data = store().getState().priceFactor.floorPlan.data;
+  console.log(data,'xxxxxxxxxxxxx');
   plans.forEach((plan) => {
     data.forEach((floor) => {
-      const { Floorplan, Manufacturer, Price } = floor.fields;
-      if (plan.title === Floorplan + " - " + Manufacturer) {
+      const { Floorplan, Manufacturer, Price,HomeType } = floor.fields;
+      if (plan.title === Floorplan) {
         plan.price = Price;
+        plan.homeType=HomeType
+        plan.manufacturer=Manufacturer
       }
     });
   });

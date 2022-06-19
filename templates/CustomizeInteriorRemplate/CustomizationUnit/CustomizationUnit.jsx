@@ -155,7 +155,7 @@ const CustomizationUnit = ({
   const getTotalPrice = () => {
     const basePrice = selectedPlan?.price;
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(
-      selectedPlan?.s
+      selectedPlan
     );
     return (
       (basePrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
