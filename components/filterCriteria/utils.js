@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export const filterData =[
-    // {
-    //     id: uuidv4(),
-    //     title: "Home Type",
-    //     options: [{ id: uuidv4(), label: "Manufactured", value: "Manufactured" }, { id: uuidv4(), label: "Modular", value: "Modular" }]
-    // },
+    {
+        id: uuidv4(),
+        title: "Home Type",
+        options: [{ id: uuidv4(), label: "HUD", value: "HUD" }, { id: uuidv4(), label: "Modular", value: "Modular" }]
+    },
     {
         id: uuidv4(),
         title: "Bedrooms",

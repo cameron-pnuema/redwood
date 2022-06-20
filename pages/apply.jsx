@@ -200,7 +200,7 @@ const Apply = () => {
         customization: html,
         financeBlock: financeBlock,
       };
-      const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan?.s);
+      const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
 
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,

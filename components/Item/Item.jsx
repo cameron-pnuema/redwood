@@ -55,7 +55,7 @@ const Item = ({ noButton, data }) => {
     Router.replace("/detailed_floorplan");
   };
 
-  const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data?.s);
+  const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data);
   const finalPrice = format(
     (data?.price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
     {
@@ -66,6 +66,7 @@ const Item = ({ noButton, data }) => {
   const setFinalPriceData=(data,finalPrice)=>{
     data.finalPrice=finalPrice
   }
+  console.log(data,'ddddddddddddd');
   return (
     <div className={styles.Item}>
       {data && (
@@ -83,13 +84,14 @@ const Item = ({ noButton, data }) => {
               </Spinner>
             </span>
           )}
+          <span className={styles.Item__type}>{data.homeType}</span>
 
           <div className={styles.Item__wrapImg}>
             <img src={data.img} alt="img" />
           </div>
 
           <div className={styles.Item__wrapData}>
-            <p className={styles.Item__title}>{data.title}</p>
+            <p className={styles.Item__title}>{data.title} - {data.manufacturer}</p>
 
             <div
               className={cx(styles.Item__params, {

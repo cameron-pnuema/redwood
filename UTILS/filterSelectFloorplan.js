@@ -1,4 +1,5 @@
 export const filterSelectFloorplan = (floorPlanFilter, plansSlot) => {
+    console.log(plansSlot,'plansSlot',floorPlanFilter);
     return plansSlot.filter((plan) => {
         let data = true
         floorPlanFilter.forEach((filterObj) => {
@@ -43,7 +44,7 @@ const getEqualData = (filterObj, plan) => {
     }
     else if (filterObj.title === "Home Type") {
         // currently we dont have home type
-        return plan.bathrooms === filterObj.value || true
+        return plan.homeType === filterObj.value
     }
 }
 
