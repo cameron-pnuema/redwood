@@ -4,9 +4,9 @@ import Item from '../../components/Item/Item';
 import Slider from '../../components/Slider/Slider';
 import Button from '../../components/UI/Button/Button';
 import Router from 'next/router';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col ,Spinner} from 'reactstrap';
 
-const DetailedFloorPlanTemplate = ({ selectorPlan }) => {
+const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
 
 
     return (
@@ -39,10 +39,12 @@ const DetailedFloorPlanTemplate = ({ selectorPlan }) => {
                             </div>
 
                             <Button
-                                text='Choose this floorplan!'
-                                style={{ height: '50px' }}
+                                text={isLoading?"... Loading":'Choose this floorplan!'}
+                                style={{ height: '50px' ,cursor:isLoading?"not-allowed":"pointer"}}
                                 onclick={() => Router.replace('/customize_lnterior')}
+                                disabled={isLoading}
                             />
+
                         </div>
                     </Col>
                 </Row>

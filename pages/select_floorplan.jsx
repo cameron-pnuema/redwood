@@ -54,7 +54,6 @@ const SelectFloorPlan = () => {
         setFilterFloorPlan(data)
     }, [floorPlanFilter])
 
-    console.log(filterFloorPlan, 'floorPlanFilterfloorPlanFilter');
     return (
         <Layout showDisclaimer>
             <Container>

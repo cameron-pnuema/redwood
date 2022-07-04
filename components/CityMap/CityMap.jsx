@@ -97,55 +97,6 @@ const CityMap = ({slotState, setIsPopup }) => {
         historicalOverlay.setOpacity(1)
         historicalOverlay.setMap(map);
 
-        // const drawingManager = new maps.drawing.DrawingManager({
-        //     drawingMode: google.maps.drawing.OverlayType.MARKER,
-        //     drawingControl: true,
-        //     drawingControlOptions: {
-        //         position: google.maps.ControlPosition.TOP_CENTER,
-        //         drawingModes: [
-
-        //             google.maps.drawing.OverlayType.POLYGON,
-
-        //         ],
-        //     },
-        //     markerOptions: {
-        //         icon:
-        //             "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-        //     },
-        //     polygonOptions: {
-        //         fillColor: "#ffff00",
-        //         fillOpacity: 1,
-        //         strokeWeight: 5,
-        //         clickable: false,
-        //         editable: true,
-        //         // zIndex: 1,
-        //     },
-        // });
-        // drawingManager.setMap(map);
-
-        // maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
-        //     // var radius = circle.getRadius();
-        //     const cords = polygon.getPath().getArray();
-        //     const formatedCords = cords.map(c => {
-        //         return {
-        //             lng: c.lng(),
-        //             lat: c.lat(),
-        //         }
-        //     });
-
-        //     // console.log(formatedCords);
-        //     let stringCords = '';
-        //     formatedCords.forEach(c => {
-        //         stringCords += `{lng: ${c.lng}, lat: ${c.lat}},\n`;
-        //     });
-
-        //     console.log(stringCords);
-
-
-        // });
-
-        // map.setMapTypeId('terrain');
-    };
 
 
 

@@ -83,5 +83,11 @@ export const staticImagesPlans = {
         WOODLAND_NAY_FAIRMONT_INTERIOR_6: '/plans/woodland-bay-fairmont/8_Woodland_Bay_Bathroom_2.jpg',
         WOODLAND_NAY_FAIRMONT_INTERIOR_7: '/plans/woodland-bay-fairmont/9_Woodland_Bay_Utility_Room.jpg',
 
+    },
+
+    DAVINCI_FAIRMOUNT: {
+        DAVINCI_FAIRMOUNT_FLOORPLAN: '/plans/davinci-fairmont/newport_front_house.jpg',
+        DAVINCI_FAIRMOUNT_INTERIOR_1: '/plans/davinci-fairmont/img1.jpg',
+        DAVINCI_FAIRMOUNT_INTERIOR_3: '/plans/davinci-fairmont/img2.jpg',
     }
 }

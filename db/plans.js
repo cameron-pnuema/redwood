@@ -97,7 +97,7 @@ const plans = [
     s: 2000,
     images: Object.values(staticImagesPlans.REBUD_MHE),
     price: null,
-    title: "Redbud",
+    title: "Redbud ",
     // manufacturer: "MHE",
     type: "typeA",
   },
@@ -183,8 +183,23 @@ const plans = [
     s: 2000,
     images: Object.values(staticImagesPlans.REBUD_MHE),
     price: null,
-    title: "Redbud",
-    // manufacturer: "MHE",
+    title: "Redbud Creek",
+    type: "typeA",
+  },
+
+  {
+    id: 12,
+    img: "/plans/davinci-fairmont/newport_front_house.jpg",
+    rums: 4,
+    toilet: 1,
+    kitchenSize: 9,
+    bedrooms: 3,
+    bathrooms: 2,
+    ceil: 2.4,
+    s: 2000,
+    images: Object.values(staticImagesPlans.DAVINCI_FAIRMOUNT),
+    price: null,
+    title: "Davinci",
     type: "typeA",
   },
 
@@ -192,7 +207,6 @@ const plans = [
 
 const setPlans = () => {
   const data = store().getState().priceFactor.floorPlan.data;
-  console.log(data,'xxxxxxxxxxxxx');
   plans.forEach((plan) => {
     data.forEach((floor) => {
       const { Floorplan, Manufacturer, Price,HomeType } = floor.fields;

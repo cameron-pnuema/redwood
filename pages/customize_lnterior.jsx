@@ -69,7 +69,6 @@ const CustomizeInterior = () => {
   const [isAllStepsCompleted, setAllStepsCompleted] = useState(
     activeCategoryIndex === customizations.length - 1
   );
-
   const handleCustomizationChange = ({
     groupId,
     optionId,

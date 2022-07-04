@@ -1,5 +1,4 @@
 export const filterSelectFloorplan = (floorPlanFilter, plansSlot) => {
-    console.log(plansSlot,'plansSlot',floorPlanFilter);
     return plansSlot.filter((plan) => {
         let data = true
         floorPlanFilter.forEach((filterObj) => {
@@ -61,3 +60,7 @@ const getDataGreaterThanValue = (filterObj, plan) => {
     }
 }
 
+export const HOME_TYPE={
+    MODULAR:"Modular",
+    HUDDW:"HUD-DW"
+}

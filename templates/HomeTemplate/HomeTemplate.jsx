@@ -79,7 +79,6 @@ const HomeTemplate = (categoryType) => {
       if(realRes.offset){
         handleFetch(realRes.offset)
       }else{
-          console.log(totalRecords,'fffffffffffffff');
         let mainOptionIndex = 0
 
         var result = _(totalRecords.current)
@@ -188,7 +187,7 @@ const HomeTemplate = (categoryType) => {
     }
 
     useEffect(() => {
-        handleFetch()
+        // handleFetch()
     }, [])
 
     return (

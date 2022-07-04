@@ -124,8 +124,6 @@ const getTables = async() => {
 
             },
         })
-
-        console.log(res,'resresresresres');
     
     } catch (error) {
         console.log(error, '>>>>>>>>>>>>>>>>>');
