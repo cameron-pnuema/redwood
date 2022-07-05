@@ -92,15 +92,14 @@ const setCost = () => {
   baseContructionTotalCosts["1200ft"] = totalSqft.fields["1200 sq ft"];
   baseContructionTotalCosts["1500ft"] = totalSqft.fields["1500 sq ft"];
   baseContructionTotalCosts["2000ft"] = totalSqft.fields["2000 sq ft"];
-  baseContructionTotalCosts["1200ft-HUD"] = totalSqft.fields["1200-sq-ft-HUD"];
-  baseContructionTotalCosts["1500ft-HUD"] = totalSqft.fields["1500-sq-ft-HUD"];
-  baseContructionTotalCosts["2000ft-HUD"] = totalSqft.fields["2000-sq-ft-HUD"];
+  baseContructionTotalCosts["1200ft-HUD-DW"] = totalSqft.fields["1200-sq-ft-HUD-DW"];
+  baseContructionTotalCosts["1500ft-HUD-DW"] = totalSqft.fields["1500-sq-ft-HUD-DW"];
+  baseContructionTotalCosts["2000ft-HUD-DW"] = totalSqft.fields["2000-sq-ft-HUD-DW"];
 };
 
 export const getBaseContructionCostsPerSqureFit = (data) => {
-  console.log(data,'data');
  setCost();
   if (!data?.s) return null;
-  if(data.homeType==="HUD")return baseContructionTotalCosts[data.s + "ft"+"-HUD"] * data.s
+  if(data.homeType==="HUD-DW")return baseContructionTotalCosts[data.s + "ft"+"-HUD-DW"] * data.s
   return baseContructionTotalCosts[data.s + "ft"] * data.s;
 };

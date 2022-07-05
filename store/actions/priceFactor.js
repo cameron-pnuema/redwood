@@ -74,7 +74,6 @@ export const getConstructionCost = (data) => {
         try {
             const res = await getAirtableData({url,method:"get"})
             const records=res.records
-console.log(records,'uuuuuuuuuu',res);
             if (records) {
                 dispatch(getConstructionCostSuccess(records))
             }

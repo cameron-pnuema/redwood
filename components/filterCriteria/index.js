@@ -7,7 +7,7 @@ function FilterCriteria({handleFilterOptionClick,filterData}) {
     return <div className={styles.filter}>
        <Container>
            <Row className={styles.filter_wrapper}>
-            {filterData.map((item,i) => <Col xl='3' lg='3' md='4' sm='6' key={i}>
+            {filterData.map((item,i) => <Col   key={i}>
                 <h5 className="filter_title">{item.title}</h5>
                 <div className="filter_options">
                     {item.options.map((option) => <FormGroup check>

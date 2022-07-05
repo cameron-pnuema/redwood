@@ -14,8 +14,6 @@ const BlockCustomize = ({setActivePrice, dataImg, onSelectCustomization, customi
             groupId: underCategoriesID,
             categoryId: category.category,
         });
-        // const category = newState.find(e => e.underCategories.id === obj.underCategoriesID); 
-        // console.log(category,obj)
     }
 
     return (

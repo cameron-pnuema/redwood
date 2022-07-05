@@ -23,17 +23,14 @@ const Item = ({ noButton, data }) => {
 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER = markupValue.Notes;
-  useSelector((state) => state.floorplan.floorplan);
 
   const airtableCustomization = useSelector(
     (state) => state.customization.airtableCustomization
   );
-
   const selectPlan = () => {
     dispatch(setPlan(data));
     const { manufacturer, title, s } = data;
-    if (data.manufacturer === "MHE") {
-      dispatch(customizationAction(airtableCustomization.MHE));
+      dispatch(customizationAction(airtableCustomization[manufacturer]));
       dispatch(
         floorplanAction({
           ...floorplan,
@@ -41,17 +38,6 @@ const Item = ({ noButton, data }) => {
           title: title,
         })
       );
-    }
-    if (data.manufacturer === "Fairmont") {
-      dispatch(customizationAction(airtableCustomization.Fairmont));
-      dispatch(
-        floorplanAction({
-          ...floorplan,
-          manufacturer: manufacturer,
-          title: title,
-        })
-      );
-    }
     Router.replace("/detailed_floorplan");
   };
 
@@ -66,7 +52,6 @@ const Item = ({ noButton, data }) => {
   const setFinalPriceData=(data,finalPrice)=>{
     data.finalPrice=finalPrice
   }
-  console.log(data,'ddddddddddddd');
   return (
     <div className={styles.Item}>
       {data && (
@@ -84,7 +69,7 @@ const Item = ({ noButton, data }) => {
               </Spinner>
             </span>
           )}
-          <span className={styles.Item__type}>{data.homeType}</span>
+          <span className={styles.Item__type} style={{"backgroundColor":data.homeType==="Modular"?"#d1253d":"#3939FF"}}>{data.homeType}</span>
 
           <div className={styles.Item__wrapImg}>
             <img src={data.img} alt="img" />

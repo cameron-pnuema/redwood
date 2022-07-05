@@ -4,7 +4,7 @@ export const filterData =[
     {
         id: uuidv4(),
         title: "Home Type",
-        options: [{ id: uuidv4(), label: "HUD", value: "HUD" }, { id: uuidv4(), label: "Modular", value: "Modular" }]
+        options: [{ id: uuidv4(), label: "HUD-DW", value: "HUD-DW" }, { id: uuidv4(), label: "Modular", value: "Modular" }]
     },
     {
         id: uuidv4(),
