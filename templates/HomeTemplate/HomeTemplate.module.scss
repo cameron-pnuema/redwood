@@ -9,6 +9,29 @@
     justify-content: center;
     flex-direction: column;
 
+    &__orderText{
+        color: white;
+        font-size: 20px;
+    }
+.inputOrder{
+height: 40px;
+width: 360px;
+margin-bottom: 10px;
+border-radius: 4px;
+padding-left: 10px;
+}
+.orderDetail{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+&__error{
+    color:red;
+    margin-bottom: 5px;
+}
     &__img {
         position: absolute;
         z-index: -1;
