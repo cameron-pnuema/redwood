@@ -1,25 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './HomeTemplate.module.scss';
 import bgImg from '../../assets/img/homePage/bgHomePage.jpg';
 import Button from '../../components/UI/Button/Button';
 import Router from 'next/router';
-import { setLot } from '../../store/actions/lotAction';
+import { setLot, setPlan } from '../../store/actions/lotAction';
 import { floorplanAction } from '../../store/actions/floorplan';
 import slots from '../../db/slots';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import table from 'airtable'
 import _ from 'lodash'
 import { setAirtablecustomizationAction } from '../../store/actions/customization';
 import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames } from '../../db/custumizationGroupsFairmont';
-
+import { toast } from 'react-toastify';
+import { getMarkup, getFloorPlan, getConstructionCost } from "../../store/actions/priceFactor"
+import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
+import { customizationAction } from "../../store/actions/customization"
+import {setUserData} from "../../store/actions/user"
 const FLOORING = 'Flooring'
 
 const getCategoryType = (categoryName) => {
     const cName = categoryName?.split(" ")?.join('_').toLowerCase()
 
-    if(cName == selectionCategoryFullNames.QUANTITY){
+    if (cName == selectionCategoryFullNames.QUANTITY) {
         return selectionFieldTypes.QUANTITY
-    }else if(cName == selectionCategoryFullNames.MULTIPLE_SELECT){
+    } else if (cName == selectionCategoryFullNames.MULTIPLE_SELECT) {
         return selectionFieldTypes.SELECT_MULTIPLE
     }
 
@@ -30,7 +34,7 @@ const getCategoryName = (airtableCategoryName) => {
     let categoryName = ''
     const keys = Object.keys(selectionCategoryNames)
     keys.map(key => {
-        if(airtableCategoryName?.toLowerCase()?.split(" ")?.join("").includes(selectionCategoryNames[key].toLowerCase())){
+        if (airtableCategoryName?.toLowerCase()?.split(" ")?.join("").includes(selectionCategoryNames[key].toLowerCase())) {
             categoryName = selectionCategoryNames[key]
         }
     })
@@ -41,154 +45,216 @@ const getCategoryName = (airtableCategoryName) => {
 const HomeTemplate = (categoryType) => {
     const totalRecords = useRef([])
     let manufacturerData = useRef({
-        
-    })
 
+    })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
+
+    const [orderID, setOrderID] = useState('')
     //setting a default slot as we are not showing all the slots.
     const slotData = slots[0]
     const dispatch = useDispatch()
-
+    const selectorPlan = useSelector(state => state.lot.planData);
     const gotoFloorPlan = () => {
         dispatch(setLot(slotData));
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
         Router.replace('/select_floorplan');
     }
-    
 
 
-    const handleFetch = async(offsetId) => {
-    
-    let url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options`
 
-    if(offsetId){
-        url = url + `?offset=${offsetId}`
-    }else{
-        totalRecords.current = []
-    }
-    const res = await fetch(url, { 
-        method: 'get', 
-        headers: new Headers({
-          'Authorization': "Bearer key0AV84zSplHpV5B", 
-          'Content-Type': 'application/x-www-form-urlencoded'
+    const handleFetch = async (offsetId) => {
+
+        let url
+        if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
+            url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options`
+        }
+        else if (selectorPlan?.homeType === HOME_TYPE.HUDDW) {
+            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)%20-%20NEW"
+        }
+        if (offsetId) {
+            url = url + `?offset=${offsetId}`
+        } else {
+            totalRecords.current = []
+        }
+        const res = await fetch(url, {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': "Bearer key0AV84zSplHpV5B",
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
         })
-      })
 
-      const realRes = await res.json()
+        const realRes = await res.json()
 
-      totalRecords.current = [...totalRecords.current, ...realRes.records]
-      if(realRes.offset){
-        handleFetch(realRes.offset)
-      }else{
-        let mainOptionIndex = 0
+        totalRecords.current = [...totalRecords.current, ...realRes.records]
+        if (realRes.offset) {
+            handleFetch(realRes.offset)
+        } else {
+            let mainOptionIndex = 0
 
-        var result = _(totalRecords.current)
-            .groupBy(x => x.fields.manufacturer)
-            .map((group, groupIndex) => {
-                
-                const buildingManufacturerName = group[0]?.fields.manufacturer
-                let a = []
-                
-                
-                 _(group).groupBy(x=> x.fields.pageName).map((pageGroup, pageNameIndex) => {
+            var result = _(totalRecords.current)
+                .groupBy(x => x.fields.manufacturer)
+                .map((group, groupIndex) => {
 
-                    let mainOption = {
-                        category: 1,
-                        active: true,
-                        name: "",
-                        underCategories: [],
-                        manufacturerName: ''
-                    }
-
-                    const pageNumber = pageGroup[0]?.fields?.['Page Number'];
-
-                    mainOption.category = pageNumber;
-                    mainOption.active = pageNumber === 1 ? true : false
-                    mainOption.name = pageNameIndex
-                    mainOption.manufacturerName = buildingManufacturerName
-
-                    mainOptionIndex = 0
-                    _(pageGroup).groupBy(x => x.fields.category).map((categoryGroup, categoryName, cateIndex, index) => {
+                    const buildingManufacturerName = group[0]?.fields.manufacturer
+                    let a = []
 
 
-                    let item = {
-                            id: 1,
-                            name: '',
-                            active: null,
-                            options: [
-                            ],
+                    _(group).groupBy(x => x.fields.pageName).map((pageGroup, pageNameIndex) => {
+
+                        let mainOption = {
+                            category: 1,
+                            active: true,
+                            name: "",
+                            underCategories: [],
+                            manufacturerName: ''
                         }
 
-                        item.id = mainOptionIndex + 1
-                        item.name = categoryName
+                        const pageNumber = pageGroup[0]?.fields?.['Page Number'];
 
-                       categoryGroup.sort((a, b) => (a.fields?.price || 0) - (b.fields?.price) || 0 ).
-                       map((mainOption, mainIndex) => {
-                           let itemObject = {}
+                        mainOption.category = pageNumber;
+                        mainOption.active = pageNumber === 1 ? true : false
+                        mainOption.name = pageNameIndex
+                        mainOption.manufacturerName = buildingManufacturerName
 
-                           if(categoryName === FLOORING){   
-                            itemObject = {
+                        mainOptionIndex = 0
+                        _(pageGroup).groupBy(x => x.fields.category).map((categoryGroup, categoryName, cateIndex, index) => {
+
+
+                            let item = {
                                 id: 1,
-                                name: `inputName`,
-                                type: 'textarea',
-                                active: 1,
-                                price: 0,
-                                value: "",
-                              }
-                           }else{
-                            itemObject =  {
-                                   id: mainIndex +1,
-                                   name: mainOption.fields.selectionOption,
-                                   price: mainOption.fields.price || 0
-                               }
-                           }
-
-                           if(categoryName.includes('Optional')){ //if the category is optional then let the user to skip it
-                                item.active = 1 
-                           }
-
-                           if(getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY ){
-                            itemObject.categoryType = selectionFieldTypes.QUANTITY
-                            item.categoryType = selectionFieldTypes.QUANTITY
-                            itemObject.noOfUnit = 0
-
-                           }else if(getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE ){
-                            itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
-                            item.categoryType = selectionFieldTypes.QUANTITY
-
-                           }
-
-                           if(item.categoryType && getCategoryName(categoryName)){
-                                item.categoryName = getCategoryName(categoryName)
+                                name: '',
+                                active: null,
+                                options: [
+                                ],
                             }
 
-                           item.options.push(itemObject)
-                        })
+                            item.id = mainOptionIndex + 1
+                            item.name = categoryName
 
-                        mainOptionIndex =+ mainOptionIndex + 1
-                        mainOption.underCategories.push(item)
+                            categoryGroup.sort((a, b) => (a.fields?.price || 0) - (b.fields?.price) || 0).
+                                map((mainOption, mainIndex) => {
+                                    let itemObject = {}
 
-                        
-                        return categoryGroup
+                                    if (categoryName === FLOORING) {
+                                        itemObject = {
+                                            id: 1,
+                                            name: `inputName`,
+                                            type: 'textarea',
+                                            active: 1,
+                                            price: 0,
+                                            value: "",
+                                        }
+                                    } else {
+                                        itemObject = {
+                                            id: mainIndex + 1,
+                                            name: mainOption.fields.selectionOption,
+                                            price: mainOption.fields.price || 0
+                                        }
+                                    }
+
+                                    if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
+                                        item.active = 1
+                                    }
+
+                                    if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY) {
+                                        itemObject.categoryType = selectionFieldTypes.QUANTITY
+                                        item.categoryType = selectionFieldTypes.QUANTITY
+                                        itemObject.noOfUnit = 0
+
+                                    } else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE) {
+                                        itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
+                                        item.categoryType = selectionFieldTypes.QUANTITY
+
+                                    }
+
+                                    if (item.categoryType && getCategoryName(categoryName)) {
+                                        item.categoryName = getCategoryName(categoryName)
+                                    }
+
+                                    item.options.push(itemObject)
+                                })
+
+                            mainOptionIndex = + mainOptionIndex + 1
+                            mainOption.underCategories.push(item)
+
+
+                            return categoryGroup
+                        }).value()
+
+                        a.push(mainOption)
+
                     }).value()
 
-                    a.push(mainOption)
+                    manufacturerData.current[buildingManufacturerName] = a.sort((a, b) => a.category - b.category);
 
-                }).value()
-
-                manufacturerData.current[buildingManufacturerName] = a.sort((a,b) => a.category - b.category);
-
-                return group
-            })
-            .value();
-
+                    return group
+                })
+                .value();
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
-
-      }
+            Router.replace('/customize_lnterior');
+        }
     }
 
-    useEffect(() => {
-        // handleFetch()
-    }, [])
+
+    const handleChange = (e) => {
+        setOrderID(e.target.value)
+    }
+    const handleGetOrderDetail = async () => {
+        if (!orderID) {
+            return setError(true)
+        }
+        setLoading(true)
+        setError(false)
+        const url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Orders?filterByFormula=SEARCH('${orderID}',{orderID})`
+        const res = await fetch(url, {
+            method: "get",
+            headers: new Headers({
+                Authorization: "Bearer key0AV84zSplHpV5B",
+                'Content-Type': 'application/json'
+            }),
+        });
+
+        const orderData = await res.json()
+        if (!orderData.records.length) {
+            toast.error('Please enter valid order ID!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+            const { orderInfo, userInfo, selectedPlan } = orderData.records[0].fields
+            const lot = JSON.parse(selectedPlan)
+            const order = JSON.parse(orderInfo)
+            const userData = JSON.parse(userInfo)
+
+            order[order.length - 1].active = false
+            order[0].active = true
+            dispatch(setPlan(lot.planData));
+            dispatch(setLot(slotData));
+            dispatch(customizationAction(order))
+            dispatch(setUserData(userData))
+            getAllDataOfApp()
+        }
+
+    }
+
+    const getAllDataOfApp = () => {
+        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost())]).then((res) => {
+            setLoading(false)
+        })
+    }
+
+    React.useEffect(() => {
+        if (selectorPlan) {
+            handleFetch()
+        }
+    }, [selectorPlan])
 
     return (
         <div className={styles.HomeTemplate}>
@@ -203,6 +269,18 @@ const HomeTemplate = (categoryType) => {
                         text='Click here to build your next home'
                         onclick={gotoFloorPlan}
                         style={{ height: '70px' }}
+                    />
+                </div>
+                <div className={styles.orderDetail}>
+                    <p className={styles.HomeTemplate__orderText}>Get your order detail</p>
+
+
+                    <input type="text" value={orderID} onChange={handleChange} className={styles.inputOrder} placeholder='Enter Order ID' />
+                    {error && <p className={styles.HomeTemplate__error}> * Field is required</p>}
+                    <Button
+                        text={loading ? "... Fetching Order" : "Get Order Detail"}
+                        onclick={handleGetOrderDetail}
+                        style={{ height: '40px', width: "fit-content" }}
                     />
                 </div>
             </div>

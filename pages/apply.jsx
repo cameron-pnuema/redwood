@@ -10,6 +10,10 @@ import imgToBase64 from "../UTILS/imgToBase64";
 import { formValidator } from "../UTILS/validator";
 import { setUserInforModal } from "../store/actions/popup";
 import { getBaseContructionCostsPerSqureFit } from "../db/baseConstructionCosts";
+import { saveOrderData } from "../api/saveOrderData"
+import { customAlphabet } from 'nanoid'
+
+const nanoid = customAlphabet('1234567890', 6)
 
 const emailJsConfigs = {
   USER_ID: "user_2Bq5Rvgr1IGkLbUwbjy7z",
@@ -58,7 +62,7 @@ const Apply = () => {
   );
 
   const markupValue = useSelector(state => state.priceFactor.markup.data);
-  const MARK_UP_MULTIPLIER=markupValue.Notes
+  const MARK_UP_MULTIPLIER = markupValue.Notes
 
   const userFilledData = useSelector((state) => state.user.userFilledData);
   const customizationPrice = useSelector(
@@ -93,7 +97,6 @@ const Apply = () => {
       dispatch(setUserInforModal(true));
       return;
     }
-
     try {
       setIsLoading(true);
       let html = ``;
@@ -201,7 +204,10 @@ const Apply = () => {
         financeBlock: financeBlock,
       };
       const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
-
+      const totalPrice = formatPrice(
+        (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+        (customizationPrice || 0)
+      )
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "applicatoin",
@@ -230,23 +236,33 @@ const Apply = () => {
           floorplan_bathrooms: Plan.bathrooms,
           floorplan_price: formatPrice(Plan.price),
           customizations_price: formatPrice(price),
-          total_price: formatPrice(
-            (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
-              (customizationPrice || 0)
-          ),
+          total_price: totalPrice,
           customizatoins: html,
           financeBlock: financeBlock,
           to: userDetails.email,
         },
         emailJsConfigs.USER_ID
       );
-
+      saveOrderData({
+        fields: {
+          orderID: `${nanoid()}`,
+          email: userDetails.email,
+          orderInfo: сustomizations,
+          userInfo: userDetails,
+          selectedPlan: selectorLot,
+          price: {
+            finalPrice: totalPrice,
+            customizationCost: formatPrice(price),
+            floorPlanCost: formatPrice(Plan.price)
+          }
+        },
+        typecast: true
+      })
       setCompleted(true);
       window &&
         window.dataLayer &&
         window.dataLayer.push({ event: "ApplyFormSubmitted" });
     } catch (error) {
-      console.log(error, ">>>>>>>>>>>>>>>>>");
       setIsLoading(false);
     }
   }

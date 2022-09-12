@@ -9,7 +9,6 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
         const { firstName, lastName, email, phoneNumber, description, city, state, zipCode, country, errors } = formValues
 
         const isApplyRoute = Router?.router?.pathname?.includes('apply')
-
     return (
         <div className={styles.Form}>
             <div className={styles.Form__wrapForm}>

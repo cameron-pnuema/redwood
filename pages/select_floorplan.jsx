@@ -23,7 +23,6 @@ const SelectFloorPlan = () => {
     const priceFactor = useSelector(state => state.priceFactor);
     const floorPlanFilter = useSelector(state => state.floorplan.filters);
     const plansSlot = plans().filter(e => e.type === selectorLot?.type)
-
     const dispatch = useDispatch()
     useEffect(() => {
         if (typeof window !== "undefined" && !window.sessionStorage.getItem('USER_DETAILS')) {
@@ -53,7 +52,6 @@ const SelectFloorPlan = () => {
         const data = filterSelectFloorplan(floorPlanFilter, plansSlot)
         setFilterFloorPlan(data)
     }, [floorPlanFilter])
-
     return (
         <Layout showDisclaimer>
             <Container>

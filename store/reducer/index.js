@@ -7,7 +7,7 @@ import popup from './popup';
 import customization from './customization';
 import floorplan from './floorplan';
 import priceFactor from "./priceFactor"
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     counter: counterReducer,
     user: userReducer,
     popupUniversal,
@@ -17,5 +17,13 @@ const rootReducer = combineReducers({
     floorplan,
     priceFactor
 });
+
+const rootReducer = (state, action) => {
+    if (action.type === 'USER_LOG_OUT') {
+      return appReducer(undefined, action)
+    }
+  
+    return appReducer(state, action)
+  }
 
 export default rootReducer;
