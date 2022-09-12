@@ -11,7 +11,6 @@ import table from 'airtable'
 import _ from 'lodash'
 import { setAirtablecustomizationAction } from '../../store/actions/customization';
 import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames } from '../../db/custumizationGroupsFairmont';
-import base from "../../UTILS/airtable"
 import { toast } from 'react-toastify';
 import { getMarkup, getFloorPlan, getConstructionCost } from "../../store/actions/priceFactor"
 import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
