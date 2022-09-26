@@ -14,6 +14,7 @@ import { saveOrderData } from "../api/saveOrderData"
 import { customAlphabet } from 'nanoid'
 
 const nanoid = customAlphabet('1234567890', 6)
+const orderId=nanoid()
 
 const emailJsConfigs = {
   USER_ID: "user_2Bq5Rvgr1IGkLbUwbjy7z",
@@ -72,7 +73,6 @@ const Apply = () => {
 
   const lot = selectorLot.lotData;
   const Plan = selectorLot.planData;
-
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -101,6 +101,7 @@ const Apply = () => {
       setIsLoading(true);
       let html = ``;
       let price = 0;
+      html +=`<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
       html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`;
       сustomizations?.forEach((c) => {
         html += `<h3 style="text-align: center;">${c.name}</h3>`;
@@ -245,7 +246,7 @@ const Apply = () => {
       );
       saveOrderData({
         fields: {
-          orderID: `${nanoid()}`,
+          orderID: `${orderId}`,
           email: userDetails.email,
           orderInfo: сustomizations,
           userInfo: userDetails,
@@ -275,6 +276,7 @@ const Apply = () => {
         isLoading={isLoading}
         formValues={userDetails}
         handleChange={handleChange}
+        orderId={orderId}
       />
     </>
   );
