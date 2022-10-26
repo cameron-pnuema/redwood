@@ -67,10 +67,10 @@ const HomeTemplate = (categoryType) => {
 
         let url
         if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
-            url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options`
+            url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDDW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)%20-%20NEW"
+            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
         }
         if (offsetId) {
             url = url + `?offset=${offsetId}`

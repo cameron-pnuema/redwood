@@ -11,6 +11,7 @@ import {
   selectionCategoryNames,
   selectionFieldTypes,
 } from "../db/custumizationGroupsFairmont";
+import { set } from "lodash";
 
 const getPrice = (data) => {
   let price = 0;
@@ -222,7 +223,15 @@ const CustomizeInterior = () => {
     dispatch(customizationAction(newCustomizations));
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const data=[]
+    activeCustomizationCategory?.underCategories?.forEach((item) => {
+      if (item.notes) {
+         data.push(item.name + item.id)
+      }
+    })
+    setNotesState(data)
+  }, [activeCustomizationCategory?.underCategories]);
 
   const numberGroupsInStep =
     activeCustomizationCategory?.underCategories?.length;
@@ -240,6 +249,9 @@ const CustomizeInterior = () => {
       setNotesState(nonSelectedNote);
     }
   };
+
+
+  console.log(activeCustomizationCategory?.underCategories, 'activeCustomizationCategory', numberCompletedGroupsInStep);
   return (
     <Layout>
       <CustomizeInteriorRemplate

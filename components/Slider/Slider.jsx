@@ -66,7 +66,7 @@ const Slider = ({ images }) => {
                     return (
                         <ItemSlider
                             key={i}
-                            imgSlider={data}
+                            imgSlider={"https://picsum.photos/2100/1200"}
                         />
                     )
                 })

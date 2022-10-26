@@ -69,11 +69,11 @@ const CustomizationUnit = ({
           {optionGroups?.map((og) => {
             let optionGroup = null;
             if (categoryName === "Flooring") {
-              if (og.name === "Flooring") {
+              if (og.name === "Vinyl Upgrades (Optional)") {
                 optionGroup = (
                   <div className={styles.body__card}>
                     <p className={styles.body__card_text}>
-                      Vinyl Flooring Upgrades(Optional)
+                      Vinyl Flooring Upgrades (Optional)
                     </p>
 
                     <FloringUpgrade og={og} onChange={onChange} />
