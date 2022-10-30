@@ -90,9 +90,9 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
-
+console.log(uc,'1111111112222222233333333',notes);
           if (
-            uc.name === "Flooring" ||
+            uc.name === "Vinyl Upgrades (Optional)" ||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
             uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
@@ -101,7 +101,7 @@ const CustomizeInterior = () => {
 
             selectionItem.options = [
               ...uc.options.map((el, index) => {
-                if (el.name === `inputName`) {
+                if (el.name === `N/A`) {
                   return {
                     ...el,
                     value: inputAnswer || [],

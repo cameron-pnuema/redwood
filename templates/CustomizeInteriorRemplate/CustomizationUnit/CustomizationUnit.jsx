@@ -46,6 +46,7 @@ const CustomizationUnit = ({
   if (isAllStepsCompleted) totalCompleted = currentCategory;
 
   let body = null;
+  console.log(customizations,'customizationscustomizations',optionGroups);
   if (!isAllStepsCompleted)
     body = (
       <>
