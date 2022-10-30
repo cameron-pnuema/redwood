@@ -11,10 +11,8 @@ import { formValidator } from "../UTILS/validator";
 import { setUserInforModal } from "../store/actions/popup";
 import { getBaseContructionCostsPerSqureFit } from "../db/baseConstructionCosts";
 import { saveOrderData } from "../api/saveOrderData"
-import { customAlphabet } from 'nanoid'
 
-const nanoid = customAlphabet('1234567890', 6)
-const orderId=nanoid()
+let orderId
 
 const emailJsConfigs = {
   USER_ID: "user_2Bq5Rvgr1IGkLbUwbjy7z",
@@ -92,6 +90,25 @@ const Apply = () => {
 
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
+    const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
+    const totalPrice = formatPrice(
+      (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+      (customizationPrice || 0)
+    )
+    const responseData=await saveOrderData({
+      fields: {
+        email: userDetails.email,
+        orderInfo: сustomizations,
+        userInfo: userDetails,
+        selectedPlan: selectorLot,
+        price: {
+          finalPrice: totalPrice,
+          floorPlanCost: formatPrice(Plan.price)
+        }
+      },
+      typecast: true
+    })
+    orderId=responseData.fields.orderID
     if (Object.keys(errors).length) {
       setDetails({ ...userDetails, errors });
       dispatch(setUserInforModal(true));
@@ -204,11 +221,7 @@ const Apply = () => {
         customization: html,
         financeBlock: financeBlock,
       };
-      const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
-      const totalPrice = formatPrice(
-        (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
-        (customizationPrice || 0)
-      )
+ 
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "applicatoin",
@@ -244,21 +257,7 @@ const Apply = () => {
         },
         emailJsConfigs.USER_ID
       );
-      saveOrderData({
-        fields: {
-          orderID: `${orderId}`,
-          email: userDetails.email,
-          orderInfo: сustomizations,
-          userInfo: userDetails,
-          selectedPlan: selectorLot,
-          price: {
-            finalPrice: totalPrice,
-            customizationCost: formatPrice(price),
-            floorPlanCost: formatPrice(Plan.price)
-          }
-        },
-        typecast: true
-      })
+ 
       setCompleted(true);
       window &&
         window.dataLayer &&
