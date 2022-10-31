@@ -90,7 +90,6 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
-console.log(uc,'1111111112222222233333333',notes);
           if (
             uc.name === "Vinyl Upgrades (Optional)" ||
             uc.categoryName === selectionCategoryNames.WINDOWS ||

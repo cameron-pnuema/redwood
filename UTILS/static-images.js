@@ -73,15 +73,15 @@ export const staticImagesPlans = {
     },
 
     WOODLAND_NAY_FAIRMONT: {
-        WOODLAND_NAY_FAIRMONT_EXTERIOR: '/plans/woodland-bay-fairmont/2 Woodland Bay Floorplan.jpeg',
-        WOODLAND_NAY_FAIRMONT_FLOORPLAN: '/plans/woodland-bay-fairmont/1_Woodland_Bay_Front_of_Home.jpg',
-        WOODLAND_NAY_FAIRMONT_INTERIOR: '/plans/woodland-bay-fairmont/3_Woodland_Bay_Living_Room.jpg',
-        WOODLAND_NAY_FAIRMONT_INTERIOR_2: '/plans/woodland-bay-fairmont/4 Woodland Bay_Kitchen.jpeg',
-        WOODLAND_NAY_FAIRMONT_INTERIOR_3: '/plans/woodland-bay-fairmont/5_Woodland_Bay_Master_Bedroom.jpg',
-        WOODLAND_NAY_FAIRMONT_INTERIOR_4: '/plans/woodland-bay-fairmont/6_Woodland_Bay_Master_Bathroom.jpg',
-        WOODLAND_NAY_FAIRMONT_INTERIOR_5: '/plans/woodland-bay-fairmont/7_Woodland_Bay_Bedroom_2.jpg',
-        WOODLAND_NAY_FAIRMONT_INTERIOR_6: '/plans/woodland-bay-fairmont/8_Woodland_Bay_Bathroom_2.jpg',
-        WOODLAND_NAY_FAIRMONT_INTERIOR_7: '/plans/woodland-bay-fairmont/9_Woodland_Bay_Utility_Room.jpg',
+        WOODLAND_NAY_FAIRMONT_EXTERIOR: '/plans/test/woodland-bay-fairmont/2 Woodland Bay Floorplan.jpg',
+        WOODLAND_NAY_FAIRMONT_FLOORPLAN: '/plans/test/woodland-bay-fairmont/1_Woodland_Bay_Front_of_Home.jpg',
+        WOODLAND_NAY_FAIRMONT_INTERIOR: '/plans/test/woodland-bay-fairmont/3_Woodland_Bay_Living_Room.jpg',
+        WOODLAND_NAY_FAIRMONT_INTERIOR_2: '/plans/test/woodland-bay-fairmont/4 Woodland Bay_Kitchen.jpg',
+        WOODLAND_NAY_FAIRMONT_INTERIOR_3: '/plans/test/woodland-bay-fairmont/5_Woodland_Bay_Master_Bedroom.jpg',
+        WOODLAND_NAY_FAIRMONT_INTERIOR_4: '/plans/test/woodland-bay-fairmont/6_Woodland_Bay_Master_Bathroom.jpg',
+        WOODLAND_NAY_FAIRMONT_INTERIOR_5: '/plans/test/woodland-bay-fairmont/7_Woodland_Bay_Bedroom_2.jpg',
+        WOODLAND_NAY_FAIRMONT_INTERIOR_6: '/plans/test/woodland-bay-fairmont/8_Woodland_Bay_Bathroom_2.jpg',
+        WOODLAND_NAY_FAIRMONT_INTERIOR_7: '/plans/test/woodland-bay-fairmont/9_Woodland_Bay_Utility_Room.jpg',
 
     },
 
