@@ -1,7 +1,7 @@
-export const saveOrderData=(data)=>{
+export const saveOrderData=async (data)=>{
     let url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Orders`;
    
-    const res =  fetch(url, {
+    const res =  await fetch(url, {
       method: "post",
       headers: new Headers({
         Authorization: "Bearer key0AV84zSplHpV5B",
@@ -9,5 +9,7 @@ export const saveOrderData=(data)=>{
       }),
       body:JSON.stringify(data)
     });
+    const responseData=await res.json()
+    return responseData
      
   }

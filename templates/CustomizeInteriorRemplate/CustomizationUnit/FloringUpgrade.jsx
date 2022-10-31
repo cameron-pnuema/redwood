@@ -17,12 +17,12 @@ export default function FloringUpgrade({ og, onChange }) {
             onChange({
               inputAnswer: [
                 {
-                  ...currentValue[0],
+                  ...currentValue?.[0],
                   value: event.target.value,
                   name: "input1",
                 },
-                currentValue[1],
-                currentValue[2],
+                currentValue?.[1],
+                currentValue?.[2],
               ],
               groupId: og.id,
               optionId:1

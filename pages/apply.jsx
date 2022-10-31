@@ -11,9 +11,8 @@ import { formValidator } from "../UTILS/validator";
 import { setUserInforModal } from "../store/actions/popup";
 import { getBaseContructionCostsPerSqureFit } from "../db/baseConstructionCosts";
 import { saveOrderData } from "../api/saveOrderData"
-import { customAlphabet } from 'nanoid'
 
-const nanoid = customAlphabet('1234567890', 6)
+let orderId
 
 const emailJsConfigs = {
   USER_ID: "user_2Bq5Rvgr1IGkLbUwbjy7z",
@@ -28,7 +27,7 @@ const formatPrice = (price) => {
 
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
   let htmlElement;
-  if (categoryName === "Flooring") {
+  if (categoryName === "Vinyl Upgrades ") {
     htmlElement = (option.value || []).map((item) => {
       return `<span>${item?.value} ($${formatPrice(item?.price)})  </span>`;
     });
@@ -72,7 +71,6 @@ const Apply = () => {
 
   const lot = selectorLot.lotData;
   const Plan = selectorLot.planData;
-
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -92,6 +90,25 @@ const Apply = () => {
 
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
+    const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
+    const totalPrice = formatPrice(
+      (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+      (customizationPrice || 0)
+    )
+    const responseData=await saveOrderData({
+      fields: {
+        email: userDetails.email,
+        orderInfo: сustomizations,
+        userInfo: userDetails,
+        selectedPlan: selectorLot,
+        price: {
+          finalPrice: totalPrice,
+          floorPlanCost: formatPrice(Plan.price)
+        }
+      },
+      typecast: true
+    })
+    orderId=responseData.fields.orderID
     if (Object.keys(errors).length) {
       setDetails({ ...userDetails, errors });
       dispatch(setUserInforModal(true));
@@ -101,6 +118,7 @@ const Apply = () => {
       setIsLoading(true);
       let html = ``;
       let price = 0;
+      html +=`<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
       html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`;
       сustomizations?.forEach((c) => {
         html += `<h3 style="text-align: center;">${c.name}</h3>`;
@@ -203,11 +221,7 @@ const Apply = () => {
         customization: html,
         financeBlock: financeBlock,
       };
-      const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
-      const totalPrice = formatPrice(
-        (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
-        (customizationPrice || 0)
-      )
+ 
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "applicatoin",
@@ -243,21 +257,7 @@ const Apply = () => {
         },
         emailJsConfigs.USER_ID
       );
-      saveOrderData({
-        fields: {
-          orderID: `${nanoid()}`,
-          email: userDetails.email,
-          orderInfo: сustomizations,
-          userInfo: userDetails,
-          selectedPlan: selectorLot,
-          price: {
-            finalPrice: totalPrice,
-            customizationCost: formatPrice(price),
-            floorPlanCost: formatPrice(Plan.price)
-          }
-        },
-        typecast: true
-      })
+ 
       setCompleted(true);
       window &&
         window.dataLayer &&
@@ -275,6 +275,7 @@ const Apply = () => {
         isLoading={isLoading}
         formValues={userDetails}
         handleChange={handleChange}
+        orderId={orderId}
       />
     </>
   );

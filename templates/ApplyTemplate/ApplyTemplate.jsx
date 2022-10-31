@@ -8,7 +8,7 @@ import { userLogOut } from "../../store/actions/user"
 import { useSelector, useDispatch } from "react-redux";
 
 
-const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isCompleted, isLoading }) => {
+const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isCompleted, isLoading, orderId }) => {
     const dispatch = useDispatch()
     let formContent = (
         <Form
@@ -23,7 +23,7 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
 
     if (isCompleted) formContent = (
         <div className={styles.thankyou}>
-            <h3>Thank you for trusting GS Courtyard Homes to build your dream home!</h3>
+            <h3>Thank you for customizing your home! Your order number is {orderId}</h3>
             <Button text="Restart" noArrow style={{ height: 50, width: '100%' }} onclick={() => {
                 dispatch(userLogOut())
                 Router.replace('/')

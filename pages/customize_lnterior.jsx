@@ -11,6 +11,7 @@ import {
   selectionCategoryNames,
   selectionFieldTypes,
 } from "../db/custumizationGroupsFairmont";
+import { set } from "lodash";
 
 const getPrice = (data) => {
   let price = 0;
@@ -89,9 +90,9 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
-
+console.log(uc,'1111111112222222233333333',notes);
           if (
-            uc.name === "Flooring" ||
+            uc.name === "Vinyl Upgrades (Optional)" ||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
             uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
@@ -100,7 +101,7 @@ const CustomizeInterior = () => {
 
             selectionItem.options = [
               ...uc.options.map((el, index) => {
-                if (el.name === `inputName`) {
+                if (el.name === `N/A`) {
                   return {
                     ...el,
                     value: inputAnswer || [],
@@ -222,7 +223,15 @@ const CustomizeInterior = () => {
     dispatch(customizationAction(newCustomizations));
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const data=[]
+    activeCustomizationCategory?.underCategories?.forEach((item) => {
+      if (item.notes) {
+         data.push(item.name + item.id)
+      }
+    })
+    setNotesState(data)
+  }, [activeCustomizationCategory?.underCategories]);
 
   const numberGroupsInStep =
     activeCustomizationCategory?.underCategories?.length;
@@ -240,6 +249,9 @@ const CustomizeInterior = () => {
       setNotesState(nonSelectedNote);
     }
   };
+
+
+  console.log(activeCustomizationCategory?.underCategories, 'activeCustomizationCategory', numberCompletedGroupsInStep);
   return (
     <Layout>
       <CustomizeInteriorRemplate
