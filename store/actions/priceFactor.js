@@ -31,14 +31,13 @@ export async function getAirtableData ({url,method}){
 
 
 export const getMarkup = (data) => {
-    let url="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Client%20Profile/recQUgDP0McEyyrF4"
+    let url="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Client%20Profile/recgPVsLYxndCLFLP"
     return async (dispatch) => {
         dispatch(getMarkupRequest());
         try {
             const res = await getAirtableData({url,method:"get"})
             const fields=res.fields
-            fields.Notes=fields['Mark Up Percent']
-            console.log(fields,'aaaaaaaaaa');
+            fields.Notes=fields['Mark Up %']*100
             if (fields) {
                 dispatch(getMarkupSuccess(fields))
             }
