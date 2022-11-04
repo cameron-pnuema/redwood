@@ -28,7 +28,7 @@ const formatPrice = (price) => {
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
   let htmlElement="";
   if (categoryName === "Vinyl Upgrades ") {
-   (option.value || []).forEach((item) => {
+   (option.value || []).filter( Boolean ).forEach((item) => {
         htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
       <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $${formatPrice(item?.price)}  </td>`
     });
@@ -207,7 +207,7 @@ const Apply = () => {
         financeBlock += `Model, Size: ${floorplan.title} ${floorplan.width} x ${floorplan.length} <b>MHE Builder</b>`;
         financeBlock += "</li>";
         financeBlock +=
-          '<li style="text-align: center; margin-left: 0;">Name of Community: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
+          '<li style="text-align: center; margin-left: 0;">Name of Retailer: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
         financeBlock += "</ul>";
       }
 

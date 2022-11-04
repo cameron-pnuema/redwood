@@ -250,7 +250,6 @@ const CustomizeInterior = () => {
   };
 
 
-  console.log(activeCustomizationCategory?.underCategories, 'activeCustomizationCategory', numberCompletedGroupsInStep);
   return (
     <Layout>
       <CustomizeInteriorRemplate
