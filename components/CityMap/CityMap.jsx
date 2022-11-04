@@ -45,7 +45,6 @@ const CityMap = ({slotState, setIsPopup }) => {
 
         const MapLabel = InitMap();
         slots.forEach(s => {
-            console.log(s.id)
             const miamiArea = new maps.Polygon({
                 paths: [s.coordinates],
                 strokeColor: handlerSlotsStroke(s.id),  //обводка
