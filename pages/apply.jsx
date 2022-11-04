@@ -26,15 +26,19 @@ const formatPrice = (price) => {
 };
 
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
-  let htmlElement;
+  let htmlElement="";
   if (categoryName === "Vinyl Upgrades ") {
-    htmlElement = (option.value || []).map((item) => {
-      return `<span>${item?.value} ($${formatPrice(item?.price)})  </span>`;
+   (option.value || []).forEach((item) => {
+        htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $${formatPrice(item?.price)}  </td>`
     });
   } else {
-    htmlElement = `<span>${option?.name} ($${formatPrice(
+    htmlElement = `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${option?.name} ${numOfUnit} </td>
+    
+    <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> $${formatPrice(
       itemPrice
-    )}) ${numOfUnit} </span>`;
+    )} </td>
+    `;
   }
   return htmlElement;
 };
@@ -121,9 +125,9 @@ const Apply = () => {
       html +=`<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
       html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`;
       сustomizations?.forEach((c) => {
-        html += `<h3 style="text-align: center;">${c.name}</h3>`;
+        html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${c.name}</h3>`;
         html +=
-          '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
+          '<table style="border-collapse: collapse; width: 100%; margin-bottom:30px">';
         c.underCategories.forEach((cc) => {
           const options = cc.options.filter((o) => {
             if (Array.isArray(cc.active)) {
@@ -141,7 +145,7 @@ const Apply = () => {
             }
 
             const numOfUnit = option.noOfUnit
-              ? `> Number Of Quantity: ${option.noOfUnit}`
+              ? `<div> Number Of Quantity: ${option.noOfUnit}</div>`
               : "";
 
             let itemPrice = option?.price;
@@ -157,22 +161,17 @@ const Apply = () => {
               numOfUnit,
               categoryName,
             });
-            // if (option?.type === "textarea")
-            //   shownFieldToUser = `<span>${
-            //     option.value ? option?.value : "not specified"
-            //   }</span>`;
+            html += '<tr >';
+            html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${categoryName}</td>`;
+            html += `${shownFieldToUser}`;
+            html += '<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">';
+            html += `<span>Notes</span>: ${cc.notes || ""}`;
+            html += "</td>";
+            html += "</tr>";
 
-            html += '<li style="text-align: center; margin-left: 0;">';
-            html += `<span>${categoryName}</span>: ${shownFieldToUser}`;
-            html += "</li>";
-            if (cc.notes) {
-              html += '<li style="text-align: center; margin-left: 0;">';
-              html += `<span>Addition Notes</span>: ${cc.notes}`;
-              html += "</li>";
-            }
           });
         });
-        html += "</ul>";
+        html += "</table>";
       });
 
       if (userDetails.description) {
