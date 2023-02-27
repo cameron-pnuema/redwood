@@ -29,13 +29,16 @@ const Item = ({ noButton, data }) => {
   );
   const selectPlan = () => {
     dispatch(setPlan(data));
-    const { manufacturer, title, s } = data;
-      dispatch(customizationAction(airtableCustomization[manufacturer]));
+    const { Manufacturer, Floorplan
+      , s } = data;
+      dispatch(customizationAction(airtableCustomization[Manufacturer]));
       dispatch(
         floorplanAction({
           ...floorplan,
-          manufacturer: manufacturer,
-          title: title,
+          manufacturer: Manufacturer
+          ,
+          title: Floorplan
+          ,
         })
       );
     Router.replace("/detailed_floorplan");
@@ -43,7 +46,7 @@ const Item = ({ noButton, data }) => {
 
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data);
   const finalPrice = format(
-    (data?.price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
+    (data?.Price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
     {
       spacing: true,
       showDecimals: "NEVER",
@@ -52,11 +55,12 @@ const Item = ({ noButton, data }) => {
   const setFinalPriceData=(data,finalPrice)=>{
     data.finalPrice=finalPrice
   }
+
   return (
     <div className={styles.Item}>
       {data && (
         <>
-          {data.price ? (
+          {data.Price ? (
             <span className={styles.Item__price}>
               $
               {finalPrice}
@@ -69,14 +73,13 @@ const Item = ({ noButton, data }) => {
               </Spinner>
             </span>
           )}
-          <span className={styles.Item__type} style={{"backgroundColor":data.homeType==="Modular"?"#d1253d":"#3939FF"}}>{data.homeType}</span>
-
+          <span className={styles.Item__type} style={{"backgroundColor":data.homeType==="Modular"?"#d1253d":"#3939FF"}}>{data.HomeType}</span>
           <div className={styles.Item__wrapImg}>
-            <img src={data.img} alt="img" />
+            <img src={data['Front Image']?.[0]?.url} alt="Home image" />
           </div>
 
           <div className={styles.Item__wrapData}>
-            <p className={styles.Item__title}>{data.title} - {data.manufacturer}</p>
+            <p className={styles.Item__title}>{data.Floorplan} - {data.Manufacturer}</p>
 
             <div
               className={cx(styles.Item__params, {
@@ -85,19 +88,19 @@ const Item = ({ noButton, data }) => {
             >
               <div className={styles.Item__paramsLabel}>
                 <img src={badroomsImg} alt="badroomsImg" />
-                <span>{data.bedrooms}</span>
+                <span>{data.Beds}</span>
                 <span className={styles.Item__LabeName}>Bedrooms</span>
               </div>
 
               <div className={styles.Item__paramsLabel}>
                 <img src={bathImg} alt="bathImg" />
-                <span>{data.bathrooms}</span>
+                <span>{data.Baths}</span>
                 <span className={styles.Item__LabeName}>Bathrooms</span>
               </div>
 
               <div className={styles.Item__paramsLabel}>
                 <img src={PlanImg} alt="badroomsImg" />
-                <span>{data.s}</span>
+                <span>{data['Sq Ft Category']}</span>
                 <span className={styles.Item__LabeName}>Sq.Ft</span>
               </div>
             </div>

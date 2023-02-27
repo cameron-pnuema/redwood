@@ -61,6 +61,7 @@ const CustomizeInterior = () => {
   const customizations = useSelector(
     (state) => state.customization.customization
   );
+
   const dispatch = useDispatch();
   const [notesState, setNotesState] = useState([]);
 
@@ -248,7 +249,6 @@ const CustomizeInterior = () => {
       setNotesState(nonSelectedNote);
     }
   };
-
 
   return (
     <Layout>

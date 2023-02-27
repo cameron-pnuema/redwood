@@ -66,10 +66,10 @@ const HomeTemplate = (categoryType) => {
     const handleFetch = async (offsetId) => {
 
         let url
-        if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
+        if (selectorPlan?.HomeType === HOME_TYPE.MODULAR) {
             url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
         }
-        else if (selectorPlan?.homeType === HOME_TYPE.HUDDW) {
+        else if (selectorPlan?.HomeType === HOME_TYPE.HUDDW) {
             url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
         }
         if (offsetId) {
@@ -232,6 +232,8 @@ const HomeTemplate = (categoryType) => {
             const lot = JSON.parse(selectedPlan)
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
+
+           
 
             order[order.length - 1].active = false
             order[0].active = true

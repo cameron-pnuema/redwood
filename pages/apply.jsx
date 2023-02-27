@@ -72,7 +72,6 @@ const Apply = () => {
     (state) => state.customization.customizationPrice
   );
   const floorplan = useSelector((state) => state.floorplan.floorplan);
-
   const lot = selectorLot.lotData;
   const Plan = selectorLot.planData;
   useEffect(() => {
@@ -96,7 +95,7 @@ const Apply = () => {
     let errors = formValidator(userDetails);
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
-      (Plan.price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+      (Plan.Price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
       (customizationPrice || 0)
     )
     const responseData=await saveOrderData({
@@ -107,7 +106,7 @@ const Apply = () => {
         selectedPlan: selectorLot,
         price: {
           finalPrice: totalPrice,
-          floorPlanCost: formatPrice(Plan.price)
+          floorPlanCost: formatPrice(Plan.Price)
         }
       },
       typecast: true
@@ -138,7 +137,7 @@ const Apply = () => {
           });
 
           options.map((option) => {
-            price += option?.price;
+            price += option?.Price;
 
             if (option.noOfUnit && option.noOfUnit < 1) {
               return;
@@ -185,7 +184,7 @@ const Apply = () => {
       }
 
       let financeBlock = ``;
-      if (floorplan.manufacturer === "Fairmont") {
+      if (floorplan.Manufacturer === "Fairmont") {
         financeBlock +=
           '<h3 style="text-align: center;">Financing Information:</h3>';
         financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Fairmont Homes, LLC</p>`;
@@ -197,7 +196,7 @@ const Apply = () => {
         financeBlock +=
           '<li style="text-align: center; margin-left: 0;">Name of Community: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
         financeBlock += "</ul>";
-      } else if (floorplan.manufacturer === "MHE") {
+      } else if (floorplan.Manufacturer === "MHE") {
         financeBlock +=
           '<h3 style="text-align: center;">Financing Information:</h3>';
         financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Manufactured Housing Enterprises, Inc</p>`;
@@ -212,7 +211,7 @@ const Apply = () => {
       }
 
       let lotName = `№${lot.id}`;
-      let planName = `${Plan.title}`;
+      let planName = `${Plan.Floorplan}`;
       const obj = {
         ...e,
         lot: lotName,
@@ -232,7 +231,7 @@ const Apply = () => {
         "user_report",
         {
           preview: getLetter(
-            Plan.images.map(
+            Plan.Images.map(
               (i) =>
                 `https://rrc-home-configurator-git-dev-vpilip.vercel.app${i}`
             )

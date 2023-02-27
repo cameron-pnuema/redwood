@@ -153,7 +153,7 @@ const CustomizationUnit = ({
     );
 
   const getTotalPrice = () => {
-    const basePrice = selectedPlan?.price;
+    const basePrice = selectedPlan?.Price;
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(
       selectedPlan
     );
@@ -221,7 +221,7 @@ const CustomizationUnit = ({
                 text="Next"
                 noArrow
                 onclick={onNext}
-                disabled={
+                disabled={ true ||
                   totalCategories === currentCategory - 1 ||
                   !isCurrentStepCompleted
                 }

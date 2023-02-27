@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 
 const SelectFloorPlanTemplate = ({ plansSlot }) => {
+
     return (
         <div className={styles.SelectFloorPlanTemplate}>
             <div className={styles.SelectFloorPlanTemplate__innerContainer}>
@@ -15,7 +16,7 @@ const SelectFloorPlanTemplate = ({ plansSlot }) => {
                                 return (
                                     <Col xl='4' lg='6' md='6' sm='12' key={i}>
                                         <Item
-                                            data={data}
+                                            data={data.fields}
                                         />
                                     </Col>
                                 )

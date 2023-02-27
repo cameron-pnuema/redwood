@@ -66,7 +66,7 @@ const Slider = ({ images }) => {
                     return (
                         <ItemSlider
                             key={i}
-                            imgSlider={data}
+                            imgSlider={data.url}
                         />
                     )
                 })

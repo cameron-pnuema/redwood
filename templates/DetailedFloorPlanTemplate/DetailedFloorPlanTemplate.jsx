@@ -8,7 +8,6 @@ import { Container, Row, Col ,Spinner} from 'reactstrap';
 
 const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
 
-
     return (
         <div className={styles.DetailedFloorPlanTemplate}>
 
@@ -33,7 +32,7 @@ const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
 
                                 {selectorPlan && (
                                     <Slider
-                                        images={selectorPlan.images}
+                                        images={selectorPlan.Images}
                                     />
                                 )}
                             </div>
