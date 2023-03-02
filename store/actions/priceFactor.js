@@ -37,7 +37,7 @@ export const getMarkup = (data) => {
         try {
             const res = await getAirtableData({url,method:"get"})
             const fields=res.fields
-            fields.Notes=fields['Mark Up %']*100
+            fields.Notes=fields['mark Up %']*100
             if (fields) {
                 dispatch(getMarkupSuccess(fields))
             }

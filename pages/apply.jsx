@@ -96,7 +96,7 @@ const Apply = () => {
     let errors = formValidator(userDetails);
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
-      (Plan.Price + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+      (Plan.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
       (customizationPrice || 0)
     )
     const responseData=await saveOrderData({
@@ -107,7 +107,7 @@ const Apply = () => {
         selectedPlan: selectorLot,
         price: {
           finalPrice: totalPrice,
-          floorPlanCost: formatPrice(Plan.Price)
+          floorPlanCost: formatPrice(Plan.floorplanPrice)
         }
       },
       typecast: true
@@ -185,7 +185,7 @@ const Apply = () => {
       }
 
       let financeBlock = ``;
-      if (floorplan.Manufacturer === "Fairmont") {
+      if (floorplan.floorplanName === "Fairmont") {
         financeBlock +=
           '<h3 style="text-align: center;">Financing Information:</h3>';
         financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Fairmont Homes, LLC</p>`;
@@ -197,7 +197,7 @@ const Apply = () => {
         financeBlock +=
           '<li style="text-align: center; margin-left: 0;">Name of Community: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
         financeBlock += "</ul>";
-      } else if (floorplan.Manufacturer === "MHE") {
+      } else if (floorplan.floorplanName=== "MHE") {
         financeBlock +=
           '<h3 style="text-align: center;">Financing Information:</h3>';
         financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Manufactured Housing Enterprises, Inc</p>`;
@@ -243,11 +243,11 @@ const Apply = () => {
           lot_area: lot.length * lot.width,
           lot_width: lot.width,
           lot_length: lot.length,
-          floorplan_name: Plan.Floorplan,
+          floorplan_name: Plan.floorplanName,
           floorplan_area: Plan['Sq Ft'],
           floorplan_bedrooms: Plan.Baths,
           floorplan_bathrooms: Plan.Beds          ,
-          floorplan_price: formatPrice(Plan.price),
+          floorplan_price: formatPrice(Plan.floorplanPrice),
           customizations_price: formatPrice(price),
           total_price: totalPrice,
           customizatoins: html,

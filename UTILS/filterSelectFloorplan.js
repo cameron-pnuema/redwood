@@ -44,7 +44,7 @@ const getEqualData = (filterObj, plan) => {
     }
     else if (filterObj.title === "Home Type") {
         // currently we dont have home type
-        return plan.fields.HomeType === filterObj.value
+        return plan.fields.homeType === filterObj.value
     }
 }
 

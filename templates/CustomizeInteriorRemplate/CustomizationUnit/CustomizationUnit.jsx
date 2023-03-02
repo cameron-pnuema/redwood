@@ -153,7 +153,7 @@ const CustomizationUnit = ({
     );
 
   const getTotalPrice = () => {
-    const basePrice = selectedPlan?.Price;
+    const basePrice = selectedPlan?.floorplanPrice;
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(
       selectedPlan
     );

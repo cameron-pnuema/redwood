@@ -31,15 +31,15 @@ const Item = ({ noButton, data }) => {
   );
   const selectPlan = () => {
     dispatch(setPlan(data));
-    const { Manufacturer, Floorplan
+    const { manufacturerName, floorplanName
       , s } = data;
-      dispatch(customizationAction(airtableCustomization[Manufacturer]));
+      dispatch(customizationAction(airtableCustomization[manufacturerName]));
       dispatch(
         floorplanAction({
-          ...floorplan,
-          manufacturer: Manufacturer
+          ...floorplanName,
+          manufacturerName: manufacturerName
           ,
-          title: Floorplan
+          title: floorplanName
           ,
         })
       );
@@ -49,7 +49,7 @@ const Item = ({ noButton, data }) => {
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data);
   
   const finalPrice = format(
-    (data?.Price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
+    (data?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER,
     
     {
       spacing: true,
@@ -65,7 +65,7 @@ const Item = ({ noButton, data }) => {
     <div className={styles.Item}>
       {data && (
         <>
-          {data.Price ? (
+          {data.floorplanPrice? (
             <span className={styles.Item__price}>
               $
               {finalPrice}
@@ -78,13 +78,13 @@ const Item = ({ noButton, data }) => {
               </Spinner>
             </span>
           )}
-          <span className={styles.Item__type} style={{"backgroundColor":data.HomeType==="Modular"?"#d1253d":"#3939FF"}}>{data.HomeType}</span>
+          <span className={styles.Item__type} style={{"backgroundColor":data.homeType==="Modular"?"#d1253d":"#3939FF"}}>{data.homeType}</span>
           <div className={styles.Item__wrapImg}>
             <img src={data['Front Image']?.[0]?.url} alt="Home image" />
           </div>
 
           <div className={styles.Item__wrapData}>
-            <p className={styles.Item__title}>{data.Floorplan} - {data.Manufacturer}</p>
+            <p className={styles.Item__title}>{data.floorplanName} - {data.manufacturerName}</p>
 
             <div
               className={cx(styles.Item__params, {

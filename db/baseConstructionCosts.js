@@ -87,7 +87,7 @@ const setCost = () => {
   const data = store().getState().priceFactor.constructionCost.data;
   
   const totalSqft = data?.find(
-    (item) => item.fields.Name === "Total Per Sq Ft"
+    (item) => item.fields.constructionCategory === "Total Per Sq Ft"
   );
  
   if (!totalSqft) return 1;

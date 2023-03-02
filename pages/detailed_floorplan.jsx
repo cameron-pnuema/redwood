@@ -45,10 +45,10 @@ const DetailedFloorPlan = () => {
 
     const handleFetch = async(offsetId) => {
     let url 
-    if(selectorPlan?.HomeType===HOME_TYPE.MODULAR){
+    if(selectorPlan?.homeType===HOME_TYPE.MODULAR){
         url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
     }
-    else if(selectorPlan?.HomeType ===HOME_TYPE.HUDDW){
+    else if(selectorPlan?.homeType ===HOME_TYPE.HUDDW){
         url ="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
     }
     setIsLoading(true)
@@ -173,7 +173,7 @@ const DetailedFloorPlan = () => {
                 })
                 .value();    
                 dispatch(setAirtablecustomizationAction(manufacturerData.current))
-                dispatch(customizationAction(manufacturerData.current[selectorPlan?.Manufacturer]));
+                dispatch(customizationAction(manufacturerData.current[selectorPlan?.manufacturerName]));
                 setIsLoading(false)
 
           }
