@@ -6,11 +6,12 @@ export const filterSelectFloorplan = (floorPlanFilter, plansSlot) => {
             data = data && filterResult
         })
         return data
+       
     })
 }
 
 const filterByOperation = (filterObj, plan) => {
-
+    
     if (filterObj.operation === "range") {
         return getDataBetweenRange(filterObj, plan)
     } else if (filterObj.operation === "greater") {
@@ -24,39 +25,40 @@ const filterByOperation = (filterObj, plan) => {
 const getPrice = (price) => parseFloat(price.replace(/,/g, ''));
 const getDataBetweenRange = (filterObj, plan) => {
     if (filterObj.title === "Square Feet") {
-        return ((plan.s >= filterObj.min) && (plan.s <= filterObj.max))
+        return ((Number(plan.fields['Sq Ft']) >= filterObj.min) && (Number(plan.fields['Sq Ft']) <= filterObj.max))
     } else if (filterObj.title === "Price") {
-        return ((getPrice(plan.finalPrice) >= filterObj.min) && (getPrice(plan.finalPrice) <= filterObj.max))
+        return ((getPrice(plan.fields.finalPrice) >= filterObj.min) && (getPrice(plan.fields.finalPrice) <= filterObj.max))
     }
 }
 
 const getEqualData = (filterObj, plan) => {
     if (filterObj.title === "Square Feet") {
-        return plan.s === filterObj.value
+        return plan.fields['Sq Ft'] === filterObj.value
     } else if (filterObj.title === "Price") {
-        return plan.finalPrice === filterObj.value
+        return plan.fields.finalPrice === filterObj.value
     } else if (filterObj.title === "Bedrooms") {
-        return plan.bedrooms === filterObj.value
+        return plan.fields.Beds == filterObj.value
     }
     else if (filterObj.title === "Bathrooms") {
-        return plan.bathrooms === filterObj.value
+        return plan.fields.Baths == filterObj.value
     }
     else if (filterObj.title === "Home Type") {
         // currently we dont have home type
-        return plan.homeType === filterObj.value
+        return plan.fields.HomeType === filterObj.value
     }
 }
 
 const getDataGreaterThanValue = (filterObj, plan) => {
+  
     if (filterObj.title === "Square Feet") {
-        return plan.s > filterObj.value
+        return plan.fields['Sq Ft'] > filterObj.value
     } else if (filterObj.title === "Price") {
-        return plan.finalPrice > filterObj.value
+        return plan.fields.finalPrice > filterObj.value
     } else if (filterObj.title === "Bedrooms") {
-        return plan.bedrooms > filterObj.value
+        return plan.fields.Beds > filterObj.value
     }
     else if (filterObj.title === "Bathrooms") {
-        return plan.bathrooms > filterObj.value
+        return plan.fields.Baths> filterObj.value
     }
 }
 

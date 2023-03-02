@@ -21,8 +21,10 @@ const Item = ({ noButton, data }) => {
   const dispatch = useDispatch();
   const floorplan = useSelector((state) => state.floorplan.floorplan);
 
+  
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER = markupValue.Notes;
+ 
 
   const airtableCustomization = useSelector(
     (state) => state.customization.airtableCustomization
@@ -45,13 +47,16 @@ const Item = ({ noButton, data }) => {
   };
 
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data);
+  
   const finalPrice = format(
     (data?.Price + baseConstructionCosts) * MARK_UP_MULTIPLIER,
+    
     {
       spacing: true,
       showDecimals: "NEVER",
     }
   )
+ 
   const setFinalPriceData=(data,finalPrice)=>{
     data.finalPrice=finalPrice
   }
@@ -73,7 +78,7 @@ const Item = ({ noButton, data }) => {
               </Spinner>
             </span>
           )}
-          <span className={styles.Item__type} style={{"backgroundColor":data.homeType==="Modular"?"#d1253d":"#3939FF"}}>{data.HomeType}</span>
+          <span className={styles.Item__type} style={{"backgroundColor":data.HomeType==="Modular"?"#d1253d":"#3939FF"}}>{data.HomeType}</span>
           <div className={styles.Item__wrapImg}>
             <img src={data['Front Image']?.[0]?.url} alt="Home image" />
           </div>

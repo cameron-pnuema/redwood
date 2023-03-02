@@ -19,7 +19,7 @@ export const filterData =[
     {
         id: uuidv4(),
         title: "Square Feet",
-        options: [{ id: uuidv4(), label: "0-999 SqFt", min: "0", max: "999", operation: "range" }, { id: uuidv4(), label: "1000-1499 SqFt", min: "1000", max: "1499", operation: "range" }, { id: uuidv4(), label: "1500-1999 SqFt", min: "1500", max: "1999", value: "1500-1999", operation: "range" }, { id: uuidv4(), label: "2000+ SqFt", value: 2000, operation: "greater" }]
+        options: [{ id: uuidv4(), label: "0-999 SqFt", min: "0", max: "999", operation: "range" }, { id: uuidv4(), label: "1000-1499 SqFt", min: "1000", max: "1499", operation: "range", value:"1200" }, { id: uuidv4(), label: "1500-1999 SqFt", min: "1500", max: "1999", value: "1500-1999", operation: "range" }, { id: uuidv4(), label: "2000+ SqFt", value: 2000, operation: "greater" }]
     },
     {
         id: uuidv4(),

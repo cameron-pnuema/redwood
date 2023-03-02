@@ -23,6 +23,7 @@ const SelectFloorPlan = () => {
     const priceFactor = useSelector(state => state.priceFactor);
     const floorPlanFilter = useSelector(state => state.floorplan.filters);
     const plansSlot = useSelector(state => state.priceFactor.floorPlan.data)
+   
     const dispatch = useDispatch()
     useEffect(() => {
         if (typeof window !== "undefined" && !window.sessionStorage.getItem('USER_DETAILS')) {
@@ -50,9 +51,11 @@ const SelectFloorPlan = () => {
 
     useEffect(() => {
         const data = filterSelectFloorplan(floorPlanFilter, plansSlot)
+       
         setFilterFloorPlan(data)
     }, [floorPlanFilter,plansSlot])
     
+
     return (
         <Layout showDisclaimer>
             <Container>
@@ -65,7 +68,7 @@ const SelectFloorPlan = () => {
             </Collapse>
             <ApplyForm className="form-modal" />
             {filterFloorPlan.length ? <SelectFloorPlanTemplate
-                plansSlot={filterFloorPlan}
+                plansSlot={filterFloorPlan} 
             /> : <h2 class="text-center">No Data Found</h2>}
         </Layout>
     );

@@ -74,6 +74,7 @@ const Apply = () => {
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
   const Plan = selectorLot.planData;
+  
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -242,10 +243,10 @@ const Apply = () => {
           lot_area: lot.length * lot.width,
           lot_width: lot.width,
           lot_length: lot.length,
-          floorplan_name: Plan.title,
-          floorplan_area: Plan.s,
-          floorplan_bedrooms: Plan.bedrooms,
-          floorplan_bathrooms: Plan.bathrooms,
+          floorplan_name: Plan.Floorplan,
+          floorplan_area: Plan['Sq Ft'],
+          floorplan_bedrooms: Plan.Baths,
+          floorplan_bathrooms: Plan.Beds          ,
           floorplan_price: formatPrice(Plan.price),
           customizations_price: formatPrice(price),
           total_price: totalPrice,
