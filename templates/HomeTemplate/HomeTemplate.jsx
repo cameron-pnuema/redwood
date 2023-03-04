@@ -66,10 +66,10 @@ const HomeTemplate = (categoryType) => {
     const handleFetch = async (offsetId) => {
 
         let url
-        if (selectorPlan?.HomeType === HOME_TYPE.MODULAR) {
+        if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
             url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
         }
-        else if (selectorPlan?.HomeType === HOME_TYPE.HUDDW) {
+        else if (selectorPlan?.homeType === HOME_TYPE.HUDDW) {
             url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
         }
         if (offsetId) {
@@ -97,7 +97,7 @@ const HomeTemplate = (categoryType) => {
                 .groupBy(x => x.fields.manufacturer)
                 .map((group, groupIndex) => {
 
-                    const buildingManufacturerName = group[0]?.fields.manufacturer
+                    const buildingManufacturerName = group[0]?.fields.manufacturerName
                     let a = []
 
 
@@ -111,7 +111,8 @@ const HomeTemplate = (categoryType) => {
                             manufacturerName: ''
                         }
 
-                        const pageNumber = pageGroup[0]?.fields?.['Page Number'];
+                        const pageNumber = pageGroup[0]?.fields?.pageNumber;
+                        
 
                         mainOption.category = pageNumber;
                         mainOption.active = pageNumber === 1 ? true : false

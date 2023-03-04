@@ -11,9 +11,10 @@ import {
   selectionCategoryNames,
   selectionFieldTypes,
 } from "../db/custumizationGroupsFairmont";
-import { set } from "lodash";
+
 
 const getPrice = (data) => {
+  
   let price = 0;
   data.forEach((item) => {
     price += Number(item?.price) || 0;
@@ -64,7 +65,8 @@ const CustomizeInterior = () => {
 
   const dispatch = useDispatch();
   const [notesState, setNotesState] = useState([]);
-
+   
+ 
   const activeCustomizationCategory = customizations.find((c) => c.active);
   const activeCategoryIndex = customizations.findIndex((c) => c.active);
   const totalCustomizationPrice = getTotalCustomizationPrice(customizations);

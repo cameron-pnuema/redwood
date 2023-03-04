@@ -48,6 +48,7 @@ const LeftArrow = ({ onClick, ...rest }) => {
 
 const Slider = ({ images }) => {
     return (
+     
         <Carousel
             responsive={responsive}
             infinite={true}
@@ -62,14 +63,14 @@ const Slider = ({ images }) => {
         >
 
             {
-                images.map((data, i) => {
+                 images?  images.map((data, i) => {
                     return (
                         <ItemSlider
                             key={i}
                             imgSlider={data.url}
                         />
                     )
-                })
+                }):<h3> No Images available yet...</h3>
             }
 
         </Carousel>

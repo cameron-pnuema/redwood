@@ -52,6 +52,7 @@ const DetailedFloorPlan = () => {
         url ="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
     }
     setIsLoading(true)
+
         if(offsetId){
             url = url + `?offset=${offsetId}`
         }else{
@@ -74,10 +75,11 @@ const DetailedFloorPlan = () => {
             let mainOptionIndex = 0
     
             var result = _(totalRecords.current)
-                .groupBy(x => x.fields.manufacturer)
+                .groupBy(x => x.fields.manufacturerName)
                 .map((group, groupIndex) => {
                     
-                    const buildingManufacturerName = group[0]?.fields.manufacturer
+                    const buildingManufacturerName = group[0]?.fields.manufacturerName
+                    
                     let a = []
                     
                     
@@ -91,8 +93,10 @@ const DetailedFloorPlan = () => {
                             manufacturerName: ''
                         }
     
-                        const pageNumber = pageGroup[0]?.fields?.['Page Number'];
-    
+
+                    
+                        const pageNumber = pageGroup[0]?.fields?.pageNumber;
+  
                         mainOption.category = pageNumber;
                         mainOption.active = pageNumber === 1 ? true : false
                         mainOption.name = pageNameIndex
@@ -172,7 +176,9 @@ const DetailedFloorPlan = () => {
                     return group
                 })
                 .value();    
+              
                 dispatch(setAirtablecustomizationAction(manufacturerData.current))
+               
                 dispatch(customizationAction(manufacturerData.current[selectorPlan?.manufacturerName]));
                 setIsLoading(false)
 

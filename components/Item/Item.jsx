@@ -93,19 +93,19 @@ const Item = ({ noButton, data }) => {
             >
               <div className={styles.Item__paramsLabel}>
                 <img src={badroomsImg} alt="badroomsImg" />
-                <span>{data.Beds}</span>
+                <span>{data.bedCount}</span>
                 <span className={styles.Item__LabeName}>Bedrooms</span>
               </div>
 
               <div className={styles.Item__paramsLabel}>
                 <img src={bathImg} alt="bathImg" />
-                <span>{data.Baths}</span>
+                <span>{data.bathCount}</span>
                 <span className={styles.Item__LabeName}>Bathrooms</span>
               </div>
 
               <div className={styles.Item__paramsLabel}>
                 <img src={PlanImg} alt="badroomsImg" />
-                <span>{data['Sq Ft Category']}</span>
+                <span>{data['sq Ft Category']}</span>
                 <span className={styles.Item__LabeName}>Sq.Ft</span>
               </div>
             </div>

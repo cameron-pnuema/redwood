@@ -191,5 +191,5 @@ const CityMap = ({slotState, setIsPopup }) => {
         </>
     )
 }
-
+}
 export default CityMap;
