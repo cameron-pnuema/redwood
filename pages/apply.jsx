@@ -11,6 +11,7 @@ import { formValidator } from "../UTILS/validator";
 import { setUserInforModal } from "../store/actions/popup";
 import { getBaseContructionCostsPerSqureFit } from "../db/baseConstructionCosts";
 import { saveOrderData } from "../api/saveOrderData"
+import { HousePrice } from "../UTILS/price";
 
 let orderId
 
@@ -84,6 +85,7 @@ const Apply = () => {
         setDetails(details);
       }
     }
+
   }, []);
 
   const handleChange = (value, name) => {
@@ -97,9 +99,10 @@ const Apply = () => {
     let errors = formValidator(userDetails);
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
-      (Plan.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+      HousePrice( Plan?.floorplanPrice , baseConstructionCosts , MARK_UP_MULTIPLIER) +
       (customizationPrice || 0)
     )
+    
     const responseData=await saveOrderData({
       fields: {
         email: userDetails.email,

@@ -16,6 +16,8 @@ import customizationGroupMHE from "../../db/custumizationGroupsMHE";
 import { useSelector } from "react-redux";
 import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
 import { Spinner } from "reactstrap"
+import {HousePrice} from "../../UTILS/price";
+
 
 const Item = ({ noButton, data }) => {
   const dispatch = useDispatch();
@@ -49,7 +51,7 @@ const Item = ({ noButton, data }) => {
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data);
   
   const finalPrice = format(
-    (data?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER,
+    HousePrice( data?.floorplanPrice , baseConstructionCosts , MARK_UP_MULTIPLIER),
     
     {
       spacing: true,
