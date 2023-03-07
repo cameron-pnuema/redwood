@@ -32,7 +32,7 @@ const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
 
                                 {selectorPlan && (
                                     <Slider
-                                        images={selectorPlan.Images}
+                                        images={selectorPlan.otherPhotos}
                                     />
                                 )}
                             </div>

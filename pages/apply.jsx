@@ -43,7 +43,7 @@ const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
   }
   return htmlElement;
 };
-const Apply = () => {
+const Apply = ({data}) => {
   const [isCompleted, setCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ const Apply = () => {
 
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
-    const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
+    const baseConstructionCosts =  getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
       HousePrice( Plan?.floorplanPrice , baseConstructionCosts , MARK_UP_MULTIPLIER) +
       (customizationPrice || 0)
@@ -236,7 +236,7 @@ const Apply = () => {
         "user_report",
         {
           preview: getLetter(
-            Plan.Images.map(
+            Plan.otherPhotos.map(
               (i) =>
                 `https://rrc-home-configurator-git-dev-vpilip.vercel.app${i}`
             )

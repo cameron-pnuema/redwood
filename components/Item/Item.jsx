@@ -21,11 +21,12 @@ import {HousePrice} from "../../UTILS/price";
 
 const Item = ({ noButton, data }) => {
   const dispatch = useDispatch();
-  const floorplan = useSelector((state) => state.floorplan.floorplan);
+  const floorplan = useSelector((state) => state.floorplan);
+ 
 
-  
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER = markupValue.Notes;
+
  
 
   const airtableCustomization = useSelector(
@@ -48,7 +49,7 @@ const Item = ({ noButton, data }) => {
     Router.replace("/detailed_floorplan");
   };
 
-  const baseConstructionCosts = getBaseContructionCostsPerSqureFit(data);
+  const baseConstructionCosts = data && getBaseContructionCostsPerSqureFit(data);
   
   const finalPrice = format(
     HousePrice( data?.floorplanPrice , baseConstructionCosts , MARK_UP_MULTIPLIER),
@@ -82,7 +83,7 @@ const Item = ({ noButton, data }) => {
           )}
           <span className={styles.Item__type} style={{"backgroundColor":data.homeType==="Modular"?"#d1253d":"#3939FF"}}>{data.homeType}</span>
           <div className={styles.Item__wrapImg}>
-            <img src={data['Front Image']?.[0]?.url} alt="Home image" />
+            <img src={data['coverPhoto']?.[0]?.url} alt="Home image" />
           </div>
 
           <div className={styles.Item__wrapData}>

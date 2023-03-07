@@ -100,9 +100,10 @@ const setCost = () => {
 };
 
 export const getBaseContructionCostsPerSqureFit = (data) => {
+  
  setCost();
   const category = "sq Ft Category"
-  if (!data[category] ) return null;
-  if(data.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
+  if (!data?.[category] ) return null;
+  if(data?.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
   return baseContructionTotalCosts[data[category] + "ft"] * data[category];
 };
