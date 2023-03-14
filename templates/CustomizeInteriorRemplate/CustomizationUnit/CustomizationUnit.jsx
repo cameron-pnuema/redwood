@@ -4,7 +4,7 @@ import Button from "../../../components/UI/Button/Button";
 import { format } from "number-currency-format";
 import { useSelector } from "react-redux";
 import Router from "next/router";
-
+import { useRouter } from "next/router";
 import OptionGroup from "./OptionsGroup/OptionsGroup";
 import { getBaseContructionCostsPerSqureFit } from "../../../db/baseConstructionCosts";
 import FloringUpgrade from "./FloringUpgrade";
@@ -37,6 +37,9 @@ const CustomizationUnit = ({
   );
   const markupValue = useSelector(state => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER=markupValue.Notes
+
+  const router = useRouter();
+  const{company}=router.query
   // const topRef = useRef(null)
 
   let progressWidth = `${(100 * (currentCategory - 1)) / totalCategories}%`;
@@ -179,7 +182,7 @@ const CustomizationUnit = ({
             text="Submit"
             disabled={currentCategory !== totalCategories}
             style={{ width: "100%", height: 50 }}
-            onclick={() => Router.replace("/apply")}
+            onclick={() => Router.replace(`/${company}/apply`)}
           />
         </div>
         <div className={styles.summary__disclaimer}>
@@ -231,7 +234,7 @@ const CustomizationUnit = ({
               <Button
                 text="Submit"
                 noArrow
-                onclick={() => Router.replace("/apply")}
+                onclick={() => Router.replace(`/{company}/apply`)}
               />
             )}
           </div>

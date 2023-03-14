@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Layout from '../components/layout/layout';
-import SelectFloorPlanTemplate from '../templates/SelectFloorPlanTemplate/SelectFloorPlanTemplate';
-import plans from '../db/plans';
-import useTimeout from '../UTILS/useTimeout';
-import ApplyForm from '../components/applyForm/ApplyForm';
-import { setUserInforModal } from '../store/actions/popup';
-import { getMarkup, getFloorPlan, getConstructionCost } from "../store/actions/priceFactor"
-import FilterCriteria from "../components/filterCriteria"
+import Layout from '../../components/layout/layout';
+import SelectFloorPlanTemplate from '../../templates/SelectFloorPlanTemplate/SelectFloorPlanTemplate';
+import plans from '../../db/plans';
+import useTimeout from '../../UTILS/useTimeout';
+import ApplyForm from '../../components/applyForm/ApplyForm';
+import { setUserInforModal } from '../../store/actions/popup';
+import { getMarkup, getFloorPlan, getConstructionCost } from "../../store/actions/priceFactor"
+import FilterCriteria from "../../components/filterCriteria"
 import { Collapse, Container, Button } from "reactstrap"
-import { floorplanFilterAction, floorplanClearFilterAction } from "../store/actions/floorplan"
-import { filterSelectFloorplan } from "../UTILS/filterSelectFloorplan"
-import { filterData } from "../components/filterCriteria/utils"
-import FilterPills from "../components/filterPills"
+import { floorplanFilterAction, floorplanClearFilterAction } from "../../store/actions/floorplan"
+import { filterSelectFloorplan } from "../../UTILS/filterSelectFloorplan"
+import { filterData } from "../../components/filterCriteria/utils"
+import FilterPills from "../../components/filterPills"
 const SelectFloorPlan = () => {
 
     useTimeout();

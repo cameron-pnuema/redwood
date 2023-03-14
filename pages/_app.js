@@ -22,6 +22,8 @@ const tagManagerArgs = {
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
+  const{company}=router.query
+ 
   const selectorPopup = useSelector((state) => state.popup.popup);
 
   useEffect(() => {
@@ -52,10 +54,10 @@ const MyApp = ({ Component, pageProps }) => {
 
   useEffect(() => {
     if (router.pathname !== "/") router.replace("/");
-    router.prefetch("/select_floorplan");
-    router.prefetch("/detailed_floorplan");
-    router.prefetch("/customize_lnterior");
-    router.prefetch("/apply");
+    router.prefetch(`/${company}/select_floorplan`);
+    router.prefetch(`/${company}/detailed_floorplan`);
+    router.prefetch(`/${company}/customize_lnterior`);
+    router.prefetch(`/${company}/apply`);
   }, []);
 
   return content;

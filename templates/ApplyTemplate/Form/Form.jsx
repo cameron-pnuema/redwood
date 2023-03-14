@@ -3,8 +3,13 @@ import styles from './Form.module.scss';
 import Button from '../../../components/UI/Button/Button';
 import Router from 'next/router';
 import { phoneNumberReg, isValidPhoneNumber } from '../../../UTILS/validator'
+import { useRouter } from 'next/router';
 
 const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) => {
+
+
+    const router = useRouter();
+    const{company}=router.query
 
         const { firstName, lastName, email, phoneNumber, description, city, state, zipCode, country, errors } = formValues
 
@@ -134,7 +139,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         text='Back'
                         style={{ height: '50px', width: '100%' }}
                         theme3
-                        onclick={() => Router.replace('/customize_lnterior')}
+                        onclick={() => Router.replace(`/${company}/detailed_floorplan`)}
                     />
                 </>
                 }

@@ -41,6 +41,7 @@ export const getMarkup = (data) => {
             if (fields) {
                 dispatch(getMarkupSuccess(fields))
             }
+            
         } catch (e) {
             toast(e.response ? e.response.data : 'Что-то пошло не так');
             dispatch(getMarkupError());

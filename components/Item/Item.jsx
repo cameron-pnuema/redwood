@@ -17,10 +17,13 @@ import { useSelector } from "react-redux";
 import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
 import { Spinner } from "reactstrap"
 import {HousePrice} from "../../UTILS/price";
+import { useRouter } from "next/router";
 
 
 const Item = ({ noButton, data }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const{company}=router.query
   const floorplan = useSelector((state) => state.floorplan);
  
 
@@ -46,7 +49,7 @@ const Item = ({ noButton, data }) => {
           ,
         })
       );
-    Router.replace("/detailed_floorplan");
+    Router.replace(`/${company}/detailed_floorplan`);
   };
 
   const baseConstructionCosts = data && getBaseContructionCostsPerSqureFit(data);

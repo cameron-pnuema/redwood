@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import ApplyTemplate from "../templates/ApplyTemplate/ApplyTemplate";
-import useTimeout from "../UTILS/useTimeout";
+import ApplyTemplate from "../../templates/ApplyTemplate/ApplyTemplate";
+import useTimeout from "../../UTILS/useTimeout";
 import ReactGA from "react-ga";
 import emailjs from "emailjs-com";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "number-currency-format";
-import { getLetter } from "../assets/letter";
-import imgToBase64 from "../UTILS/imgToBase64";
-import { formValidator } from "../UTILS/validator";
-import { setUserInforModal } from "../store/actions/popup";
-import { getBaseContructionCostsPerSqureFit } from "../db/baseConstructionCosts";
-import { saveOrderData } from "../api/saveOrderData"
-import { HousePrice } from "../UTILS/price";
+import { getLetter } from "../../assets/letter";
+import imgToBase64 from "../../UTILS/imgToBase64";
+import { formValidator } from "../../UTILS/validator";
+import { setUserInforModal } from "../../store/actions/popup";
+import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
+import { saveOrderData } from "../../api/saveOrderData"
+import { HousePrice } from "../../UTILS/price";
 
 let orderId
 
@@ -99,7 +99,7 @@ const Apply = ({data}) => {
     let errors = formValidator(userDetails);
     const baseConstructionCosts =  getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
-      HousePrice( Plan?.floorplanPrice , baseConstructionCosts , MARK_UP_MULTIPLIER) +
+     ( Plan?.floorplanPrice + baseConstructionCosts )* MARK_UP_MULTIPLIER +
       (customizationPrice || 0)
     )
     

@@ -10,10 +10,12 @@ import { floorplanAction } from '../../../store/actions/floorplan';
 import { useDispatch } from 'react-redux';
 import closeImg from '../../../assets/img/icons/close.svg';
 import { format } from 'number-currency-format';
-
+import { useRouter } from 'next/router';
 
 const SlotPopup = ({ id, setSlotId }) => {
 
+    const router = useRouter();
+    const { company } = router.query
     const dispatch = useDispatch();
     const slotData = slots.find(e => e.id === id);
     const prev = plans().filter(e => e.type === slotData.type);
@@ -27,7 +29,7 @@ const SlotPopup = ({ id, setSlotId }) => {
     const nextStep = () => {
         dispatch(setLot(slotData));
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
-        Router.replace('/select_floorplan');
+        Router.replace(`/${company}/select_floorplan`);
     }
 
     let priceFrom = format(price[0], {
@@ -77,7 +79,7 @@ const SlotPopup = ({ id, setSlotId }) => {
                 {
                     prev.length > 3 && (
                         <p className={styles.popup__itemsLength}>
-                            and { prev.length - 3} more
+                            and {prev.length - 3} more
                         </p>
                     )
                 }

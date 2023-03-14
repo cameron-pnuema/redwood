@@ -5,9 +5,11 @@ import Slider from '../../components/Slider/Slider';
 import Button from '../../components/UI/Button/Button';
 import Router from 'next/router';
 import { Container, Row, Col ,Spinner} from 'reactstrap';
+import { useRouter } from 'next/router';
 
 const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
-
+    const router = useRouter();
+    const{company}=router.query
     return (
         <div className={styles.DetailedFloorPlanTemplate}>
 
@@ -40,7 +42,7 @@ const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
                             <Button
                                 text={isLoading?"... Loading":'Choose this floorplan!'}
                                 style={{ height: '50px' ,cursor:isLoading?"not-allowed":"pointer"}}
-                                onclick={() => Router.replace('/customize_lnterior')}
+                                onclick={() => Router.replace(`/${company}/customize_lnterior`)}
                                 disabled={isLoading}
                             />
 

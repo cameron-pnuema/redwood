@@ -3,6 +3,7 @@ import styles from './HomeTemplate.module.scss';
 import bgImg from '../../assets/img/homePage/bgHomePage.jpg';
 import Button from '../../components/UI/Button/Button';
 import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { setLot, setPlan } from '../../store/actions/lotAction';
 import { floorplanAction } from '../../store/actions/floorplan';
 import slots from '../../db/slots';
@@ -43,28 +44,32 @@ const getCategoryName = (airtableCategoryName) => {
 }
 
 const HomeTemplate = (categoryType) => {
+    
     const totalRecords = useRef([])
     let manufacturerData = useRef({
 
     })
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
-
     const [orderID, setOrderID] = useState('')
     //setting a default slot as we are not showing all the slots.
     const slotData = slots[0]
     const dispatch = useDispatch()
     const selectorPlan = useSelector(state => state.lot.planData);
+
+    const babySLect = useSelector(state =>(state))
+
+    console.log('babySLect',babySLect)
     const gotoFloorPlan = () => {
         dispatch(setLot(slotData));
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
-        Router.replace('/select_floorplan');
+        Router.replace('/GsCourtYard/select_floorplan');
     }
 
 
 
     const handleFetch = async (offsetId) => {
-
+        
         let url
         if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
             url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
@@ -73,7 +78,7 @@ const HomeTemplate = (categoryType) => {
             url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
         }
         if (offsetId) {
-            url = url + `?offset=${offsetId}`
+            url = url + `?offset=${offsetId}`       
         } else {
             totalRecords.current = []
         }
@@ -194,7 +199,8 @@ const HomeTemplate = (categoryType) => {
                 })
                 .value();
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
-            Router.replace('/customize_lnterior');
+            Router.replace('/GsCourtYard/customize_lnterior');
+            
         }
     }
 

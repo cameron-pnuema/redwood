@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Layout from "../components/layout/layout";
-import CustomizeInteriorRemplate from "../templates/CustomizeInteriorRemplate/CustomizeInteriorRemplate";
-import useTimeout from "../UTILS/useTimeout";
+import Layout from "../../components/layout/layout";
+import CustomizeInteriorRemplate from "../../templates/CustomizeInteriorRemplate/CustomizeInteriorRemplate";
+import useTimeout from "../../UTILS/useTimeout";
 import {
   customizationAction,
   setCustomizationPriceAction,
-} from "../store/actions/customization";
+} from "../../store/actions/customization";
 import {
   selectionCategoryNames,
   selectionFieldTypes,
-} from "../db/custumizationGroupsFairmont";
+} from "../../db/custumizationGroupsFairmont";
 
 
 const getPrice = (data) => {
