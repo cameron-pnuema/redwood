@@ -26,6 +26,8 @@ const OptionsGroup = ({
 }) => {
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
+ 
+ 
   return (
     <div className={styles.group}>
       <div className={styles.group__name}>{groupName}</div>
@@ -33,6 +35,7 @@ const OptionsGroup = ({
         {options
           .sort((a, b) => a.price - b.price)
           .map((o, endChildIndex) => {
+          
             const isQuantityType =
               o.categoryType === selectionFieldTypes.QUANTITY;
             const isMultipleType =
@@ -69,7 +72,7 @@ const OptionsGroup = ({
                   }
                 }}
               >
-                <div className={styles.option__label}>
+                {o.displayStatus==="On" ? <><div className={styles.option__label}>
                   {isQuantityType ? (
                     <InputCustomizeOption
                       groupId={groupId}
@@ -79,7 +82,7 @@ const OptionsGroup = ({
                         onChange({ optionId: o.id, value, endChildIndex })
                       }
                     />
-                  ) : (
+                  ) : ( 
                     <Checkbox
                       checked={
                         (Array.isArray(activeOptionId) &&
@@ -96,7 +99,7 @@ const OptionsGroup = ({
                     spacing: true,
                     showDecimals: "NEVER",
                   })}
-                </div>
+                </div></>:null  }
               </div>
             );
           })}
