@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './HomeTemplate.module.scss';
 import bgImg from '../../assets/img/homePage/bgHomePage.jpg';
@@ -16,7 +17,8 @@ import { toast } from 'react-toastify';
 import { getMarkup, getFloorPlan, getConstructionCost } from "../../store/actions/priceFactor"
 import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
 import { customizationAction } from "../../store/actions/customization"
-import {setUserData} from "../../store/actions/user"
+import { setUserData } from "../../store/actions/user"
+
 const FLOORING = 'Flooring'
 
 const getCategoryType = (categoryName) => {
@@ -44,7 +46,16 @@ const getCategoryName = (airtableCategoryName) => {
 }
 
 const HomeTemplate = (categoryType) => {
+ let userCompany
+    if (typeof window !== 'undefined') {
+         userCompany = localStorage.getItem('companyName')
+      }
+    const router = useRouter()
     
+   
+    const companyName = router.query.company || userCompany
+     
+
     const totalRecords = useRef([])
     let manufacturerData = useRef({
 
@@ -57,19 +68,14 @@ const HomeTemplate = (categoryType) => {
     const dispatch = useDispatch()
     const selectorPlan = useSelector(state => state.lot.planData);
 
-    const babySLect = useSelector(state =>(state))
-
-    console.log('babySLect',babySLect)
     const gotoFloorPlan = () => {
         dispatch(setLot(slotData));
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
-        Router.replace('/GsCourtYard/select_floorplan');
+        Router.replace(`/${companyName}/select_floorplan`);
     }
 
-
-
     const handleFetch = async (offsetId) => {
-        
+
         let url
         if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
             url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
@@ -78,7 +84,7 @@ const HomeTemplate = (categoryType) => {
             url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
         }
         if (offsetId) {
-            url = url + `?offset=${offsetId}`       
+            url = url + `?offset=${offsetId}`
         } else {
             totalRecords.current = []
         }
@@ -117,7 +123,7 @@ const HomeTemplate = (categoryType) => {
                         }
 
                         const pageNumber = pageGroup[0]?.fields?.pageNumber;
-                        
+
 
                         mainOption.category = pageNumber;
                         mainOption.active = pageNumber === 1 ? true : false
@@ -199,8 +205,8 @@ const HomeTemplate = (categoryType) => {
                 })
                 .value();
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
-            Router.replace('/GsCourtYard/customize_lnterior');
-            
+            Router.replace(`/${companyName}/customize_lnterior`);
+
         }
     }
 
@@ -240,7 +246,7 @@ const HomeTemplate = (categoryType) => {
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
 
-           
+
 
             order[order.length - 1].active = false
             order[0].active = true

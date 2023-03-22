@@ -22,7 +22,7 @@ const filterByOperation = (filterObj, plan) => {
     }
 
 }
-const getPrice = (price) => parseFloat(price.replace(/,/g, ''));
+const getPrice = (price) => parseFloat(price?.replace(/,/g, ''));
 const getDataBetweenRange = (filterObj, plan) => {
     if (filterObj.title === "Square Feet") {
         return ((Number(plan.fields['sq Ft']) >= filterObj.min) && (Number(plan.fields['sq Ft']) <= filterObj.max))

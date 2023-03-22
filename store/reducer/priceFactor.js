@@ -1,13 +1,40 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+
    markup:{isLoading:false,iSSuccess:false,isError:"false",data:[],error:""},
    floorPlan:{isLoading:false,iSSuccess:false,isError:"false",data:[],error:""},
    constructionCost:{isLoading:false,iSSuccess:false,isError:"false",data:[],error:""},
-
+   client:{isLoading:false,iSSuccess:false,isError:"false",data:[],error:""},
 };
 
 const reducer = (state = initialState, action) => {
+
+    if(action.type === actionTypes.CLIENT_REQUEST){
+        const newState = {...state};
+        newState.client.isLoading = true;
+        newState.client.iSSuccess = false;
+        newState.client.iSError = false;
+        return newState;
+    }
+
+    if(action.type === actionTypes.CLIENT_SUCCESS){
+        const newState = {...state};
+        newState.client.isLoading = false;
+        newState.client.iSSuccess = true;
+        newState.client.iSError = false;
+        newState.client.data =action.payload;
+        return newState;
+    }
+
+    if(action.type === actionTypes.CLIENT_ERROR){
+        const newState = {...state};
+        newState.client.isLoading = false;
+        newState.client.iSSuccess = false;
+        newState.client.iSError = true;
+        newState.client.error =action.payload;
+        return newState;
+    }
     
     if(action.type === actionTypes.MARKUP_REQUEST){
         const newState = {...state};

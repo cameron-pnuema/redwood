@@ -54,3 +54,42 @@ li {
 .form-modal{
     max-width: 800px;
 }
+
+.heading{
+    text-align: center;
+    font-weight: 700;
+    margin:50px;
+}
+.listcompanies{
+    width: 100%!important;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    border-radius: 10px;
+    padding: 50px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 500px;
+    gap: 60px;
+}
+.btn1 {
+    width: 70%;
+    height: 100px;
+    border-radius: 5px;
+    border: none;
+    outline: none !important;
+    background: rgb(226, 51, 51);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    cursor: pointer;
+}
+
+li {
+    font-size: 1.5rem;
+    color:white;
+    text-decoration: none;
+}

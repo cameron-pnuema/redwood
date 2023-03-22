@@ -12,7 +12,6 @@ const Heder = () => {
     const router = useRouter();
     const company = router.query
 
-
     const tabs = [
         { id: 1, name: 'Select Floorplan', active: false, visit: false, link: `/${company.company}/select_floorplan` },
         { id: 2, name: 'Detailed Floorplan', active: false, visit: false, link: `/${company.company}/detailed_floorplan` },

@@ -7,6 +7,10 @@ const getMarkupRequest = () => ({ type: actionTypes.MARKUP_REQUEST });
 const getMarkupSuccess = (data) => ({ type: actionTypes.MARKUP_SUCCESS, payload:data });
 const getMarkupError = (data) => ({ type: actionTypes.MARKUP_ERROR, payload:data });
 
+const clientProfileRequest = () => ({ type: actionTypes.CLIENT_REQUEST });
+const clientProfileSuccess = (data) => ({ type: actionTypes.CLIENT_SUCCESS, payload:data });
+const clientProfileError = (data) => ({ type: actionTypes.CLIENT_ERROR, payload:data });
+
 const getConstructionCostRequest = () => ({ type: actionTypes.CONSTRUCTION_COST_REQUEST });
 const getConstructionCostSuccess = (data) => ({ type: actionTypes.CONSTRUCTION_COST_SUCCESS, payload:data});
 const getConstructionCostError = (data) => ({ type: actionTypes.CONSTRUCTION_COST_ERROR, payload:data });
@@ -29,6 +33,23 @@ export async function getAirtableData ({url,method}){
       return realRes
 }
 
+export const clientProfile = (data) => {
+    let url="https://api.airtable.com/v0/appNSZE4sLntsJdpb/Client%20List%20%26%20Profiles?maxRecords=3&view=Client%20List%20%26%20General%20Info"
+    return async (dispatch) => {
+        dispatch(clientProfileRequest());
+        try {
+            const res = await getAirtableData({url,method:"get"})
+            const fields=res.records
+            if (fields) {
+                dispatch(clientProfileSuccess(fields))
+            }
+            
+        } catch (e) {
+            toast(e.response ? e.response.data : 'Что-то пошло не так');
+            dispatch(clientProfileError());
+        }
+    }
+}
 
 export const getMarkup = (data) => {
     let url="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Client%20Profile/recgPVsLYxndCLFLP"

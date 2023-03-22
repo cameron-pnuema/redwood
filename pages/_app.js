@@ -21,6 +21,10 @@ const tagManagerArgs = {
 };
 
 const MyApp = ({ Component, pageProps }) => {
+  let userCompany
+  if (typeof window !== 'undefined') {
+       userCompany = localStorage.getItem('companyName')
+    }
   const router = useRouter();
   const{company}=router.query
  
@@ -53,7 +57,9 @@ const MyApp = ({ Component, pageProps }) => {
   );
 
   useEffect(() => {
-    if (router.pathname !== "/") router.replace("/");
+    if (!userCompany && router.pathname !== "/") router.replace("/")
+    else if (router.pathname !== "/") router.replace(`/${userCompany}`);
+    
     router.prefetch(`/${company}/select_floorplan`);
     router.prefetch(`/${company}/detailed_floorplan`);
     router.prefetch(`/${company}/customize_lnterior`);
