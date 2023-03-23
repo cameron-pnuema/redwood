@@ -1,12 +1,11 @@
 import React from 'react'
 import styles from './LoginTemplate.module.scss';
 import Button from '../../components/UI/Button/Button';
-import Router from 'next/router' 
 
-
-const LoginTemplate = ({userDetails ,handleChange,handleSubmit, userValidation}) => {
+const LoginTemplate = ({userDetails={} ,handleChange,handleSubmit, userValidation,}) => {
     
-    const {email,password,errors }=userDetails  
+    const {username,password,errors }=userDetails  
+
 
   return (
     <div>
@@ -15,10 +14,10 @@ const LoginTemplate = ({userDetails ,handleChange,handleSubmit, userValidation})
         <h2>Login</h2>
         <input
           type="text"
-          name='Email'
-          placeholder="Email"
-          value={email}
-          onChange={(e) => handleChange(e.target.value, 'email')}
+          name='username'
+          placeholder="Username"
+         value={username}
+         onChange={(e) => handleChange(e.target.value, 'username')}
           className={styles.logininput}
         />
          <span className={styles.errors}>{errors?.email}</span>
@@ -38,8 +37,6 @@ const LoginTemplate = ({userDetails ,handleChange,handleSubmit, userValidation})
      
       </form>
     </div>
-
-
     </div>
   )
 }

@@ -2,7 +2,6 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clientProfile } from '../store/actions/priceFactor';
-import Link from 'next/link'
 import  Router  from 'next/router';
 
 
@@ -18,7 +17,6 @@ const Companies = () => {
 
   return (
     <div>
-
       <h1 className='heading'>Companies</h1>
       <div className='listcompanies'>
         {
@@ -29,14 +27,12 @@ const Companies = () => {
               return letter?.toUpperCase();
             });
             return (
-
               <li className='btn1' onClick={() => {
                 localStorage.setItem('companyName', output);
                 Router.push(`/${output}`)
               }}>
                 {item.fields.retailerName}
               </li>
-
             )
           })
         }

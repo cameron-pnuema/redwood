@@ -7,7 +7,6 @@ import { formValidator } from '../UTILS/validator';
 import Router from 'next/router'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Company from './[company]';
 
 
 export default function Home() {
@@ -28,7 +27,7 @@ export default function Home() {
 
 
   const [userDetails, setDetails] = useState({
-    email: "",
+    username: "",
     password: "",
     errors: {}
   })
@@ -36,11 +35,11 @@ export default function Home() {
   const handleChange = (value, name) => {
     const data = { ...userDetails };
     data[name] = value;
-    setDetails(data);
+    setDetails({...data});
   };
 
   const plansSlot = useSelector(state => state.priceFactor.client.data)
-  const userValidation = plansSlot.find(item => item.fields.pointOfContactEmail === userDetails.email && item.fields.password === userDetails.password)
+  const userValidation = plansSlot.find(item => item.fields.username === userDetails.username && item.fields.password === userDetails.password)
   const userCompany = userValidation?.fields?.retailerName
   const regex = /\s+(\w)?/gi;
   const output = userCompany?.toLowerCase().replace(regex, function (match, letter) {
@@ -62,7 +61,7 @@ export default function Home() {
       setTimeout(() => {
         Router.push('/companies')
       }, 5000)
-    userValidation && (localStorage.setItem('username', userDetails.email))
+    userValidation && (localStorage.setItem('username', userDetails.username))
   };
 
   useEffect(() => {
@@ -80,13 +79,22 @@ export default function Home() {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         userValidation={userValidation}
+        setDetails={setDetails}
       />
     }
   }
 
   return (
     <div>
-      <UserRedirect isUser={isUser} />
+      {/* <UserRedirect isUser={isUser} /> */
+      
+      isUser?<HomeTemplate/>:<LoginTemplate
+      userDetails={userDetails}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      userValidation={userValidation}
+      setDetails={setDetails}
+    />}
 
     </div>
   )
