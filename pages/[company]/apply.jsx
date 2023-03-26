@@ -157,6 +157,9 @@ const Apply = ({data}) => {
             if (option.noOfUnit) {
               itemPrice = itemPrice * option.noOfUnit;
             }
+            else if (option.noOfUnit===0){
+              itemPrice= 0
+            }
 
             const categoryName = cc.name.replace("(Optional)", "");
             let shownFieldToUser = getFieldToUser({
