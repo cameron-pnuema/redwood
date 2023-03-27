@@ -14,7 +14,6 @@ import {
 
 
 const getPrice = (data) => {
-  
   let price = 0;
   data.forEach((item) => {
     price += Number(item?.price) || 0;
@@ -24,14 +23,15 @@ const getPrice = (data) => {
 
 export const getTotalCustomizationPrice = (customizations) => {
   let categories = [];
+  
   customizations.forEach((c) => {
     categories = categories.concat(c.underCategories);
+   
   });
 
   let customizationPrice = 0;
   categories.forEach((c) => {
     const activeOption = c.options.find((o) => o?.id === c.active);
-
     if (
       c.categoryName === selectionCategoryNames.WINDOWS ||
       c.categoryName === selectionCategoryNames.LIGNTING ||
@@ -50,6 +50,7 @@ export const getTotalCustomizationPrice = (customizations) => {
     } else {
       if (!activeOption) return;
       customizationPrice += activeOption?.price;
+     
     }
   });
   return customizationPrice;
@@ -68,8 +69,11 @@ const CustomizeInterior = () => {
    
  
   const activeCustomizationCategory = customizations.find((c) => c.active);
+ 
   const activeCategoryIndex = customizations.findIndex((c) => c.active);
+ 
   const totalCustomizationPrice = getTotalCustomizationPrice(customizations);
+ 
   const [isAllStepsCompleted, setAllStepsCompleted] = useState(
     activeCategoryIndex === customizations.length - 1
   );
@@ -81,9 +85,12 @@ const CustomizeInterior = () => {
     selectionType,
     notes,
   }) => {
+   
+    
     const newCustomizations = customizations.map((category) => {
       if (category.category !== activeCustomizationCategory.category)
         return category;
+      
 
       return {
         ...category,
@@ -93,8 +100,10 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
+       
           if (
             uc.name === "Vinyl Upgrades (Optional)" ||
+            uc.name === "Discount (Optional)"||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
             uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
@@ -103,7 +112,16 @@ const CustomizeInterior = () => {
 
             selectionItem.options = [
               ...uc.options.map((el, index) => {
-                if (el.name === `N/A`) {
+
+                 if (el.name === `I/O`) {
+                  return {
+                    ...el,
+                    value: inputAnswer|| [],
+                    price: - getPrice(inputAnswer|| []),
+                    active: true,
+                  };
+                }
+                else if (el.name === `N/A`) {
                   return {
                     ...el,
                     value: inputAnswer || [],
@@ -111,6 +129,8 @@ const CustomizeInterior = () => {
                     active: true,
                   };
                 }
+
+              
 
                 if (uc.categoryType === selectionFieldTypes.QUANTITY) {
                   if (index === endChildIndex) {
@@ -128,7 +148,7 @@ const CustomizeInterior = () => {
 
             if (
               uc.categoryType === selectionFieldTypes.QUANTITY ||
-              selectionType === selectionFieldTypes.SELECT_MULTIPLE
+              selectionType === selectionFieldTypes.SELECT_MULTIPLE    
             ) {
               let activeItemsIds = [];
               if (Array.isArray(selectionItem.active)) {
@@ -138,8 +158,10 @@ const CustomizeInterior = () => {
               if (selectionType === selectionFieldTypes.SELECT_MULTIPLE) {
                 if (activeItemsIds.includes(optionId)) {
                   activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
+                 
                 } else {
                   activeItemsIds.push(optionId);
+                 
                 }
               } else {
                 const isActive = inputAnswer && inputAnswer > 0;
@@ -147,6 +169,7 @@ const CustomizeInterior = () => {
                   activeItemsIds.push(optionId);
                 } else if (!isActive && activeItemsIds.includes(optionId)) {
                   activeItemsIds = activeItemsIds.filter((b) => b !== optionId);
+                 
                 }
               }
               selectionItem.active =
@@ -165,10 +188,12 @@ const CustomizeInterior = () => {
         }),
       };
     });
+   
     dispatch(customizationAction(newCustomizations));
     dispatch(setCustomizationPriceAction(totalCustomizationPrice));
   };
 
+ 
   const handleNextCategory = () => {
     if (activeCategoryIndex >= customizations.length - 1) {
       setAllStepsCompleted(true);
@@ -193,6 +218,7 @@ const CustomizeInterior = () => {
   //     active: 1,
   //   });
   const get = (underCategories) => {
+   
     const ca = [...underCategories];
     underCategories.forEach((el, i) => {
       if (el.name === `Flooring`) {

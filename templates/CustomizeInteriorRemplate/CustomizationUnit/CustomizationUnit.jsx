@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import OptionGroup from "./OptionsGroup/OptionsGroup";
 import { getBaseContructionCostsPerSqureFit } from "../../../db/baseConstructionCosts";
 import FloringUpgrade from "./FloringUpgrade";
+import DiscountUpgrade from "./DiscountUpgrade";
 
 
 const formatPrice = (price) => {
@@ -36,10 +37,10 @@ const CustomizationUnit = ({
     (state) => state.customization.customization
   );
   const markupValue = useSelector(state => state.priceFactor.markup.data);
-  const MARK_UP_MULTIPLIER=markupValue.Notes
+  const MARK_UP_MULTIPLIER = markupValue.Notes
 
   const router = useRouter();
-  const{company}=router.query
+  const { company } = router.query
   // const topRef = useRef(null)
 
   let progressWidth = `${(100 * (currentCategory - 1)) / totalCategories}%`;
@@ -70,19 +71,35 @@ const CustomizationUnit = ({
                     </div>
                 } */}
           {optionGroups?.map((og) => {
+    
             let optionGroup = null;
             if (categoryName === "Flooring") {
-              if (og.name === "Vinyl Upgrades (Optional)") {
+              if (og.name === "Discount (Optional)") {
                 optionGroup = (
-                  <div className={styles.body__card}>
-                    <p className={styles.body__card_text}>
-                      Vinyl Flooring Upgrades (Optional)
-                    </p>
-
-                    <FloringUpgrade og={og} onChange={onChange} />
-                  </div>
+                  <>
+                    <div className={styles.body__card}>
+                      <p className={styles.body__card_text}>
+                       Discount (If Applicable)
+                      </p>
+                      <DiscountUpgrade og={og} onChange={onChange} />
+                    </div>
+                  </>
                 );
-              } else {
+              }
+              else if (og.name === "Vinyl Upgrades (Optional)") {
+                optionGroup = (
+                  <>
+                    <div className={styles.body__card}>
+                      <p className={styles.body__card_text}>
+                        Vinyl Flooring Upgrades (Optional)
+                      </p>
+                      <FloringUpgrade og={og} onChange={onChange} />
+                    </div>
+                  </>
+                );
+
+              }
+              else {
                 optionGroup = (
                   <OptionGroup
                     groupName={og.name}
@@ -224,7 +241,7 @@ const CustomizationUnit = ({
                 text="Next"
                 noArrow
                 onclick={onNext}
-                disabled={ true ||
+                disabled={true ||
                   totalCategories === currentCategory - 1 ||
                   !isCurrentStepCompleted
                 }

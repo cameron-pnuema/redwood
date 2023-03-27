@@ -27,15 +27,15 @@ const formatPrice = (price) => {
 };
 
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
-  let htmlElement="";
-  if (categoryName === "Vinyl Upgrades ") {
-   (option.value || []).filter( Boolean ).forEach((item) => {
-        htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
-      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $${formatPrice(item?.price)}  </td>`
+  let htmlElement = "";
+  if (categoryName === "Vinyl Upgrades " || categoryName === "Discount ") {
+    (option.value || []).filter(Boolean).forEach((item) => {
+
+      htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $ ${categoryName === "Discount " ? -(item?.price) : formatPrice(item?.price)}  </td>`
     });
   } else {
     htmlElement = `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${option?.name} ${numOfUnit} </td>
-    
     <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> $${formatPrice(
       itemPrice
     )} </td>
@@ -43,7 +43,7 @@ const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
   }
   return htmlElement;
 };
-const Apply = ({data}) => {
+const Apply = ({ data }) => {
   const [isCompleted, setCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const Apply = ({data}) => {
   const lot = selectorLot.lotData;
 
   const Plan = selectorLot.planData;
-  
+
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -97,13 +97,13 @@ const Apply = ({data}) => {
 
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
-    const baseConstructionCosts =  getBaseContructionCostsPerSqureFit(Plan);
+    const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
-     ( Plan?.floorplanPrice + baseConstructionCosts )* MARK_UP_MULTIPLIER +
+      (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
       (customizationPrice || 0)
     )
-    
-    const responseData=await saveOrderData({
+
+    const responseData = await saveOrderData({
       fields: {
         email: userDetails.email,
         orderInfo: сustomizations,
@@ -116,7 +116,7 @@ const Apply = ({data}) => {
       },
       typecast: true
     })
-    orderId=responseData.fields.orderID
+    orderId = responseData.fields.orderID
     if (Object.keys(errors).length) {
       setDetails({ ...userDetails, errors });
       dispatch(setUserInforModal(true));
@@ -126,7 +126,7 @@ const Apply = ({data}) => {
       setIsLoading(true);
       let html = ``;
       let price = 0;
-      html +=`<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
+      html += `<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
       html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`;
       сustomizations?.forEach((c) => {
         html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${c.name}</h3>`;
@@ -157,8 +157,8 @@ const Apply = ({data}) => {
             if (option.noOfUnit) {
               itemPrice = itemPrice * option.noOfUnit;
             }
-            else if (option.noOfUnit===0){
-              itemPrice= 0
+            else if (option.noOfUnit === 0) {
+              itemPrice = 0
             }
 
             const categoryName = cc.name.replace("(Optional)", "");
@@ -204,7 +204,7 @@ const Apply = ({data}) => {
         financeBlock +=
           '<li style="text-align: center; margin-left: 0;">Name of Community: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
         financeBlock += "</ul>";
-      } else if (floorplan.floorplanName=== "MHE") {
+      } else if (floorplan.floorplanName === "MHE") {
         financeBlock +=
           '<h3 style="text-align: center;">Financing Information:</h3>';
         financeBlock += `<p style="text-align: center;margin:0;">Manufacturer: Manufactured Housing Enterprises, Inc</p>`;
@@ -227,7 +227,7 @@ const Apply = ({data}) => {
         customization: html,
         financeBlock: financeBlock,
       };
- 
+
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "applicatoin",
@@ -253,7 +253,7 @@ const Apply = ({data}) => {
           floorplan_name: Plan.floorplanName,
           floorplan_area: Plan['sq Ft'],
           floorplan_bedrooms: Plan.bathCount,
-          floorplan_bathrooms: Plan.bedCount         ,
+          floorplan_bathrooms: Plan.bedCount,
           floorplan_price: formatPrice(Plan.floorplanPrice),
           customizations_price: formatPrice(price),
           total_price: totalPrice,
@@ -263,7 +263,7 @@ const Apply = ({data}) => {
         },
         emailJsConfigs.USER_ID
       );
- 
+
       setCompleted(true);
       window &&
         window.dataLayer &&
