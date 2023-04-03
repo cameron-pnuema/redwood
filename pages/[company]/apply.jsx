@@ -32,7 +32,7 @@ const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
     (option.value || []).filter(Boolean).forEach((item) => {
 
       htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
-      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $ ${formatPrice(item?.price)}  </td>`
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $ ${formatPrice(item?.price)||0}  </td>`
     });
   }
   else if (categoryName === "Windows " || categoryName === "Additional Add Ons " || categoryName === "Lighting ") {
@@ -201,14 +201,19 @@ const Apply = ({ data }) => {
       });
       сustomizations?.forEach((c) => {
         c.underCategories.filter((cc) => {
-          if (cc.name === "Discount (Optional)") {
-            html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${cc.name}</h3>`;
-            html +=
-            '<table style="border-collapse: collapse; width: 100% ; margin-bottom:30px">';
-           
-            (cc.options.forEach((item) => {
-              const option = item.value
-              option.filter(Boolean).map((item) => {
+        
+          if (cc?.name === "Discount (Optional)" ) {
+          
+            (cc.options?.forEach((item) => {
+                if (item.price !=0){
+                
+                  html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${cc.name}</h3>`;
+                  html +=
+                  '<table style="border-collapse: collapse; width: 100% ; margin-bottom:30px">';
+                 
+                  const option = item.value
+              option?.filter(Boolean).map((item) => {
+                
                 html += '<tr >';
                 html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">Discount</td>`;
                 html += ` 
@@ -221,9 +226,10 @@ const Apply = ({ data }) => {
               html += "</tr>"
               
               })
+              html += "</table>";  
+                }
+              
             }))
-
-            html += "</table>";
           }
         })
         
