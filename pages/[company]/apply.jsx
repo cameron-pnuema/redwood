@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import ApplyTemplate from "../../templates/ApplyTemplate/ApplyTemplate";
 import useTimeout from "../../UTILS/useTimeout";
-import ReactGA from "react-ga";
 import emailjs from "emailjs-com";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "number-currency-format";
 import { getLetter } from "../../assets/letter";
-import imgToBase64 from "../../UTILS/imgToBase64";
 import { formValidator } from "../../UTILS/validator";
 import { setUserInforModal } from "../../store/actions/popup";
 import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
 import { saveOrderData } from "../../api/saveOrderData"
-import { HousePrice } from "../../UTILS/price";
+import { getTotalCustomizationPrice } from "./customize_lnterior";
+
 
 let orderId
 
@@ -27,14 +26,30 @@ const formatPrice = (price) => {
 };
 
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
+
   let htmlElement = "";
   if (categoryName === "Vinyl Upgrades " || categoryName === "Discount ") {
     (option.value || []).filter(Boolean).forEach((item) => {
 
       htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
-      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $ ${categoryName === "Discount " ? -(item?.price) : formatPrice(item?.price)}  </td>`
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $ ${formatPrice(item?.price)}  </td>`
     });
-  } else {
+  }
+  else if (categoryName === "Windows " || categoryName === "Additional Add Ons " || categoryName === "Lighting ") {
+    if (option == null || option?.numOfUnit === 0 || itemPrice === 0) {
+      return htmlElement = `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> </td>
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  </td>
+      `;
+    }
+    else {
+      htmlElement = `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${option?.name} ${numOfUnit} </td>
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> $${formatPrice(
+        itemPrice
+      )} </td>
+      `;
+    }
+  }
+  else {
     htmlElement = `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${option?.name} ${numOfUnit} </td>
     <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> $${formatPrice(
       itemPrice
@@ -64,14 +79,15 @@ const Apply = ({ data }) => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
-
+  
   const markupValue = useSelector(state => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER = markupValue.Notes
-
   const userFilledData = useSelector((state) => state.user.userFilledData);
   const customizationPrice = useSelector(
-    (state) => state.customization.customizationPrice
+    (state) => state.customization.customization
   );
+
+  const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
 
@@ -100,7 +116,7 @@ const Apply = ({ data }) => {
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
       (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
-      (customizationPrice || 0)
+      (finalPrice || 0)
     )
 
     const responseData = await saveOrderData({
@@ -131,13 +147,13 @@ const Apply = ({ data }) => {
       сustomizations?.forEach((c) => {
         html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${c.name}</h3>`;
         html +=
-          '<table style="border-collapse: collapse; width: 100%; margin-bottom:30px">';
+          '<table style="border-collapse: collapse; width: 100% ; margin-bottom:30px">';
         c.underCategories.forEach((cc) => {
-          const options = cc.options.filter((o) => {
+
+          let options = cc.options.filter((o) => {
             if (Array.isArray(cc.active)) {
               return cc.active.includes(o.id);
             }
-
             return cc.name === "Flooring" || o.id === cc.active;
           });
 
@@ -148,38 +164,71 @@ const Apply = ({ data }) => {
               return;
             }
 
-            const numOfUnit = option.noOfUnit
+            let numOfUnit = option.noOfUnit
               ? `<div> Number Of Quantity: ${option.noOfUnit}</div>`
               : "";
 
             let itemPrice = option?.price;
-
             if (option.noOfUnit) {
               itemPrice = itemPrice * option.noOfUnit;
             }
             else if (option.noOfUnit === 0) {
               itemPrice = 0
             }
-
-            const categoryName = cc.name.replace("(Optional)", "");
+            let categoryName = cc.name.replace("(Optional)", "");
             let shownFieldToUser = getFieldToUser({
               option,
               itemPrice,
               numOfUnit,
               categoryName,
             });
-            html += '<tr >';
-            html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${categoryName}</td>`;
-            html += `${shownFieldToUser}`;
-            html += '<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">';
-            html += `<span>Notes</span>: ${cc.notes || ""}`;
-            html += "</td>";
-            html += "</tr>";
+            if (categoryName != "Discount ") {
+              html += '<tr >';
+              html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${categoryName}</td>`;
+              html += `${shownFieldToUser}`;
+              html += '<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">';
+              html += `<span>Notes</span>: ${cc.notes || ""}`;
+              html += "</td>";
+              html += "</tr>";
+            }
+            else {
+              html += ""
+            }
 
           });
         });
         html += "</table>";
       });
+      сustomizations?.forEach((c) => {
+        c.underCategories.filter((cc) => {
+          if (cc.name === "Discount (Optional)") {
+            html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${cc.name}</h3>`;
+            html +=
+            '<table style="border-collapse: collapse; width: 100% ; margin-bottom:30px">';
+           
+            (cc.options.forEach((item) => {
+              const option = item.value
+              option.filter(Boolean).map((item) => {
+                html += '<tr >';
+                html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">Discount</td>`;
+                html += ` 
+                <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
+                <td style="border: 1px solid #dddddd; text-align: right;  padding: 8px;">  $ ${formatPrice(item?.price)}  </td>
+              `
+              html += '<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">';
+              html += `<span>Notes</span>: ${cc.notes || ""}`;
+              html += "</td>";
+              html += "</tr>"
+              
+              })
+            }))
+
+            html += "</table>";
+          }
+        })
+        
+      });
+
 
       if (userDetails.description) {
         html += `<h3 style="text-align: center;">Misc Notes</h3>`;

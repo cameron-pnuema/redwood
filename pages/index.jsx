@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import HomeTemplate from '../templates/HomeTemplate/HomeTemplate';
 import LoginTemplate from '../templates/LoginTemplate/LoginTemplate';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMarkup, clientProfile } from '../store/actions/priceFactor';
+import {  clientProfile } from '../store/actions/priceFactor';
 import { formValidator } from '../UTILS/validator';
 import Router from 'next/router'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -35,17 +35,18 @@ export default function Home() {
   const handleChange = (value, name) => {
     const data = { ...userDetails };
     data[name] = value;
-    setDetails({...data});
+    setDetails({ ...data });
   };
 
   const plansSlot = useSelector(state => state.priceFactor.client.data)
   const userValidation = plansSlot.find(item => item.fields.username === userDetails.username && item.fields.password === userDetails.password)
-  const userCompany = userValidation?.fields?.retailerName
+  const adminValidation = plansSlot.find(item => "admin@redrootscapital.com" === userDetails.username && "RRTTTM2023!"=== userDetails.password)
+  const userCompany = userValidation?.fields?.retailerName || adminValidation?.fields?.retailerName
   const regex = /\s+(\w)?/gi;
   const output = userCompany?.toLowerCase().replace(regex, function (match, letter) {
     return letter?.toUpperCase();
   });
-
+ 
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -56,12 +57,17 @@ export default function Home() {
     }) : toast.error('Invalid email or password.', {
       position: toast.POSITION.TOP_CENTER
     });
-
-    userValidation &&
-      setTimeout(() => {
-        Router.push('/companies')
-      }, 5000)
     userValidation && (localStorage.setItem('username', userDetails.username))
+    userValidation && localStorage.setItem('companyName', output)
+      userValidation &&
+      setTimeout(() => {
+        Router.push(`/${output}`)
+      }, 5000)
+      userValidation && adminValidation &&
+      setTimeout(() => {
+        Router.push(`/companies`)
+      }, 5000)
+
   };
 
   useEffect(() => {
@@ -74,7 +80,7 @@ export default function Home() {
     if (isUser) {
       return <HomeTemplate />
     } else {
-     return <LoginTemplate
+      return <LoginTemplate
         userDetails={userDetails}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
@@ -87,14 +93,14 @@ export default function Home() {
   return (
     <div>
       {/* <UserRedirect isUser={isUser} /> */
-      
-      isUser?<HomeTemplate/>:<LoginTemplate
-      userDetails={userDetails}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      userValidation={userValidation}
-      setDetails={setDetails}
-    />}
+
+        isUser ? <HomeTemplate /> : <LoginTemplate
+          userDetails={userDetails}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          userValidation={userValidation}
+          setDetails={setDetails}
+        />}
 
     </div>
   )
