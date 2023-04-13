@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clientProfile } from '../store/actions/priceFactor';
-import  Router  from 'next/router';
+import Router from 'next/router';
 
 
 const Companies = () => {
@@ -22,10 +22,7 @@ const Companies = () => {
         {
           plansSlot.map((item) => {
             const companyName = item?.fields?.retailerName
-            const regex = /\s+(\w)?/gi;
-            const output = companyName?.toLowerCase().replace(regex, function (match, letter) {
-              return letter?.toUpperCase();
-            });
+            const output = companyName?.replace(/\s+/g, '').toLowerCase();
             return (
               <li className='btn1' onClick={() => {
                 localStorage.setItem('companyName', output);

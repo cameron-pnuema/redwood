@@ -43,11 +43,8 @@ export default function Home() {
   const adminValidation = plansSlot.find(item => "admin@redrootscapital.com" === userDetails.username && "RRTTTM2023!"=== userDetails.password)
   const userCompany = userValidation?.fields?.retailerName || adminValidation?.fields?.retailerName
   const regex = /\s+(\w)?/gi;
-  const output = userCompany?.toLowerCase().replace(regex, function (match, letter) {
-    return letter?.toUpperCase();
-  });
+  const output = userCompany?.replace(/\s+/g, '').toLowerCase();
  
-
   const handleSubmit = (event) => {
     event.preventDefault();
     let errors = formValidator(userDetails);

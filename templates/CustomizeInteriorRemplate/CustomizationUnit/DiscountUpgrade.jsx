@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./CustomizationUntit.module.scss";
 
-export default function FloringUpgrade({ og, onChange }) {
+export default function DiscountUpgrade({ og, onChange }) {
 
 
     function makeInputPositive(inputValue) {

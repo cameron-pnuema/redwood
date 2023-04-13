@@ -20,9 +20,11 @@ const Heder = () => {
     ]
 
     const activeTab = tabs.find(e => e.link === router.asPath);
-  
+    const currentPage = activeTab?.name
+
+
     const navigate = (id) => {
-       
+
         if (id < activeTab.id || activeTab.id === 3 && id === 4) {
             const { link } = tabs.find(e => e.id === id);
             router.replace(link);
@@ -32,19 +34,27 @@ const Heder = () => {
     const back = () => {
         const obj = tabs.find(e => e.link === router.asPath);
         const obj1 = tabs.find(e => e.id === obj.id - 1);
+
         if (obj.id === 1) {
-            Router.replace('/');
+            Router.replace(`${obj.link}`);
         } else {
             Router.replace(`${obj1.link}`);
         }
     }
 
+    const logout = () => {
+        localStorage.clear(); // clear local storage
+        Router.push(`/`)
+    }
+
     return (
         <div className={styles.Heder}>
-            <span onClick={() => back()} className={styles.Heder__back}><img src={backImg} alt="img" />Back</span>
+            {
+                currentPage != "Select Floorplan" ? <span onClick={() => back()} className={styles.Heder__back}><img src={backImg} alt="img" />Back</span> : <span className={styles.Heder__back}></span>
+            }
             {
                 tabs.map((data) => {
-                   
+
                     return (
                         <span
                             onClick={() => navigate(data.id)}
@@ -58,6 +68,7 @@ const Heder = () => {
                     )
                 })
             }
+            <span onClick={() => logout()} className={styles.Heder__back}>Logout</span>
         </div>
     );
 };

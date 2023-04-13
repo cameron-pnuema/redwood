@@ -10,9 +10,17 @@ import { setUserInforModal } from "../../store/actions/popup";
 import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
 import { saveOrderData } from "../../api/saveOrderData"
 import { getTotalCustomizationPrice } from "./customize_lnterior";
+import downloadPdfDocument from "../../UTILS/pdfGenerator";
+
+
+
+
+
 
 
 let orderId
+
+
 
 const emailJsConfigs = {
   USER_ID: "user_2Bq5Rvgr1IGkLbUwbjy7z",
@@ -29,10 +37,23 @@ const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
 
   let htmlElement = "";
   if (categoryName === "Vinyl Upgrades " || categoryName === "Discount ") {
-    (option.value || []).filter(Boolean).forEach((item) => {
+    if (option?.price === 0) {
+      htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> </td> 
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  </td>`
+    }
+    else (option.value || []).filter(Boolean).forEach((item) => {
 
-      htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
-      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  $ ${formatPrice(item?.price)||0}  </td>`
+      htmlElement += `<tr>
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">Vinyl Upgrades</td>
+      <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"> ${item?.value} </td>
+      <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"> $ ${formatPrice(item?.price) || 0} </td>
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">
+      <span>Notes</span>: ${""}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+    </tr>`
     });
   }
   else if (categoryName === "Windows " || categoryName === "Additional Add Ons " || categoryName === "Lighting ") {
@@ -79,7 +100,9 @@ const Apply = ({ data }) => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
-  
+
+
+
   const markupValue = useSelector(state => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER = markupValue.Notes
   const userFilledData = useSelector((state) => state.user.userFilledData);
@@ -104,6 +127,7 @@ const Apply = ({ data }) => {
 
   }, []);
 
+
   const handleChange = (value, name) => {
     const data = { ...userDetails };
     data[name] = value;
@@ -112,7 +136,7 @@ const Apply = ({ data }) => {
   useTimeout();
 
   async function sendEmail(e) {
-    let errors = formValidator(userDetails);
+     let errors = formValidator(userDetails);
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
       (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
@@ -121,7 +145,7 @@ const Apply = ({ data }) => {
 
     const responseData = await saveOrderData({
       fields: {
-        email: userDetails.email,
+        email: userDetails?.email,
         orderInfo: сustomizations,
         userInfo: userDetails,
         selectedPlan: selectorLot,
@@ -201,38 +225,38 @@ const Apply = ({ data }) => {
       });
       сustomizations?.forEach((c) => {
         c.underCategories.filter((cc) => {
-        
-          if (cc?.name === "Discount (Optional)" ) {
-          
+
+          if (cc?.name === "Discount (Optional)") {
+
             (cc.options?.forEach((item) => {
-                if (item.price !=0){
-                
-                  html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${cc.name}</h3>`;
-                  html +=
+              if (item.price != 0) {
+
+                html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${cc.name}</h3>`;
+                html +=
                   '<table style="border-collapse: collapse; width: 100% ; margin-bottom:30px">';
-                 
-                  const option = item.value
-              option?.filter(Boolean).map((item) => {
-                
-                html += '<tr >';
-                html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">Discount</td>`;
-                html += ` 
+
+                const option = item.value
+                option?.filter(Boolean).map((item) => {
+
+                  html += '<tr >';
+                  html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">Discount</td>`;
+                  html += ` 
                 <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> ${item?.value} </td> 
                 <td style="border: 1px solid #dddddd; text-align: right;  padding: 8px;">  $ ${formatPrice(item?.price)}  </td>
               `
-              html += '<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">';
-              html += `<span>Notes</span>: ${cc.notes || ""}`;
-              html += "</td>";
-              html += "</tr>"
-              
-              })
-              html += "</table>";  
-                }
-              
+                  html += '<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">';
+                  html += `<span>Notes</span>: ${cc.notes || ""}`;
+                  html += "</td>";
+                  html += "</tr>"
+
+                })
+                html += "</table>";
+              }
+
             }))
           }
         })
-        
+
       });
 
 
@@ -275,6 +299,7 @@ const Apply = ({ data }) => {
 
       let lotName = `№${lot.id}`;
       let planName = `${Plan.Floorplan}`;
+
       const obj = {
         ...e,
         lot: lotName,
@@ -283,12 +308,15 @@ const Apply = ({ data }) => {
         financeBlock: financeBlock,
       };
 
+      const reqData = await downloadPdfDocument({ rootElementId: html, downloadFileName: "test.js" });
+    
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "applicatoin",
         obj,
         emailJsConfigs.USER_ID
       );
+
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "user_report",
@@ -314,8 +342,10 @@ const Apply = ({ data }) => {
           total_price: totalPrice,
           customizatoins: html,
           financeBlock: financeBlock,
+          content:reqData,
           to: userDetails.email,
         },
+
         emailJsConfigs.USER_ID
       );
 
@@ -333,7 +363,7 @@ const Apply = ({ data }) => {
       <ApplyTemplate
         submit={sendEmail}
         isCompleted={isCompleted}
-        isLoading={isLoading}
+         isLoading={isLoading}
         formValues={userDetails}
         handleChange={handleChange}
         orderId={orderId}
