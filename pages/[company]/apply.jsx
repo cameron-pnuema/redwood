@@ -9,17 +9,14 @@ import { formValidator } from "../../UTILS/validator";
 import { setUserInforModal } from "../../store/actions/popup";
 import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
 import { saveOrderData } from "../../api/saveOrderData"
-import { getTotalCustomizationPrice } from "./customize_lnterior";
+import { getTotalCustomizationPrice } from "./Customize_Home";
 import downloadPdfDocument from "../../UTILS/pdfGenerator";
-
-
-
-
-
 
 
 let orderId
 
+let hostName = typeof window !== "undefined" && window.location.hostname
+let testName = typeof window !== "undefined" && window.location.hostname && hostName.includes("localhost")
 
 
 const emailJsConfigs = {
@@ -38,22 +35,18 @@ const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
   let htmlElement = "";
   if (categoryName === "Vinyl Upgrades " || categoryName === "Discount ") {
     if (option?.price === 0) {
-      htmlElement += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> </td> 
-      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">  </td>`
+      htmlElement += ``
     }
     else (option.value || []).filter(Boolean).forEach((item) => {
-
       htmlElement += `<tr>
-      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">Vinyl Upgrades</td>
+      <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"></td>
       <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"> ${item?.value} </td>
       <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"> $ ${formatPrice(item?.price) || 0} </td>
       <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">
       <span>Notes</span>: ${""}
       </td>
     </tr>
-    <tr>
-      <td colspan="2"></td>
-    </tr>`
+    `
     });
   }
   else if (categoryName === "Windows " || categoryName === "Additional Add Ons " || categoryName === "Lighting ") {
@@ -100,8 +93,11 @@ const Apply = ({ data }) => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
+  const bccList = ['rex@redrootscapital.com', 'sam@redrootscapital.com', 'griffin@redrootscapital.com'];
 
+  const toList = ['sam@redrootscapital.com', 'griffin@redrootscapital.com']
 
+  const userBcc = "rex@redrootscapital.com"
 
   const markupValue = useSelector(state => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER = markupValue.Notes
@@ -136,7 +132,7 @@ const Apply = ({ data }) => {
   useTimeout();
 
   async function sendEmail(e) {
-     let errors = formValidator(userDetails);
+    let errors = formValidator(userDetails);
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
     const totalPrice = formatPrice(
       (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
@@ -173,7 +169,6 @@ const Apply = ({ data }) => {
         html +=
           '<table style="border-collapse: collapse; width: 100% ; margin-bottom:30px">';
         c.underCategories.forEach((cc) => {
-
           let options = cc.options.filter((o) => {
             if (Array.isArray(cc.active)) {
               return cc.active.includes(o.id);
@@ -187,7 +182,6 @@ const Apply = ({ data }) => {
             if (option.noOfUnit && option.noOfUnit < 1) {
               return;
             }
-
             let numOfUnit = option.noOfUnit
               ? `<div> Number Of Quantity: ${option.noOfUnit}</div>`
               : "";
@@ -206,7 +200,7 @@ const Apply = ({ data }) => {
               numOfUnit,
               categoryName,
             });
-            if (categoryName != "Discount ") {
+            if (categoryName != "Discount " && categoryName != "Vinyl Upgrades ") {
               html += '<tr >';
               html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${categoryName}</td>`;
               html += `${shownFieldToUser}`;
@@ -215,29 +209,35 @@ const Apply = ({ data }) => {
               html += "</td>";
               html += "</tr>";
             }
+            else if(categoryName == "Vinyl Upgrades "){
+              html += '<tr >';
+              html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${categoryName}</td>`;
+              html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> </td>`;
+              html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> </td>`;
+              html += '<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">';
+              html += `<span>Notes</span>: ${cc.notes || ""}`;
+              html += "</td>";
+              html += `${shownFieldToUser}`;
+
+            }
             else {
               html += ""
             }
-
           });
         });
         html += "</table>";
       });
       сustomizations?.forEach((c) => {
         c.underCategories.filter((cc) => {
-
           if (cc?.name === "Discount (Optional)") {
-
             (cc.options?.forEach((item) => {
               if (item.price != 0) {
-
                 html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${cc.name}</h3>`;
                 html +=
                   '<table style="border-collapse: collapse; width: 100% ; margin-bottom:30px">';
 
                 const option = item.value
                 option?.filter(Boolean).map((item) => {
-
                   html += '<tr >';
                   html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">Discount</td>`;
                   html += ` 
@@ -306,10 +306,12 @@ const Apply = ({ data }) => {
         Plan: planName,
         customization: html,
         financeBlock: financeBlock,
+        to: testName ? [] : toList,
+        bcc: testName ? [] : userBcc
       };
 
       const reqData = await downloadPdfDocument({ rootElementId: html, downloadFileName: "test.js" });
-    
+
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "applicatoin",
@@ -342,8 +344,10 @@ const Apply = ({ data }) => {
           total_price: totalPrice,
           customizatoins: html,
           financeBlock: financeBlock,
-          content:reqData,
+          content: reqData,
           to: userDetails.email,
+          bcc: testName ? [] : bccList
+
         },
 
         emailJsConfigs.USER_ID
@@ -363,7 +367,7 @@ const Apply = ({ data }) => {
       <ApplyTemplate
         submit={sendEmail}
         isCompleted={isCompleted}
-         isLoading={isLoading}
+        isLoading={isLoading}
         formValues={userDetails}
         handleChange={handleChange}
         orderId={orderId}

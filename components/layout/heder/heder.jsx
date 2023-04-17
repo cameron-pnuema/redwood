@@ -15,7 +15,7 @@ const Heder = () => {
     const tabs = [
         { id: 1, name: 'Select Floorplan', active: false, visit: false, link: `/${company.company}/select_floorplan` },
         { id: 2, name: 'Detailed Floorplan', active: false, visit: false, link: `/${company.company}/detailed_floorplan` },
-        { id: 3, name: 'Customize Home', active: false, visit: false, link: `/${company.company}/customize_lnterior` },
+        { id: 3, name: 'Customize Home', active: false, visit: false, link: `/${company.company}/Customize_Home` },
         { id: 4, name: 'Apply', active: false, visit: false, link: `/${company.company}/apply` },
     ]
 

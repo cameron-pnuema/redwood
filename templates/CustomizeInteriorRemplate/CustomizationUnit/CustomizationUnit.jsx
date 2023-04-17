@@ -255,7 +255,7 @@ const CustomizationUnit = ({
                   text="Next"
                   noArrow
                   onclick={onNext}
-                  disabled={true ||
+                  disabled={
                     totalCategories === currentCategory - 1 ||
                     !isCurrentStepCompleted
                   }

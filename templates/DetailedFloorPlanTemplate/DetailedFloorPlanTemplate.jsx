@@ -42,7 +42,7 @@ const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
                             <Button
                                 text={isLoading?"... Loading":'Choose this floorplan!'}
                                 style={{ height: '50px' ,cursor:isLoading?"not-allowed":"pointer"}}
-                                onclick={() => Router.replace(`/${company}/customize_lnterior`)}
+                                onclick={() => Router.replace(`/${company}/Customize_Home`)}
                                 disabled={isLoading}
                             />
 

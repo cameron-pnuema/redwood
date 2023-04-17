@@ -205,7 +205,7 @@ const HomeTemplate = (categoryType) => {
                 })
                 .value();
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
-            Router.replace(`/${companyName}/customize_lnterior`);
+            Router.replace(`/${companyName}/Customize_Home`);
 
         }
     }
@@ -288,7 +288,6 @@ const HomeTemplate = (categoryType) => {
                 </div>
                 <div className={styles.orderDetail}>
                     <p className={styles.HomeTemplate__orderText}>Get your order detail</p>
-
 
                     <input type="text" value={orderID} onChange={handleChange} className={styles.inputOrder} placeholder='Enter Order ID' />
                     {error && <p className={styles.HomeTemplate__error}> * Field is required</p>}

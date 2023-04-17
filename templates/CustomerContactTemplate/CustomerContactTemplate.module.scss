@@ -1,0 +1,165 @@
+@import '../../assets/styles/variables.scss';
+
+.body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    background-color: #f2f2f2;
+
+    .header {
+        height: 4rem;
+        padding: 15px 15px 10px 17px;
+        border-bottom: 2px solid #f2f2f2;
+        background-color: white;
+
+        h3 {
+            font-size: 26px;
+            font-weight: 800;
+        }
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        margin: 15px;
+        background-color: white;
+        border: 2px solid #f2f2f2;
+        border-radius: 10px;
+
+        .header2 {
+            padding: 15px 15px 10px 15px;
+            background-color: white;
+            border-bottom: 1px solid #f2f2f2;
+
+            h3 {
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+        }
+
+        .form {
+            width: 100%;
+            display: flex;
+            padding: 10px;
+
+            .avatar {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 10%;
+                padding: 15px 17px;
+
+                img {
+                    width: 100px;
+                    border-style: none;
+                    cursor: pointer;
+                }
+
+                .avatarstatus {
+                    background: rgb(136, 161, 161);
+                    width: 4.5rem;
+                    height: 1.2rem;
+                    text-align: center;
+                    margin-top: 1rem;
+                    text-transform: uppercase;
+                    border-radius: 20px;
+                    padding: 3px 0px;
+
+                    p {
+                        font-size: 11px;
+                        font-weight: 700;
+                        letter-spacing: 1.2;
+                    }
+                }
+            }
+
+            .input {
+                width: 90%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                padding: 15px;
+
+                .name,
+                .displayName,
+                .streetAddress,
+                .location,
+                .mobile {
+                    width: 100%;
+                    display: flex;
+                    gap: 20px;
+
+                    .wrap {
+                        width: 100%;
+                        position: relative;
+                        display: flex;
+                        flex-direction: column;
+                        margin-bottom: 15px;
+
+                        .img2 {
+
+                            width: 20px;
+                            margin: 5px;
+                            vertical-align: middle;
+                            border-style: none;
+
+                        }
+
+                        .label {
+                            font-style: normal;
+                            font-size: 14px;
+                            line-height: 18px;
+                            font-weight: 650;
+                            color: $text;
+                            margin-bottom: 5px;
+                        }
+
+                        .asterisk {
+                            color: #d1253d;
+                            margin-left: 2px;
+                        }
+
+                        input {
+                            width: 100%;
+                            height: 35px;
+                            border: 1px solid #e7e2e2;
+                            border-radius: 8px;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    .footer {
+        height: 3.5rem;
+        padding: 10px 25px;
+        background-color: white;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 15px;
+
+        button {
+            width: 6.5rem;
+            display: inline-block;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 10px;
+            border: none;
+            color: #fff;
+            background-color: #0062cc;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #77b3f3;
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+        }
+    }
+}
