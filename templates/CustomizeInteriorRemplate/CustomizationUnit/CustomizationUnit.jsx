@@ -41,6 +41,8 @@ const CustomizationUnit = ({
 
   const router = useRouter();
   const { company } = router.query
+
+  console.log("company",company)
   // const topRef = useRef(null)
 
   let progressWidth = `${(100 * (currentCategory - 1)) / totalCategories}%`;
@@ -265,7 +267,7 @@ const CustomizationUnit = ({
                 <Button
                   text="Submit"
                   noArrow
-                  onclick={() => Router.replace(`/{company}/apply`)}
+                  onclick={() => Router.replace(`/${company}/apply`)}
                 />
               )}
             </div>
