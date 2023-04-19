@@ -18,6 +18,12 @@ let orderId
 let hostName = typeof window !== "undefined" && window.location.hostname
 let testName = typeof window !== "undefined" && window.location.hostname && hostName.includes("localhost")
 
+const bccList = ['rex@redrootscapital.com', 'sam@redrootscapital.com', 'griffin@redrootscapital.com'];
+
+const toList = ['sam@redrootscapital.com', 'griffin@redrootscapital.com']
+
+const userBcc = "rex@redrootscapital.com"
+
 
 const emailJsConfigs = {
   USER_ID: "user_2Bq5Rvgr1IGkLbUwbjy7z",
@@ -37,7 +43,7 @@ const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
     if (option?.price === 0) {
       htmlElement += ``
     }
-    else (option.value || []).filter(Boolean).forEach((item) => {
+    else (option?.value).filter(Boolean).forEach((item) => {
       htmlElement += `<tr>
       <td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"></td>
       <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"> ${item?.value} </td>
@@ -93,11 +99,6 @@ const Apply = ({ data }) => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
-  const bccList = ['rex@redrootscapital.com', 'sam@redrootscapital.com', 'griffin@redrootscapital.com'];
-
-  const toList = ['sam@redrootscapital.com', 'griffin@redrootscapital.com']
-
-  const userBcc = "rex@redrootscapital.com"
 
   const markupValue = useSelector(state => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER = markupValue.Notes
@@ -110,7 +111,11 @@ const Apply = ({ data }) => {
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
 
+ 
   const Plan = selectorLot.planData;
+  const flosssorplan = useSelector((state) => state);
+  console.log("selectorlot", Plan)
+  console.log("flosssorplan", flosssorplan)
 
   useEffect(() => {
     setDetails(userFilledData);
@@ -148,8 +153,24 @@ const Apply = ({ data }) => {
         price: {
           finalPrice: totalPrice,
           floorPlanCost: formatPrice(Plan.floorplanPrice)
-        }
+        },
+
+        firstName: userDetails?.firstName,
+        lastName: userDetails?.lastName,
+        phoneNumber: userDetails?.phoneNumber,
+        city: userDetails?.city,
+        state: userDetails?.state,
+        zipCode: userDetails?.zipCode,
+        county: userDetails?.country,
+        finalPrice:Plan?.finalPrice,
+        floorPlanCost:Plan?.floorplanPrice ,
+        homeType:Plan?.homeType,
+       manufacturerName:Plan?.manufacturerName,
+        sqFT: Plan['sq Ft'] ,
+       
       },
+      
+
       typecast: true
     })
     orderId = responseData.fields.orderID
@@ -209,7 +230,7 @@ const Apply = ({ data }) => {
               html += "</td>";
               html += "</tr>";
             }
-            else if(categoryName == "Vinyl Upgrades "){
+            else if (categoryName == "Vinyl Upgrades ") {
               html += '<tr >';
               html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${categoryName}</td>`;
               html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> </td>`;
@@ -226,6 +247,7 @@ const Apply = ({ data }) => {
           });
         });
         html += "</table>";
+
       });
       сustomizations?.forEach((c) => {
         c.underCategories.filter((cc) => {
@@ -258,17 +280,24 @@ const Apply = ({ data }) => {
         })
 
       });
+      html += `<h5 style="text-align: center;">Misc Notes</h5>`;
+      html +=
+        '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
+      html += '<li style="text-align: center; margin-left: 0;">';
+      html += `Customer Name :${userDetails.firstName}  ${userDetails.lastName}`;
+      html += "</li>";
+      html += '<li style="text-align: center; margin-left: 0;">';
+      html += `Phone Number :${userDetails.phoneNumber} `;
+      html += "</li>";
 
-
-      if (userDetails.description) {
-        html += `<h3 style="text-align: center;">Misc Notes</h3>`;
-        html +=
-          '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
+      if
+        (userDetails.zipCode && userDetails.state) {
         html += '<li style="text-align: center; margin-left: 0;">';
-        html += `${userDetails.description}`;
-        html += "</li>";
-        html += "</ul>";
-      }
+        html += `Address:1234 Cherry Lane City , ${userDetails.state} , ${userDetails.zipCode}`;
+        html += "</li>"
+      };
+
+      html += "</ul>";
 
       let financeBlock = ``;
       if (floorplan.floorplanName === "Fairmont") {
@@ -307,7 +336,7 @@ const Apply = ({ data }) => {
         customization: html,
         financeBlock: financeBlock,
         to: testName ? [] : toList,
-        bcc: testName ? [] : userBcc
+        bcc: testName ? ["testingrrc.bcc@mailinator"] : userBcc
       };
 
       const reqData = await downloadPdfDocument({ rootElementId: html, downloadFileName: "test.js" });
@@ -346,13 +375,19 @@ const Apply = ({ data }) => {
           financeBlock: financeBlock,
           content: reqData,
           to: userDetails.email,
-          bcc: testName ? [] : bccList
+          bcc: testName ? ["testingrrc.bcc@mailinator"] : bccList
 
         },
 
         emailJsConfigs.USER_ID
       );
 
+      await saveOrderData({
+        fields: {
+          orderPDF: reqData
+        }
+
+      })
       setCompleted(true);
       window &&
         window.dataLayer &&

@@ -180,22 +180,7 @@ const CustomizationUnit = ({
   if (isAllStepsCompleted)
     body = (
       <>
-        {optionGroups?.map((og) => {
-          let optionGroup = null; {
-            if (og.name === "Discount (Optional)") {
-              return optionGroup = (
-                <>
-                  <div className={styles.body__card} style={{ marginBottom: "35px" }}>
-                    <p className={styles.body__card_text}>
-                      Discount (If Applicable)
-                    </p>
-                    <DiscountUpgrade og={og} onChange={onChange} />
-                  </div>
-                </>
-              );
-            }
-          }
-        })}
+       
         <div className={styles.summary}>
           <div className={styles.summary__total}>
             Total: ${formatPrice(getTotalPrice())}
@@ -223,6 +208,23 @@ const CustomizationUnit = ({
 
           </div>
         </div>
+
+        {optionGroups?.map((og) => {
+          let optionGroup = null; {
+            if (og.name === "Discount (Optional)") {
+              return optionGroup = (
+                <>
+                  <div className={styles.body__card} style={{ marginTop: "35px" }}>
+                    <p className={styles.body__card_text}>
+                      Discount (If Applicable)
+                    </p>
+                    <DiscountUpgrade og={og} onChange={onChange}/>
+                  </div>
+                </>
+              );
+            }
+          }
+        })}
 
       </>
     );
