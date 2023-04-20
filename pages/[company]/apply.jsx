@@ -11,6 +11,7 @@ import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCos
 import { saveOrderData } from "../../api/saveOrderData"
 import { getTotalCustomizationPrice } from "./Customize_Home";
 import downloadPdfDocument from "../../UTILS/pdfGenerator";
+import pdfForTable from "../../UTILS/pdfForTable"
 
 
 let orderId
@@ -110,13 +111,9 @@ const Apply = ({ data }) => {
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
-
  
   const Plan = selectorLot.planData;
-  const flosssorplan = useSelector((state) => state);
-  console.log("selectorlot", Plan)
-  console.log("flosssorplan", flosssorplan)
-
+ 
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -143,6 +140,7 @@ const Apply = ({ data }) => {
       (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
       (finalPrice || 0)
     )
+    
 
     const responseData = await saveOrderData({
       fields: {
@@ -166,8 +164,7 @@ const Apply = ({ data }) => {
         floorPlanCost:Plan?.floorplanPrice ,
         homeType:Plan?.homeType,
        manufacturerName:Plan?.manufacturerName,
-        sqFT: Plan['sq Ft'] ,
-       
+        sqFT: Plan['sq Ft'] , 
       },
       
 
@@ -336,10 +333,12 @@ const Apply = ({ data }) => {
         customization: html,
         financeBlock: financeBlock,
         to: testName ? [] : toList,
-        bcc: testName ? ["testingrrc.bcc@mailinator"] : userBcc
+        bcc: testName ? ["testingrrc.bcc@mailinator.com"] : userBcc
       };
 
       const reqData = await downloadPdfDocument({ rootElementId: html, downloadFileName: "test.js" });
+
+      // const pdfData = await pdfForTable({ rootElementId: html, downloadFileName: "test.js" });
 
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
@@ -375,19 +374,20 @@ const Apply = ({ data }) => {
           financeBlock: financeBlock,
           content: reqData,
           to: userDetails.email,
-          bcc: testName ? ["testingrrc.bcc@mailinator"] : bccList
+          bcc: testName ? ["testingrrc.bcc@mailinator.com"] : bccList
 
         },
 
         emailJsConfigs.USER_ID
       );
 
-      await saveOrderData({
-        fields: {
-          orderPDF: reqData
-        }
+      
+      // await saveOrderData({
+      //   fields: {
+      //     orderPDF: pdfData
+      //   }
 
-      })
+      // })
       setCompleted(true);
       window &&
         window.dataLayer &&
