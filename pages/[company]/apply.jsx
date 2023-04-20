@@ -11,7 +11,7 @@ import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCos
 import { saveOrderData } from "../../api/saveOrderData"
 import { getTotalCustomizationPrice } from "./Customize_Home";
 import downloadPdfDocument from "../../UTILS/pdfGenerator";
-import pdfForTable from "../../UTILS/pdfForTable"
+
 
 
 let orderId
@@ -338,7 +338,6 @@ const Apply = ({ data }) => {
 
       const reqData = await downloadPdfDocument({ rootElementId: html, downloadFileName: "test.js" });
 
-      // const pdfData = await pdfForTable({ rootElementId: html, downloadFileName: "test.js" });
 
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
@@ -381,13 +380,7 @@ const Apply = ({ data }) => {
         emailJsConfigs.USER_ID
       );
 
-      
-      // await saveOrderData({
-      //   fields: {
-      //     orderPDF: pdfData
-      //   }
-
-      // })
+  
       setCompleted(true);
       window &&
         window.dataLayer &&
