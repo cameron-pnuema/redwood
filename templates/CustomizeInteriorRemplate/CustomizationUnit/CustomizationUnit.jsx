@@ -216,7 +216,7 @@ const CustomizationUnit = ({
                 <>
                   <div className={styles.body__card} style={{ marginTop: "35px" }}>
                     <p className={styles.body__card_text}>
-                      Discount (If Applicable)
+                    Credit or Trade-In
                     </p>
                     <DiscountUpgrade og={og} onChange={onChange}/>
                   </div>
