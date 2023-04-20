@@ -7,6 +7,7 @@ import { formValidator } from '../UTILS/validator';
 import Router from 'next/router'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CustomerContact from '../templates/CustomerContactTemplate/CustomerContact';
 
 
 export default function Home() {
@@ -59,7 +60,7 @@ export default function Home() {
       userValidation &&
       setTimeout(() => {
         Router.push(`/${output}`)
-      }, 5000)
+      })
       userValidation && adminValidation &&
       setTimeout(() => {
         Router.push(`/companies`)

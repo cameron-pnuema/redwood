@@ -4,6 +4,8 @@ import cx from 'classnames';
 import { useRouter } from 'next/router';
 import backImg from '../../../assets/img/icons/back.svg';
 import Router from 'next/router';
+import { useDispatch } from 'react-redux';
+import { userLogOut } from '../../../store/actions/user';
 
 
 
@@ -11,6 +13,8 @@ const Heder = () => {
 
     const router = useRouter();
     const company = router.query
+
+    const dispatch = useDispatch()
 
     const tabs = [
         { id: 1, name: 'Select Floorplan', active: false, visit: false, link: `/${company.company}/select_floorplan` },
@@ -45,6 +49,7 @@ const Heder = () => {
     const logout = () => {
         localStorage.clear(); // clear local storage
         Router.push(`/`)
+        dispatch(userLogOut())
     }
 
     return (
