@@ -18,7 +18,7 @@ const downloadPdfDocument = async({ rootElementId, downloadFileName }) => {
     var base 
     await doc.html(iframedoc.body, {
         callback: function (pdf) {
-          pdf.save('my.pdf')
+        //   pdf.save('my.pdf')
            base = pdf.output('datauri'); // directly to base664
             return base
         }
