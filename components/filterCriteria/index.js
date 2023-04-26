@@ -9,6 +9,7 @@ function FilterCriteria({handleFilterOptionClick,filterData}) {
            <Row className={styles.filter_wrapper}>
             {filterData.map((item,i) => <Col   key={i}>
                 <h5 className="filter_title">{item.title}</h5>
+
                 <div className="filter_options">
                     {item.options.map((option) => <FormGroup check>
                         <Label check>

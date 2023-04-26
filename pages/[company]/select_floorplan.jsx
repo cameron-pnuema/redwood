@@ -60,7 +60,7 @@ const SelectFloorPlan = () => {
         <Layout showDisclaimer>
             <Container>
                 <Button onClick={handleFilterClick} outline color="primary">{showFilter ? "Hide Filters" : "Add Filters"}</Button>
-                <FilterPills floorPlanFilter={floorPlanFilter}/>
+                <FilterPills floorPlanFilter={floorPlanFilter} handleFilterOptionClick={handleFilterOptionClick}/>
             </Container>
 
             <Collapse isOpen={showFilter}>

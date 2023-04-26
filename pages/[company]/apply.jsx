@@ -11,6 +11,29 @@ import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCos
 import { saveOrderData } from "../../api/saveOrderData"
 import { getTotalCustomizationPrice } from "./Customize_Home";
 import downloadPdfDocument from "../../UTILS/pdfGenerator";
+import pdfOrder from "../../UTILS/pdfOrder";
+import { initializeApp } from "firebase/app";
+import { ref, getDownloadURL, uploadBytesResumable, getStorage } from 'firebase/storage'
+
+
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAyUPFSLIzGa1pydPc8RaqOVOJC3mrCaMU",
+  authDomain: "pdf-upload-ceff5.firebaseapp.com",
+  projectId: "pdf-upload-ceff5",
+  storageBucket: "pdf-upload-ceff5.appspot.com",
+  messagingSenderId: "602243041969",
+  appId: "1:602243041969:web:631f1c652e8b365dc07090"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+const storage = getStorage(app);
+
+
+
 
 
 
@@ -36,6 +59,7 @@ const formatPrice = (price) => {
     showDecimals: "NEVER",
   });
 };
+
 
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
 
@@ -81,6 +105,7 @@ const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
 };
 const Apply = ({ data }) => {
   const [isCompleted, setCompleted] = useState(false);
+  const [progresspercent, setProgresspercent] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [userDetails, setDetails] = useState({
@@ -111,9 +136,9 @@ const Apply = ({ data }) => {
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
- 
+
   const Plan = selectorLot.planData;
- 
+
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -140,47 +165,15 @@ const Apply = ({ data }) => {
       (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
       (finalPrice || 0)
     )
-    
 
-    const responseData = await saveOrderData({
-      fields: {
-        email: userDetails?.email,
-        orderInfo: сustomizations,
-        userInfo: userDetails,
-        selectedPlan: selectorLot,
-        price: {
-          finalPrice: totalPrice,
-          floorPlanCost: formatPrice(Plan.floorplanPrice)
-        },
+   
+  
 
-        firstName: userDetails?.firstName,
-        lastName: userDetails?.lastName,
-        phoneNumber: userDetails?.phoneNumber,
-        city: userDetails?.city,
-        state: userDetails?.state,
-        zipCode: userDetails?.zipCode,
-        county: userDetails?.country,
-        finalPrice:Plan?.finalPrice,
-        floorPlanCost:Plan?.floorplanPrice ,
-        homeType:Plan?.homeType,
-       manufacturerName:Plan?.manufacturerName,
-        sqFT: Plan['sq Ft'] , 
-      },
-      
-
-      typecast: true
-    })
-    orderId = responseData.fields.orderID
-    if (Object.keys(errors).length) {
-      setDetails({ ...userDetails, errors });
-      dispatch(setUserInforModal(true));
-      return;
-    }
     try {
       setIsLoading(true);
       let html = ``;
       let price = 0;
-      html += `<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
+      html += `<h1 style="text-align: center"> Your order number is ${orderId } </h1>`
       html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`;
       сustomizations?.forEach((c) => {
         html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${c.name}</h3>`;
@@ -337,7 +330,28 @@ const Apply = ({ data }) => {
       };
 
       const reqData = await downloadPdfDocument({ rootElementId: html, downloadFileName: "test.js" });
+       
+      const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" });
+      const storageRef = ref(storage, `files/`);
+      const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
+     
+      var downloadFileName
 
+      uploadTask.on("state_changed",
+        (snapshot) => {
+          const progress =
+            Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgresspercent(progress);
+        },
+        (error) => {
+          alert(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            downloadFileName = downloadURL
+          });
+        }
+      );
 
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
@@ -380,7 +394,43 @@ const Apply = ({ data }) => {
         emailJsConfigs.USER_ID
       );
 
+      const responseData = await saveOrderData({
+        fields: {
+          email: userDetails?.email,
+          orderInfo: сustomizations,
+          userInfo: userDetails,
+          selectedPlan: selectorLot,
+          price: {
+            finalPrice: totalPrice,
+            floorPlanCost: formatPrice(Plan.floorplanPrice)
+          },
   
+          firstName: userDetails?.firstName,
+          lastName: userDetails?.lastName,
+          phoneNumber: userDetails?.phoneNumber,
+          city: userDetails?.city,
+          state: userDetails?.state,
+          zipCode: userDetails?.zipCode,
+          county: userDetails?.country,
+          finalPrice: Plan?.finalPrice,
+          floorPlanCost: Plan?.floorplanPrice,
+          homeType: Plan?.homeType,
+          manufacturerName: Plan?.manufacturerName,
+          sqFT: Plan['sq Ft'],
+          floorplanName:Plan?.floorplanName,
+          orderPDF: downloadFileName,
+        },
+  
+  
+        typecast: true
+      })
+      orderId = responseData.fields.orderID
+      if (Object.keys(errors).length) {
+        setDetails({ ...userDetails, errors });
+        dispatch(setUserInforModal(true));
+        return;
+      }
+
       setCompleted(true);
       window &&
         window.dataLayer &&
