@@ -64,6 +64,7 @@ const CustomizeInterior = () => {
     (state) => state.customization.customization
   );
 
+
   const dispatch = useDispatch();
   const [notesState, setNotesState] = useState([]);
    
@@ -100,8 +101,8 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
-       
           if (
+            uc.name === "Test" ||
             uc.name === "Vinyl Upgrades (Optional)" ||
             uc.name === "Discount (Optional)"||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
@@ -109,7 +110,6 @@ const CustomizeInterior = () => {
             uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
           ) {
             let selectionItem = { ...uc };
-
             selectionItem.options = [
               ...uc.options.map((el, index) => {
 
@@ -130,7 +130,6 @@ const CustomizeInterior = () => {
                   };
                 }
 
-              
 
                 if (uc.categoryType === selectionFieldTypes.QUANTITY) {
                   if (index === endChildIndex) {
@@ -150,6 +149,7 @@ const CustomizeInterior = () => {
               uc.categoryType === selectionFieldTypes.QUANTITY ||
               selectionType === selectionFieldTypes.SELECT_MULTIPLE    
             ) {
+            
               let activeItemsIds = [];
               if (Array.isArray(selectionItem.active)) {
                 activeItemsIds = selectionItem.active;

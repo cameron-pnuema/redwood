@@ -57,14 +57,14 @@ export default function Home() {
     });
     userValidation && (localStorage.setItem('username', userDetails.username))
     userValidation && localStorage.setItem('companyName', output)
-      userValidation &&
+      userValidation && !adminValidation &&
       setTimeout(() => {
         Router.push(`/${output}`)
       })
       userValidation && adminValidation &&
       setTimeout(() => {
         Router.push(`/companies`)
-      }, 5000)
+      })
 
   };
 

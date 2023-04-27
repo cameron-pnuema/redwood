@@ -42,7 +42,6 @@ const CustomizationUnit = ({
   const router = useRouter();
   const { company } = router.query
 
-  console.log("company",company)
   // const topRef = useRef(null)
 
   let progressWidth = `${(100 * (currentCategory - 1)) / totalCategories}%`;

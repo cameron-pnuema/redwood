@@ -14,6 +14,9 @@ import downloadPdfDocument from "../../UTILS/pdfGenerator";
 import pdfOrder from "../../UTILS/pdfOrder";
 import { initializeApp } from "firebase/app";
 import { ref, getDownloadURL, uploadBytesResumable, getStorage } from 'firebase/storage'
+import Airtable from 'airtable';
+
+const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base('appoZqa8oxVNB0DVZ');
 
 
 
@@ -139,6 +142,7 @@ const Apply = ({ data }) => {
 
   const Plan = selectorLot.planData;
 
+
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -165,9 +169,45 @@ const Apply = ({ data }) => {
       (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
       (finalPrice || 0)
     )
-
-   
   
+    const responseData = await saveOrderData({
+      fields: {
+        email: userDetails?.email,
+        orderInfo: сustomizations,
+        userInfo: userDetails,
+        selectedPlan: selectorLot,
+        price: {
+          finalPrice: totalPrice,
+          floorPlanCost: formatPrice(Plan.floorplanPrice)
+        },
+
+        firstName: userDetails?.firstName,
+        lastName: userDetails?.lastName,
+        phoneNumber: userDetails?.phoneNumber,
+        city: userDetails?.city,
+        state: userDetails?.state,
+        zipCode: userDetails?.zipCode,
+        county: userDetails?.country,
+        finalPrice: Plan?.finalPrice,
+        floorPlanCost: Plan?.floorplanPrice,
+        homeType: Plan?.homeType,
+        manufacturerName: Plan?.manufacturerName,
+        sqFT: Plan['sq Ft'],
+        floorplanName:Plan?.floorplanName,
+        // orderPDF: downloadFileName,
+      },
+
+
+      typecast: true
+    })
+ 
+    var id = responseData.id
+    orderId = responseData.fields.orderID
+    if (Object.keys(errors).length) {
+      setDetails({ ...userDetails, errors });
+      dispatch(setUserInforModal(true));
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -317,7 +357,7 @@ const Apply = ({ data }) => {
       }
 
       let lotName = `№${lot.id}`;
-      let planName = `${Plan.Floorplan}`;
+      let planName = `${Plan.floorplan}`;
 
       const obj = {
         ...e,
@@ -329,9 +369,11 @@ const Apply = ({ data }) => {
         bcc: testName ? ["testingrrc.bcc@mailinator.com"] : userBcc
       };
 
-      const reqData = await downloadPdfDocument({ rootElementId: html, downloadFileName: "test.js" });
        
       const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" });
+ 
+   
+ 
       const storageRef = ref(storage, `files/`);
       const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
      
@@ -348,10 +390,13 @@ const Apply = ({ data }) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          
             downloadFileName = downloadURL
           });
         }
       );
+
+      
 
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
@@ -385,51 +430,22 @@ const Apply = ({ data }) => {
           total_price: totalPrice,
           customizatoins: html,
           financeBlock: financeBlock,
-          content: reqData,
           to: userDetails.email,
           bcc: testName ? ["testingrrc.bcc@mailinator.com"] : bccList
-
         },
 
         emailJsConfigs.USER_ID
       );
 
-      const responseData = await saveOrderData({
-        fields: {
-          email: userDetails?.email,
-          orderInfo: сustomizations,
-          userInfo: userDetails,
-          selectedPlan: selectorLot,
-          price: {
-            finalPrice: totalPrice,
-            floorPlanCost: formatPrice(Plan.floorplanPrice)
-          },
-  
-          firstName: userDetails?.firstName,
-          lastName: userDetails?.lastName,
-          phoneNumber: userDetails?.phoneNumber,
-          city: userDetails?.city,
-          state: userDetails?.state,
-          zipCode: userDetails?.zipCode,
-          county: userDetails?.country,
-          finalPrice: Plan?.finalPrice,
-          floorPlanCost: Plan?.floorplanPrice,
-          homeType: Plan?.homeType,
-          manufacturerName: Plan?.manufacturerName,
-          sqFT: Plan['sq Ft'],
-          floorplanName:Plan?.floorplanName,
-          orderPDF: downloadFileName,
-        },
-  
-  
-        typecast: true
-      })
-      orderId = responseData.fields.orderID
-      if (Object.keys(errors).length) {
-        setDetails({ ...userDetails, errors });
-        dispatch(setUserInforModal(true));
-        return;
-      }
+
+      base('Orders').update(id, {
+        orderPDF:downloadFileName
+       }, function(err, record) {
+         if (err) {
+           return;
+         }
+       });
+     
 
       setCompleted(true);
       window &&
