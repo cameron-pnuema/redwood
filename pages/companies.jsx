@@ -23,13 +23,18 @@ const Companies = () => {
           plansSlot.map((item) => {
             const companyName = item?.fields?.retailerName
             const output = companyName?.replace(/\s+/g, '').toLowerCase();
+            
             return (
-              <li className='btn1' onClick={() => {
+             <>
+             {
+              companyName==="RRT Team (Admin Account)"?null : <li className='btn1' onClick={() => {
                 localStorage.setItem('companyName', output);
                 Router.push(`/${output}`)
               }}>
                 {item.fields.retailerName}
               </li>
+             }
+             </>
             )
           })
         }
