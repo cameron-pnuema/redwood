@@ -322,7 +322,7 @@ const Apply = ({ data }) => {
       if
         (userDetails.zipCode && userDetails.state) {
         html += '<li style="text-align: center; margin-left: 0;">';
-        html += `Address:1234 Cherry Lane City , ${userDetails.state} , ${userDetails.zipCode}`;
+        html += `Address:${userDetails.description}, ${userDetails.state} , ${userDetails.zipCode}`;
         html += "</li>"
       };
 
