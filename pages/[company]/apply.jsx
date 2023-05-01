@@ -142,7 +142,6 @@ const Apply = ({ data }) => {
 
   const Plan = selectorLot.planData;
 
-
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -169,7 +168,7 @@ const Apply = ({ data }) => {
       (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
       (finalPrice || 0)
     )
-  
+
     const responseData = await saveOrderData({
       fields: {
         email: userDetails?.email,
@@ -188,19 +187,19 @@ const Apply = ({ data }) => {
         state: userDetails?.state,
         zipCode: userDetails?.zipCode,
         county: userDetails?.country,
-        finalPrice: Plan?.finalPrice,
+        finalPrice: totalPrice,
         floorPlanCost: Plan?.floorplanPrice,
         homeType: Plan?.homeType,
         manufacturerName: Plan?.manufacturerName,
         sqFT: Plan['sq Ft'],
-        floorplanName:Plan?.floorplanName,
+        floorplanName: Plan?.floorplanName,
         // orderPDF: downloadFileName,
       },
 
 
       typecast: true
     })
- 
+
     var id = responseData.id
     orderId = responseData.fields.orderID
     if (Object.keys(errors).length) {
@@ -213,7 +212,7 @@ const Apply = ({ data }) => {
       setIsLoading(true);
       let html = ``;
       let price = 0;
-      html += `<h1 style="text-align: center"> Your order number is ${orderId } </h1>`
+      html += `<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
       html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`;
       сustomizations?.forEach((c) => {
         html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${c.name}</h3>`;
@@ -314,7 +313,7 @@ const Apply = ({ data }) => {
       html +=
         '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
       html += '<li style="text-align: center; margin-left: 0;">';
-      html += `Customer Name :${userDetails.firstName}  ${userDetails.lastName}`;
+      html += `Customer Name :${userDetails?.firstName}  ${userDetails?.lastName}`;
       html += "</li>";
       html += '<li style="text-align: center; margin-left: 0;">';
       html += `Phone Number :${userDetails.phoneNumber} `;
@@ -357,7 +356,7 @@ const Apply = ({ data }) => {
       }
 
       let lotName = `№${lot.id}`;
-      let planName = `${Plan.floorplan}`;
+      let planName = `${Plan.floorplanName}`;
 
       const obj = {
         ...e,
@@ -365,38 +364,9 @@ const Apply = ({ data }) => {
         Plan: planName,
         customization: html,
         financeBlock: financeBlock,
-        to: testName ? [] : toList,
+        to: testName ? ["testingrrc.bcc@mailinator.com"] : toList,
         bcc: testName ? ["testingrrc.bcc@mailinator.com"] : userBcc
       };
-
-       
-      const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" });
- 
-   
- 
-      const storageRef = ref(storage, `files/`);
-      const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
-     
-      var downloadFileName
-
-      uploadTask.on("state_changed",
-        (snapshot) => {
-          const progress =
-            Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          setProgresspercent(progress);
-        },
-        (error) => {
-          alert(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          
-            downloadFileName = downloadURL
-          });
-        }
-      );
-
-      
 
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
@@ -430,22 +400,39 @@ const Apply = ({ data }) => {
           total_price: totalPrice,
           customizatoins: html,
           financeBlock: financeBlock,
-          to: userDetails.email,
+          to: userDetails?.email,
           bcc: testName ? ["testingrrc.bcc@mailinator.com"] : bccList
         },
 
         emailJsConfigs.USER_ID
       );
 
+      const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" })
 
-      base('Orders').update(id, {
-        orderPDF:downloadFileName
-       }, function(err, record) {
-         if (err) {
-           return;
-         }
-       });
-     
+      const storageRef = ref(storage, `files/`);
+      const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
+
+      uploadTask.on("state_changed",
+        (snapshot) => {
+          const progress =
+            Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgresspercent(progress);
+        },
+        (error) => {
+          alert(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            base('Orders').update(id, {
+              orderPDF: downloadURL
+            }, function (err, record) {
+              if (err) {
+                return;
+              }
+            });
+          });
+        }
+      );
 
       setCompleted(true);
       window &&
