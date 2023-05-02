@@ -65,7 +65,7 @@ const ApplyForm = (props) => {
       state:state.state,
       zipCode,
       streetAddress: description,
-      country
+      county:country
     },
     typecast :true
     }
@@ -99,7 +99,7 @@ const ApplyForm = (props) => {
       dispatch(setUserInforModal(false))
       return false
     } 
-    if(isUserInfoModal && window?.location.hostname==="localhost")return false
+    if(isUserInfoModal && window?.location.hostname==="localhost")return true
     return isUserInfoModal
   }
 
