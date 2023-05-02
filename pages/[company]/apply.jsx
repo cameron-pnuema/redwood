@@ -409,7 +409,7 @@ const Apply = ({ data }) => {
 
       const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" })
 
-      const storageRef = ref(storage, `files/`);
+      const storageRef = ref(storage, `order-${orderId}/`);
       const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
 
       uploadTask.on("state_changed",
@@ -423,9 +423,13 @@ const Apply = ({ data }) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            base('Orders').update(id, {
-              orderPDF: downloadURL
-            }, function (err, record) {
+           
+            base('Orders').update([{
+              id ,
+              fields:{
+                 orderPDF:downloadURL
+              }
+            }], function (err, record) {
               if (err) {
                 return;
               }
