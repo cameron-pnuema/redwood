@@ -358,14 +358,16 @@ const Apply = ({ data }) => {
       let lotName = `№${lot.id}`;
       let planName = `${Plan.floorplanName}`;
 
+      let testEmail = "testingrrc.bcc@mailinator.com"
+
       const obj = {
         ...e,
         lot: lotName,
         Plan: planName,
         customization: html,
         financeBlock: financeBlock,
-        to: testName ? ["testingrrc.bcc@mailinator.com"] : toList,
-        bcc: testName ? ["testingrrc.bcc@mailinator.com"] : userBcc
+        to: testName ? "testingrrc.bcc@mailinator.com" : toList,
+        bcc: testName && testEmail ? "" : userBcc
       };
 
       await emailjs.send(
@@ -401,7 +403,7 @@ const Apply = ({ data }) => {
           customizatoins: html,
           financeBlock: financeBlock,
           to: userDetails?.email,
-          bcc: testName ? ["testingrrc.bcc@mailinator.com"] : bccList
+          bcc: testName && testEmail ? "" : bccList
         },
 
         emailJsConfigs.USER_ID

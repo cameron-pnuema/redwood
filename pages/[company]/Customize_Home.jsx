@@ -102,7 +102,7 @@ const CustomizeInterior = () => {
             return uc;
           }
           if (
-            uc.name === "Test" ||
+            uc.categoryType===selectionFieldTypes.QUANTITY ||
             uc.name === "Vinyl Upgrades (Optional)" ||
             uc.name === "Discount (Optional)"||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
