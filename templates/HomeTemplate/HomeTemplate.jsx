@@ -81,7 +81,10 @@ const HomeTemplate = (categoryType) => {
             url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDDW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
+            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-DW)"
+        }
+        else if (selectorPlan?.homeType === HOME_TYPE.HUDSW) {
+            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-SW)"
         }
         if (offsetId) {
             url = url + `?offset=${offsetId}`
@@ -97,6 +100,7 @@ const HomeTemplate = (categoryType) => {
         })
 
         const realRes = await res.json()
+       
 
         totalRecords.current = [...totalRecords.current, ...realRes.records]
         if (realRes.offset) {
@@ -109,6 +113,7 @@ const HomeTemplate = (categoryType) => {
                 .map((group, groupIndex) => {
 
                     const buildingManufacturerName = group[0]?.fields.manufacturerName
+                  
                     let a = []
 
 
@@ -206,7 +211,6 @@ const HomeTemplate = (categoryType) => {
                 .value();
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
             Router.replace(`/${companyName}/Customize_Home`);
-
         }
     }
 

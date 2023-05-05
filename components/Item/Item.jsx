@@ -16,16 +16,16 @@ import customizationGroupMHE from "../../db/custumizationGroupsMHE";
 import { useSelector } from "react-redux";
 import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
 import { Spinner } from "reactstrap"
-import {HousePrice} from "../../UTILS/price";
+import { HousePrice } from "../../UTILS/price";
 import { useRouter } from "next/router";
 
 
 const Item = ({ noButton, data }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const{company}=router.query
+  const { company } = router.query
   const floorplan = useSelector((state) => state.floorplan);
- 
+
 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   const MARK_UP_MULTIPLIER = markupValue.Notes;
@@ -33,47 +33,50 @@ const Item = ({ noButton, data }) => {
   const airtableCustomization = useSelector(
     (state) => state.customization.airtableCustomization
   );
+
   const selectPlan = () => {
     dispatch(setPlan(data));
     const { manufacturerName, floorplanName
       , s } = data;
-      dispatch(customizationAction(airtableCustomization[manufacturerName]));
-      dispatch(
-        floorplanAction({
-          ...floorplanName,
-          manufacturerName: manufacturerName
-          ,
-          title: floorplanName
-          ,
-        })
-      );
+    dispatch(customizationAction(airtableCustomization[manufacturerName]));
+    dispatch(
+      floorplanAction({
+        ...floorplanName,
+        manufacturerName: manufacturerName
+        ,
+        title: floorplanName
+        ,
+      })
+    );
     Router.replace(`/${company}/detailed_floorplan`);
   };
 
   const baseConstructionCosts = data && getBaseContructionCostsPerSqureFit(data);
-  
+
   const finalPrice = format(
-    HousePrice( data?.floorplanPrice , baseConstructionCosts , MARK_UP_MULTIPLIER),
-    
+    HousePrice(data?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER),
+
     {
       spacing: true,
       showDecimals: "NEVER",
     }
   )
- 
-  const setFinalPriceData=(data,finalPrice)=>{
-    data.finalPrice=finalPrice
+
+  const setFinalPriceData = (data, finalPrice) => {
+    data.finalPrice = finalPrice
   }
+
+
 
   return (
     <div className={styles.Item}>
       {data && (
         <>
-          {data.floorplanPrice? (
+          {data.floorplanPrice ? (
             <span className={styles.Item__price}>
               $
               {finalPrice}
-              {setFinalPriceData(data,finalPrice)}
+              {setFinalPriceData(data, finalPrice)}
             </span>
           ) : (
             <span className={styles.Item__price}>
@@ -82,7 +85,15 @@ const Item = ({ noButton, data }) => {
               </Spinner>
             </span>
           )}
-          <span className={styles.Item__type} style={{"backgroundColor":data.homeType==="Modular"?"#d1253d":"#3939FF"}}>{data.homeType}</span>
+          <span className={styles.Item__type} style={{
+            "backgroundColor": data.homeType === "Modular"
+              ? "#d1253d"
+              : data.homeType === "HUD-DW"
+                ? "#3939FF"
+                : data.homeType === "HUD-SW"
+                  ? "#737c86"
+                  : null
+          }}>{data.homeType}</span>
           <div className={styles.Item__wrapImg}>
             <img src={data['coverPhoto']?.[0]?.url} alt="Home image" />
           </div>

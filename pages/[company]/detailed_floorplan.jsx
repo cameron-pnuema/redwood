@@ -34,6 +34,7 @@ const getCategoryName = (airtableCategoryName) => {
 }
 
 const DetailedFloorPlan = () => {
+    
     const totalRecords = useRef([])
     let manufacturerData = useRef({})
     const dispatch = useDispatch()
@@ -45,11 +46,16 @@ const DetailedFloorPlan = () => {
 
     const handleFetch = async(offsetId) => {
     let url 
+
+    console.log("selectorplan",selectorPlan)
     if(selectorPlan?.homeType===HOME_TYPE.MODULAR){
         url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
     }
     else if(selectorPlan?.homeType ===HOME_TYPE.HUDDW){
-        url ="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD)"
+        url ="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-DW)"
+    }
+    else if(selectorPlan?.homeType ===HOME_TYPE.HUDSW){
+        url ="https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-SW)"
     }
     setIsLoading(true)
 
@@ -67,6 +73,8 @@ const DetailedFloorPlan = () => {
           })
     
           const realRes = await res.json()
+
+         
     
           totalRecords.current = [...totalRecords.current, ...realRes.records]
           if(realRes.offset){

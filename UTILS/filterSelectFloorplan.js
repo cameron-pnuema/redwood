@@ -64,5 +64,6 @@ const getDataGreaterThanValue = (filterObj, plan) => {
 
 export const HOME_TYPE={
     MODULAR:"Modular",
-    HUDDW:"HUD-DW"
+    HUDDW:"HUD-DW",
+    HUDSW:"HUD-SW"
 }

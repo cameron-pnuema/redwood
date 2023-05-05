@@ -31,11 +31,13 @@ export const getTotalCustomizationPrice = (customizations) => {
 
   let customizationPrice = 0;
   categories.forEach((c) => {
+    
     const activeOption = c.options.find((o) => o?.id === c.active);
     if (
       c.categoryName === selectionCategoryNames.WINDOWS ||
       c.categoryName === selectionCategoryNames.LIGNTING ||
-      c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
+      c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON ||
+      c.categoryType === "quantity"
     ) {
       c.options.map((a) => {
         if (Array.isArray(c.active) && c.active.includes(a.id)) {
@@ -64,6 +66,7 @@ const CustomizeInterior = () => {
     (state) => state.customization.customization
   );
 
+ 
 
   const dispatch = useDispatch();
   const [notesState, setNotesState] = useState([]);
@@ -101,6 +104,7 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
+       
           if (
             uc.categoryType===selectionFieldTypes.QUANTITY ||
             uc.name === "Vinyl Upgrades (Optional)" ||
@@ -109,7 +113,9 @@ const CustomizeInterior = () => {
             uc.categoryName === selectionCategoryNames.LIGNTING ||
             uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
           ) {
+
             let selectionItem = { ...uc };
+         
             selectionItem.options = [
               ...uc.options.map((el, index) => {
 

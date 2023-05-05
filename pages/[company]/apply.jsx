@@ -193,6 +193,7 @@ const Apply = ({ data }) => {
         manufacturerName: Plan?.manufacturerName,
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
+        streetAddress:userDetails?.description
         // orderPDF: downloadFileName,
       },
 
