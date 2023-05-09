@@ -55,6 +55,7 @@ const OptionsGroup = ({
 
             if (!isQuantityType && !isMultipleType && activeOptionId == o.id)
               optionClasses.push(styles.option_pointer_behaviour_none);
+              
 
 
             return (
