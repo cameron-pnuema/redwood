@@ -26,8 +26,8 @@ const OptionsGroup = ({
 }) => {
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
- 
- 
+
+
   return (
     <div className={styles.group}>
       <div className={styles.group__name}>{groupName}</div>
@@ -35,7 +35,7 @@ const OptionsGroup = ({
         {options
           .sort((a, b) => a.price - b.price)
           .map((o, endChildIndex) => {
-          
+        
             const isQuantityType =
               o.categoryType === selectionFieldTypes.QUANTITY;
             const isMultipleType =
@@ -56,6 +56,7 @@ const OptionsGroup = ({
             if (!isQuantityType && !isMultipleType && activeOptionId == o.id)
               optionClasses.push(styles.option_pointer_behaviour_none);
 
+
             return (
               <div
                 className={optionClasses.join(" ")}
@@ -72,17 +73,20 @@ const OptionsGroup = ({
                   }
                 }}
               >
-                {o.displayStatus==="On" ? <><div className={styles.option__label}>
+                {o.displayStatus === "On" || o.displayStatus === undefined ? <><div className={styles.option__label}>
                   {isQuantityType ? (
                     <InputCustomizeOption
                       groupId={groupId}
                       noOfUnit={o.noOfUnit}
                       activeOptionId={activeOptionId}
-                      onChange={(value) =>
+                      onChange={(value) => {
+
                         onChange({ optionId: o.id, value, endChildIndex })
+
+                      }
                       }
                     />
-                  ) : ( 
+                  ) : (
                     <Checkbox
                       checked={
                         (Array.isArray(activeOptionId) &&
@@ -93,13 +97,13 @@ const OptionsGroup = ({
                   )}
                   <span>{o.name}</span>
                 </div>
-                <div className={styles.option__price}>
-                  $
-                  {format(o.price, {
-                    spacing: true,
-                    showDecimals: "NEVER",
-                  })}
-                </div></>:null  }
+                  <div className={styles.option__price}>
+                    $
+                    {format(o.price, {
+                      spacing: true,
+                      showDecimals: "NEVER",
+                    })}
+                  </div></> : null}
               </div>
             );
           })}
