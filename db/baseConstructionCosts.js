@@ -81,29 +81,107 @@ export const baseContructionCostsStructure = [
   },
 ];
 
-export const baseContructionTotalCosts = {};
+export var result
+// export const baseContructionTotalCosts = {};
 
 const setCost = () => {
   const data = store().getState().priceFactor.constructionCost.data;
-  
-  const totalSqft = data?.find(
-    (item) => item.fields.constructionCategory === "Total Per Sq Ft"
+  // console.log("data", data)
+
+  const displayed = data?.filter(
+    (item) => item.fields["Displayed?"] === "Yes" || item.fields["Displayed?"] === undefined
   );
- 
-  if (!totalSqft) return 1;
-  baseContructionTotalCosts["1200ft"] = totalSqft.fields["1200 sq ft"];
-  baseContructionTotalCosts["1500ft"] = totalSqft.fields["1500 sq ft"];
-  baseContructionTotalCosts["2000ft"] = totalSqft.fields["2000 sq ft"];
-  baseContructionTotalCosts["1200ft-HUD-DW"] = totalSqft.fields["1200-sq-ft-HUD-DW"];
-  baseContructionTotalCosts["1500ft-HUD-DW"] = totalSqft.fields["1500-sq-ft-HUD-DW"];
-  baseContructionTotalCosts["2000ft-HUD-DW"] = totalSqft.fields["2000-sq-ft-HUD-DW"];
+
+  // console.log("displayed==>",displayed)
+
+
+  result = [{
+    constructionOptionsMOD: {},
+  }, {
+    constructionOptionsHUD_DW: {},
+  },
+  {
+    constructionOptionsHUD_SW: {},
+  }];
+
+  result[0].constructionOptionsMOD = displayed.reduce((acc, obj) => {
+    acc[obj.fields.constructionCategory] = obj.fields.constructionOptionsMOD;
+    return acc;
+  }, {});
+
+  result[1].constructionOptionsHUD_DW = displayed.reduce((acc, obj) => {
+    acc[obj.fields.constructionCategory] = obj.fields.constructionOptionsHUD_DW;
+    return acc;
+  }, {});
+
+  result[2].constructionOptionsHUD_SW = displayed.reduce((acc, obj) => {
+    acc[obj.fields.constructionCategory] = obj.fields.constructionOptionsHUD_SW;
+    return acc;
+  }, {});
+
+  //   console.log("dwwee===>",result)
+
+  // console.log(" totalSqft ", totalSqft)
+
+  // if (!totalSqft) return 1;
+
+  // baseContructionTotalCosts["1200ft"] = totalSqft.fields["1200 sq ft"];
+  // baseContructionTotalCosts["1500ft"] = totalSqft.fields["1500 sq ft"];
+  // baseContructionTotalCosts["2000ft"] = totalSqft.fields["2000 sq ft"];
+  // baseContructionTotalCosts["1200ft-HUD-DW"] = totalSqft.fields["1200-sq-ft-HUD-DW"];
+  // baseContructionTotalCosts["1500ft-HUD-DW"] = totalSqft.fields["1500-sq-ft-HUD-DW"];
+  // baseContructionTotalCosts["2000ft-HUD-DW"] = totalSqft.fields["2000-sq-ft-HUD-DW"];
 };
 
 export const getBaseContructionCostsPerSqureFit = (data) => {
-  
- setCost();
-  const category = "sq Ft Category"
-  if (!data?.[category] ) return null;
-  if(data?.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
-  return baseContructionTotalCosts[data[category] + "ft"] * data[category];
+
+  setCost();
+  // console.log("data2",data)
+
+  const category = "sq Ft"
+  // console.log("hy1567",  data[category] )
+  let sum = 0
+
+
+  if (data?.homeType === "Modular") {
+    //  console.log(result[0], ':::Ressult::::')
+    const constructionOptionsMOD = result[0].constructionOptionsMOD;
+    Object.entries(constructionOptionsMOD).forEach(([key, value]) => {
+      if (value < 50) {
+        constructionOptionsMOD[key] = value * data[category];
+      }
+      sum += constructionOptionsMOD[key];
+
+    });
+  }
+  else if (data?.homeType === "HUD-DW") {
+    // console.log(result[1], ':::Ressult::::')
+    const constructionOptionsHUD_DW = result[1].constructionOptionsHUD_DW;
+    Object.entries(constructionOptionsHUD_DW).forEach(([key, value]) => {
+      if (value < 50) {
+        constructionOptionsHUD_DW[key] = value * data[category];
+      }
+      sum += constructionOptionsHUD_DW[key];
+
+    });
+  }
+  else if (data?.homeType === "HUD-SW") {
+    // console.log(result[2], ':::Ressult::::')
+    const constructionOptionsHUD_SW = result[2].constructionOptionsHUD_SW;
+    Object.entries(constructionOptionsHUD_SW).forEach(([key, value]) => {
+      if (value < 50) {
+        constructionOptionsHUD_SW[key] = value * data[category];
+      }
+      sum += constructionOptionsHUD_SW[key];
+
+    });
+  }
+
+  //  console.log("SUM", sum )
+  return sum;
+
+  // if (!data?.[category] ) return null;
+  // if(data?.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
+  // return baseContructionTotalCosts[data[category] + "ft"] * data[category];
+
 };

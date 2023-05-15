@@ -99,7 +99,7 @@ const ApplyForm = (props) => {
       dispatch(setUserInforModal(false))
       return false
     } 
-    if(isUserInfoModal && window?.location.hostname==="localhost")return true
+    if(isUserInfoModal && window?.location.hostname==="localhost")return false
     return isUserInfoModal
   }
 

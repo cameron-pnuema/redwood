@@ -53,6 +53,8 @@ const Item = ({ noButton, data }) => {
 
   const baseConstructionCosts = data && getBaseContructionCostsPerSqureFit(data);
 
+  // console.log("basconsec",baseConstructionCosts)
+
   const finalPrice = format(
     HousePrice(data?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER),
 
@@ -120,7 +122,7 @@ const Item = ({ noButton, data }) => {
 
               <div className={styles.Item__paramsLabel}>
                 <img src={PlanImg} alt="badroomsImg" />
-                <span>{data['sq Ft Category']}</span>
+                <span>{data['sq Ft']}</span>
                 <span className={styles.Item__LabeName}>Sq.Ft</span>
               </div>
             </div>

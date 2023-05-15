@@ -142,8 +142,11 @@ const DetailedFloorPlan = () => {
                                        id: mainIndex +1,
                                        name: mainOption.fields.selectionOption,
                                        price: mainOption.fields.price || 0,
-                                       displayStatus: mainOption.fields.displayStatus
+                                       displayStatus: mainOption.fields.displayStatus,
+                                       homeSeriesName:mainOption.fields.homeSeriesName
                                    }
+
+                                  
                                }
     
                                if(categoryName.includes('Optional')){ //if the category is optional then let the user to skip it

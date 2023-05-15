@@ -35,7 +35,7 @@ const OptionsGroup = ({
         {options
           .sort((a, b) => a.price - b.price)
           .map((o, endChildIndex) => {
-        
+            console.log("option00==>",o)
             const isQuantityType =
               o.categoryType === selectionFieldTypes.QUANTITY;
             const isMultipleType =
@@ -55,7 +55,7 @@ const OptionsGroup = ({
 
             if (!isQuantityType && !isMultipleType && activeOptionId == o.id)
               optionClasses.push(styles.option_pointer_behaviour_none);
-              
+
 
 
             return (
@@ -74,7 +74,7 @@ const OptionsGroup = ({
                   }
                 }}
               >
-                {o.displayStatus === "On" || o.displayStatus === undefined ? <><div className={styles.option__label}>
+                {(o.displayStatus === "On" || o.displayStatus === undefined) ? <><div className={styles.option__label}>
                   {isQuantityType ? (
                     <InputCustomizeOption
                       groupId={groupId}

@@ -9,7 +9,6 @@ import { setLot, setPlan } from '../../store/actions/lotAction';
 import { floorplanAction } from '../../store/actions/floorplan';
 import slots from '../../db/slots';
 import { useDispatch, useSelector } from 'react-redux';
-import table from 'airtable'
 import _ from 'lodash'
 import { setAirtablecustomizationAction } from '../../store/actions/customization';
 import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames } from '../../db/custumizationGroupsFairmont';
@@ -51,8 +50,6 @@ const HomeTemplate = (categoryType) => {
          userCompany = localStorage.getItem('companyName')
       }
     const router = useRouter()
-    
-   
     const companyName = router.query.company || userCompany
      
 
@@ -128,7 +125,6 @@ const HomeTemplate = (categoryType) => {
                         }
 
                         const pageNumber = pageGroup[0]?.fields?.pageNumber;
-
 
                         mainOption.category = pageNumber;
                         mainOption.active = pageNumber === 1 ? true : false
