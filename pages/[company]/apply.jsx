@@ -34,14 +34,9 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
 
-
-
-
-
 let orderId
 
-let hostName = typeof window !== "undefined" && window.location.hostname
-let testName = typeof window !== "undefined" && window.location.hostname && hostName.includes("localhost")
+
 
 const bccList = ['rex@redrootscapital.com', 'sam@redrootscapital.com', 'griffin@redrootscapital.com'];
 
@@ -139,9 +134,6 @@ const Apply = ({ data }) => {
   const lot = selectorLot.lotData;
 
   const Plan = selectorLot.planData;
-
-
-
 
 
   useEffect(() => {
@@ -372,8 +364,8 @@ const Apply = ({ data }) => {
         Plan: planName,
         customization: html,
         financeBlock: financeBlock,
-        to: testName || testEmail ? "testingrrc.bcc@mailinator.com" : toList,
-        bcc: testName || testEmail ? "" : userBcc
+        to:  testEmail ? "testingrrc.bcc@mailinator.com" : toList,
+        bcc:  testEmail ? "" : userBcc
       };
 
       await emailjs.send(
@@ -409,7 +401,7 @@ const Apply = ({ data }) => {
           customizatoins: html,
           financeBlock: financeBlock,
           to: userDetails?.email,
-          bcc: testName || testEmail ? "" : bccList
+          bcc:  testEmail ? "" : bccList
         },
 
         emailJsConfigs.USER_ID
