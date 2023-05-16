@@ -14,11 +14,9 @@ import downloadPdfDocument from "../../UTILS/pdfGenerator";
 import pdfOrder from "../../UTILS/pdfOrder";
 import { initializeApp } from "firebase/app";
 import { ref, getDownloadURL, uploadBytesResumable, getStorage } from 'firebase/storage'
+// import base from "../../UTILS/airtable";
 import Airtable from 'airtable';
-
 const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base('appoZqa8oxVNB0DVZ');
-
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -108,7 +106,7 @@ const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
 };
 const Apply = ({ data }) => {
   const [isCompleted, setCompleted] = useState(false);
-  const [progresspercent, setProgresspercent] = useState(0);
+  const [progressPercent, setProgresspercent] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [userDetails, setDetails] = useState({
@@ -142,6 +140,10 @@ const Apply = ({ data }) => {
 
   const Plan = selectorLot.planData;
 
+
+
+
+
   useEffect(() => {
     setDetails(userFilledData);
     if (typeof window !== "undefined") {
@@ -164,10 +166,14 @@ const Apply = ({ data }) => {
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
+    // console.log("base===>",baseConstructionCosts)
     const totalPrice = formatPrice(
       (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
       (finalPrice || 0)
     )
+    // console.log("totalPrice===>",totalPrice)
+    // console.log("plan===>",Plan)
+
 
     const responseData = await saveOrderData({
       fields: {
@@ -193,7 +199,7 @@ const Apply = ({ data }) => {
         manufacturerName: Plan?.manufacturerName,
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
-        streetAddress:userDetails?.description
+        streetAddress: userDetails?.description
         // orderPDF: downloadFileName,
       },
 
@@ -359,16 +365,15 @@ const Apply = ({ data }) => {
       let lotName = `№${lot.id}`;
       let planName = `${Plan.floorplanName}`;
 
-      let testEmail = "testingrrc.bcc@mailinator.com"
-
+      let testEmail = userDetails?.email === "testingrrc.bcc@mailinator.com"
       const obj = {
         ...e,
         lot: lotName,
         Plan: planName,
         customization: html,
         financeBlock: financeBlock,
-        to: testName ? "testingrrc.bcc@mailinator.com" : toList,
-        bcc: testName && testEmail ? "" : userBcc
+        to: testName || testEmail ? "testingrrc.bcc@mailinator.com" : toList,
+        bcc: testName || testEmail ? "" : userBcc
       };
 
       await emailjs.send(
@@ -404,7 +409,7 @@ const Apply = ({ data }) => {
           customizatoins: html,
           financeBlock: financeBlock,
           to: userDetails?.email,
-          bcc: testName && testEmail ? "" : bccList
+          bcc: testName || testEmail ? "" : bccList
         },
 
         emailJsConfigs.USER_ID
@@ -426,11 +431,10 @@ const Apply = ({ data }) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-           
             base('Orders').update([{
-              id ,
-              fields:{
-                 orderPDF:downloadURL
+              id,
+              fields: {
+                orderPDF: downloadURL
               }
             }], function (err, record) {
               if (err) {
