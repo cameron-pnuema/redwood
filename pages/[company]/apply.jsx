@@ -10,7 +10,7 @@ import { setUserInforModal } from "../../store/actions/popup";
 import { getBaseContructionCostsPerSqureFit } from "../../db/baseConstructionCosts";
 import { saveOrderData } from "../../api/saveOrderData"
 import { getTotalCustomizationPrice } from "./Customize_Home";
-import downloadPdfDocument from "../../UTILS/pdfGenerator";
+import { HousePrice } from "../../UTILS/price";
 import pdfOrder from "../../UTILS/pdfOrder";
 import { initializeApp } from "firebase/app";
 import { ref, getDownloadURL, uploadBytesResumable, getStorage } from 'firebase/storage'
@@ -121,9 +121,14 @@ const Apply = ({ data }) => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
+  const Plan = selectorLot.planData;
 
-  const markupValue = useSelector(state => state.priceFactor.markup.data);
-  const MARK_UP_MULTIPLIER = markupValue.Notes
+  const homeType = Plan?.homeType
+
+  const markupValue = useSelector((state) => state.priceFactor.markup.data);
+  const MARK_UP_MULTIPLIER = markupValue[`markUp${homeType}`];
+
+
   const userFilledData = useSelector((state) => state.user.userFilledData);
   const customizationPrice = useSelector(
     (state) => state.customization.customization
@@ -133,7 +138,7 @@ const Apply = ({ data }) => {
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
 
-  const Plan = selectorLot.planData;
+
 
 
   useEffect(() => {
@@ -158,15 +163,11 @@ const Apply = ({ data }) => {
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
-    // console.log("base===>",baseConstructionCosts)
+    const housePrice = HousePrice(Plan?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
     const totalPrice = formatPrice(
-      (Plan?.floorplanPrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+      housePrice +
       (finalPrice || 0)
     )
-    // console.log("totalPrice===>",totalPrice)
-    // console.log("plan===>",Plan)
-
-
     const responseData = await saveOrderData({
       fields: {
         email: userDetails?.email,
@@ -364,8 +365,8 @@ const Apply = ({ data }) => {
         Plan: planName,
         customization: html,
         financeBlock: financeBlock,
-        to:  testEmail ? "testingrrc.bcc@mailinator.com" : toList,
-        bcc:  testEmail ? "" : userBcc
+        to: testEmail ? "testingrrc.bcc@mailinator.com" : toList,
+        bcc: testEmail ? "" : userBcc
       };
 
       await emailjs.send(
@@ -401,7 +402,7 @@ const Apply = ({ data }) => {
           customizatoins: html,
           financeBlock: financeBlock,
           to: userDetails?.email,
-          bcc:  testEmail ? "" : bccList
+          bcc: testEmail ? "" : bccList
         },
 
         emailJsConfigs.USER_ID

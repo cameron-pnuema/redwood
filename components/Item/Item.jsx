@@ -26,9 +26,12 @@ const Item = ({ noButton, data }) => {
   const { company } = router.query
   const floorplan = useSelector((state) => state.floorplan);
 
-
+ 
+ const homeType = data?.homeType
+ 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
-  const MARK_UP_MULTIPLIER = markupValue.Notes;
+  const MARK_UP_MULTIPLIER = markupValue[`markUp${homeType}`];
+ 
 
   const airtableCustomization = useSelector(
     (state) => state.customization.airtableCustomization

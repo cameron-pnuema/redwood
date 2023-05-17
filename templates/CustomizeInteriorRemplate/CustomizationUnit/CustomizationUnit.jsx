@@ -9,7 +9,7 @@ import OptionGroup from "./OptionsGroup/OptionsGroup";
 import { getBaseContructionCostsPerSqureFit } from "../../../db/baseConstructionCosts";
 import FloringUpgrade from "./FloringUpgrade";
 import DiscountUpgrade from "./DiscountUpgrade";
-
+import { HousePrice } from "../../../UTILS/price";
 
 const formatPrice = (price) => {
   return format(price, {
@@ -36,11 +36,15 @@ const CustomizationUnit = ({
   const customizations = useSelector(
     (state) => state.customization.customization
   );
-  const markupValue = useSelector(state => state.priceFactor.markup.data);
-  const MARK_UP_MULTIPLIER = markupValue.Notes
+  const homeType = selectedPlan?.homeType
+
+  const markupValue = useSelector((state) => state.priceFactor.markup.data);
+  const MARK_UP_MULTIPLIER = markupValue[`markUp${homeType}`];
+
 
   const router = useRouter();
   const { company } = router.query
+
 
   // const topRef = useRef(null)
 
@@ -72,12 +76,12 @@ const CustomizationUnit = ({
                     </div>
                 } */}
           {optionGroups?.map((og) => {
-
+      
             let optionGroup = null;
             if (categoryName === "Flooring" || categoryName === 'Other ') {
               if (og.name === "Discount (Optional)") {
                 return optionGroup = (
-                  null                );
+                  null);
               }
               else
                 if (og.name === "Vinyl Upgrades (Optional)") {
@@ -170,8 +174,10 @@ const CustomizationUnit = ({
     const baseConstructionCosts = getBaseContructionCostsPerSqureFit(
       selectedPlan
     );
+    const housePrice = HousePrice(basePrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
+   
     return (
-      (basePrice + baseConstructionCosts) * MARK_UP_MULTIPLIER +
+      housePrice +
       totalCustomizationPrice
     );
   };
@@ -179,7 +185,7 @@ const CustomizationUnit = ({
   if (isAllStepsCompleted)
     body = (
       <>
-       
+
         <div className={styles.summary}>
           <div className={styles.summary__total}>
             Total: ${formatPrice(getTotalPrice())}
@@ -215,9 +221,9 @@ const CustomizationUnit = ({
                 <>
                   <div className={styles.body__card} style={{ marginTop: "35px" }}>
                     <p className={styles.body__card_text}>
-                    Credit or Trade-In
+                      Credit or Trade-In
                     </p>
-                    <DiscountUpgrade og={og} onChange={onChange}/>
+                    <DiscountUpgrade og={og} onChange={onChange} />
                   </div>
                 </>
               );
