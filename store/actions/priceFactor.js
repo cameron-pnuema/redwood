@@ -35,7 +35,7 @@ export async function getAirtableData({ url, method }) {
 }
 
 export const clientProfile = (data) => {
-    let url = "https://api.airtable.com/v0/appNSZE4sLntsJdpb/Client%20List%20%26%20Profiles?maxRecords=3&view=Client%20List%20%26%20General%20Info"
+    let url = "https://api.airtable.com/v0/appNSZE4sLntsJdpb/Client%20List%20%26%20Profiles?maxRecords=100&view=Client%20List%20%26%20General%20Info"
     return async (dispatch) => {
         dispatch(clientProfileRequest());
         try {
