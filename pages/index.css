@@ -93,3 +93,11 @@ li {
     color:white;
     text-decoration: none;
 }
+
+.custom_modal{
+    width: 600px; 
+    height: 300px;
+    text-align: center;
+    color: rgb(229, 112, 112);
+    border-radius: 17px;
+}

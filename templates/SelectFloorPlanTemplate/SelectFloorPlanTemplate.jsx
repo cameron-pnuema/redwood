@@ -5,13 +5,18 @@ import { Container, Row, Col } from 'reactstrap';
 
 
 const SelectFloorPlanTemplate = ({ plansSlot }) => {
+
+    const floorPlan = plansSlot?.filter((item) => {
+        return item.fields.displayStatus === "On"
+    })
+
     return (
         <div className={styles.SelectFloorPlanTemplate}>
             <div className={styles.SelectFloorPlanTemplate__innerContainer}>
                 <Container >
                     <Row>
                         {
-                            plansSlot &&  plansSlot.map((data, i) => {
+                            floorPlan && floorPlan?.map((data, i) => {
                                 return (
                                     <Col xl='4' lg='6' md='6' sm='12' key={i}>
                                         <Item
