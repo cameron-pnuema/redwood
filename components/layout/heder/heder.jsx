@@ -98,8 +98,10 @@ const Heder = () => {
                                 [styles.visit]: data.id < activeTab?.id,
                                 // [styles.apply]:data.link === '/apply' && activeTab.id === 4,
                             })}
-                            key={data.id}>{data.name}
+                            key={data.id}
                             data-testid={`${data.name}`}
+                            >{data.name}
+                           
                         </span>
                     )
                 })
