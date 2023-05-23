@@ -22,20 +22,27 @@ const OptionsGroup = ({
   groupId,
   handleIconClick,
   notesState,
-  notes
+  notes,
+  selectedPlan
 }) => {
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
+
+ 
+
+const filterOptions= options?.filter((item)=>{
+  return( item?.displayStatus==="On"|| item?.displayStatus===undefined) && (item?.homeSeriesName)
+})
+
 
 
   return (
     <div className={styles.group}>
       <div className={styles.group__name}>{groupName}</div>
       <div className={styles.group__options}>
-        {options
-          .sort((a, b) => a.price - b.price)
-          .map((o, endChildIndex) => {
-            console.log("option00==>",o)
+        {filterOptions
+          ?.sort((a, b) => a.price - b.price)
+          ?.map((o, endChildIndex) => {
             const isQuantityType =
               o.categoryType === selectionFieldTypes.QUANTITY;
             const isMultipleType =
@@ -56,8 +63,6 @@ const OptionsGroup = ({
             if (!isQuantityType && !isMultipleType && activeOptionId == o.id)
               optionClasses.push(styles.option_pointer_behaviour_none);
 
-
-
             return (
               <div
                 className={optionClasses.join(" ")}
@@ -74,7 +79,7 @@ const OptionsGroup = ({
                   }
                 }}
               >
-                {(o.displayStatus === "On" || o.displayStatus === undefined) ? <><div className={styles.option__label}>
+                { <><div className={styles.option__label}>
                   {isQuantityType ? (
                     <InputCustomizeOption
                       groupId={groupId}
@@ -104,7 +109,7 @@ const OptionsGroup = ({
                       spacing: true,
                       showDecimals: "NEVER",
                     })}
-                  </div></> : null}
+                  </div></>   }
               </div>
             );
           })}
