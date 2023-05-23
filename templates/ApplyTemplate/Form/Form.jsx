@@ -15,7 +15,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
 
         const isApplyRoute = Router?.router?.pathname?.includes('apply')
     return (
-        <div className={styles.Form}>
+        <div className={styles.Form} data-testid="form">
             <div className={styles.Form__wrapForm}>
                {!isApplyRoute &&
                     <p className={styles.Form__title}>
@@ -30,9 +30,9 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                             name='FirstName'
                             value={firstName}
                             onChange={(e) => handleChange(e.target.value, 'firstName')}
-
+                            data-testid="firstNameInput"
                         />
-                        <span className={styles.errors}>{errors?.firstName}</span>
+                        <span className={styles.errors} data-testid="firstNameError">{errors?.firstName}</span>
                     </div>
 
                     <div className={styles.wrap}>
@@ -42,8 +42,9 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                             name='LastName'
                             value={lastName}
                             onChange={(e) => handleChange(e.target.value, 'lastName')}
+                            data-testid="lastNameInput"
                         />
-                        <span className={styles.errors}>{errors?.lastName}</span>
+                        <span className={styles.errors} data-testid="lastNameError">{errors?.lastName}</span>
                     </div>
                 </div>
                 <div className={styles.row}>
@@ -60,7 +61,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                             }
                         }}
                     />
-                    <span className={styles.errors}>{errors?.phoneNumber}</span>
+                    <span className={styles.errors} data-testid="phoneNumberError">{errors?.phoneNumber}</span>
                 </div>
                 <div className={styles.wrap}>
                     <span className={styles.label}>Email<span className={styles.asterisk}>*</span></span>
@@ -69,8 +70,9 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         name='Email'
                         value={email}
                         onChange={(e) => handleChange(e.target.value, 'email')}
+                        data-testid="emailInput"
                     />
-                    <span className={styles.errors}>{errors?.email}</span>
+                    <span className={styles.errors} data-testid="emailError">{errors?.email}</span>
                 </div>
                 </div>
                 <div className={styles.wrap}>
@@ -82,6 +84,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         rows="10"
                         value={description}
                         onChange={(e) => handleChange(e.target.value, 'description')}
+                        data-testid="descriptionTextarea"
                     ></textarea>
                 </div>
                 <div className={styles.row}>
@@ -93,6 +96,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         id=""
                         value={city}
                         onChange={(e) => handleChange(e.target.value, 'city')}
+                        data-testid="cityInput"
                     ></input>
                 </div>
                 <div className={styles.wrap}>
@@ -102,6 +106,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         id=""
                         value={state}
                         onChange={(e) => handleChange(e.target.value, 'state')}
+                        data-testid="stateInput"
                     ></input>
                 </div>
                 </div>
@@ -114,6 +119,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         id=""
                         value={zipCode}
                         onChange={(e) => handleChange(e.target.value, 'zipCode')}
+                        data-testid="zipCodeInput"
                     ></input>
                 </div>
                 <div className={styles.wrap}>
@@ -123,6 +129,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         id=""
                         value={country}
                         onChange={(e) => handleChange(e.target.value, 'country')}
+                        data-testid="countryInput"
                     ></input>
                 </div>
                 </div>
@@ -133,6 +140,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                             style={{ height: '50px', width: '100%', marginBottom: '20px' }}
                             isLoading={isLoading}
                             onclick={submit}
+                            data-testid="applyButton"
                         />
 
                     <Button
@@ -140,6 +148,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
                         style={{ height: '50px', width: '100%' }}
                         theme3
                         onclick={() => Router.replace(`/${company}/detailed_floorplan`)}
+                        data-testid="backButton"
                     />
                 </>
                 }
