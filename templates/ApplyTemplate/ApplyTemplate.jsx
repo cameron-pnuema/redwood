@@ -9,7 +9,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 
 const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isCompleted, isLoading, orderId }) => {
+
     const dispatch = useDispatch()
+          
     let formContent = (
         <Form
             register={register}
@@ -22,9 +24,9 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
     );
 
     if (isCompleted) formContent = (
-        <div className={styles.thankyou}>
-            <h3>Thank you for customizing your home! Your order number is {orderId}</h3>
-            <Button text="Restart" noArrow style={{ height: 50, width: '100%' }} onclick={() => {
+        <div className={styles.thankyou} data-testid="thankyouSection">
+            <h3>Thank you for customizing your home! Your order number is<div data-testid="orderId">{orderId}</div></h3>
+            <Button text="Restart" noArrow style={{ height: 50, width: '100%' }}  data-testid="restartButton" onclick={() => {
                 dispatch(userLogOut())
                 Router.replace('/')
             }} />
@@ -33,11 +35,9 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
 
     return (
         <div className={styles.ApplyTemplate}>
-
-
             <div className={styles.ApplyTemplate__titleBlock}>
                 <div className={styles.filter}></div>
-                <img className={styles.bgImg} src={bgImg} alt="bgImg" />
+                <img className={styles.bgImg}  data-testid="backgroundImage" src={bgImg} alt="bgImg" />
                 <div className={styles.wrapTitle}>
                     <h2>Here’s what to expect next</h2>
 
@@ -64,7 +64,7 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
 
             </div>
 
-            <div className={styles.ApplyTemplate__wrapForm}>
+            <div className={styles.ApplyTemplate__wrapForm}  data-testid="formContainer">
                 {formContent}
             </div>
 

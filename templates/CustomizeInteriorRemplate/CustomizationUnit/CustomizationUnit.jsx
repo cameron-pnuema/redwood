@@ -44,7 +44,8 @@ const CustomizationUnit = ({
 
   const router = useRouter();
   const { company } = router.query
-
+ 
+ 
 
   // const topRef = useRef(null)
 
@@ -59,7 +60,7 @@ const CustomizationUnit = ({
     body = (
       <>
         <div className={styles.body__category}>
-          <div className={styles.body__categoryName}>{categoryName}</div>
+          <div className={styles.body__categoryName}  data-testid="categoryName">{categoryName}</div>
           <div className={styles.body__categoryDivider}></div>
         </div>
         <div className={styles.body__list}>
@@ -75,7 +76,7 @@ const CustomizationUnit = ({
                         <p className={styles.body__card__disclaimer}>*Flooring customization will be coming soon. A representative will reach out to you to discuss flooring options.</p>
                     </div>
                 } */}
-          {optionGroups?.map((og) => {
+          {optionGroups?.map((og,index) => {
       
             let optionGroup = null;
             if (categoryName === "Flooring" || categoryName === 'Other ') {
@@ -87,7 +88,7 @@ const CustomizationUnit = ({
                 if (og.name === "Vinyl Upgrades (Optional)") {
                   optionGroup = (
                     <>
-                      <div className={styles.body__card}>
+                      <div className={styles.body__card}  data-testid={`optionGroup-${index}`}>
                         <p className={styles.body__card_text}>
                           Vinyl Flooring Upgrades (Optional)
                         </p>
@@ -99,6 +100,7 @@ const CustomizationUnit = ({
                 else {
                   optionGroup = (
                     <OptionGroup
+                      selectedPlan={selectedPlan}
                       groupName={og.name}
                       categoryType={og.categoryType}
                       options={og.options}
@@ -125,6 +127,7 @@ const CustomizationUnit = ({
                       handleIconClick={() => handleIconClick(og)}
                       notesState={notesState}
                       notes={og.notes}
+                      data-testid={`optionGroup-${index}`}
                     />
                   );
                 }
@@ -133,6 +136,7 @@ const CustomizationUnit = ({
             if (categoryName !== "Flooring")
               optionGroup = (
                 <OptionGroup
+                selectedPlan={selectedPlan}
                   groupName={og.name}
                   categoryType={og.categoryType}
                   options={og.options}
@@ -159,13 +163,14 @@ const CustomizationUnit = ({
                   handleIconClick={() => handleIconClick(og)}
                   notesState={notesState}
                   notes={og.notes}
+                  data-testid={`optionGroup-${index}`}
                 />
               );
 
             return optionGroup;
           })}
         </div>
-        <h3>Additional Notes</h3>
+        <h3 data-testid="additionalNotes">Additional Notes</h3>
       </>
     );
 
@@ -187,12 +192,12 @@ const CustomizationUnit = ({
       <>
 
         <div className={styles.summary}>
-          <div className={styles.summary__total}>
+          <div className={styles.summary__total} data-testid="totalPrice">
             Total: ${formatPrice(getTotalPrice())}
           </div>
           {/* <div className={styles.summary__item}>Base price:  ${formatPrice(selectedPlan?.price * MARK_UP_MULTIPLIER)}</div>
             <div className={styles.summary__item}>Base construction costs:  ${formatPrice(getBaseContructionCostsPerSqureFit(selectedPlan?.s) * MARK_UP_MULTIPLIER)}</div> */}
-          <div className={styles.summary__item}>
+          <div className={styles.summary__item} >
             Customizations: ${formatPrice(totalCustomizationPrice)}
           </div>
           <div className={styles.summary__action}>
@@ -201,6 +206,7 @@ const CustomizationUnit = ({
               disabled={currentCategory !== totalCategories}
               style={{ width: "100%", height: 50 }}
               onclick={() => Router.replace(`/${company}/apply`)}
+              data-testid="submitButton"
             />
           </div>
 
@@ -214,12 +220,12 @@ const CustomizationUnit = ({
           </div>
         </div>
 
-        {optionGroups?.map((og) => {
+        {optionGroups?.map((og,index) => {
           let optionGroup = null; {
             if (og.name === "Discount (Optional)") {
               return optionGroup = (
                 <>
-                  <div className={styles.body__card} style={{ marginTop: "35px" }}>
+                  <div className={styles.body__card} style={{ marginTop: "35px" }}  data-testid={`discountOptionGroup-${index}`}>
                     <p className={styles.body__card_text}>
                       Credit or Trade-In
                     </p>
@@ -250,14 +256,14 @@ const CustomizationUnit = ({
           <div className={styles.header__top}>
             <div className={styles.header__info}>
               <h3>Customize your house</h3>
-              <div>
+              <div data-testid="customizationInfo">
                 Total completed {totalCompleted} out {totalCategories}, +$
                 {formatPrice(totalCustomizationPrice)}
               </div>
             </div>
             <div className={styles.header__actions}>
               {currentCategory > 1 && (
-                <Button text="Back" noArrow theme4 onclick={onBack} />
+                <Button text="Back" noArrow theme4 onclick={onBack}  data-testid="backButton"/>
               )}
               {!isAllStepsCompleted && (
                 <Button
@@ -268,6 +274,7 @@ const CustomizationUnit = ({
                     totalCategories === currentCategory - 1 ||
                     !isCurrentStepCompleted
                   }
+                  data-testid="nextButton"
                 />
               )}
               {isAllStepsCompleted && (
@@ -275,6 +282,7 @@ const CustomizationUnit = ({
                   text="Submit"
                   noArrow
                   onclick={() => Router.replace(`/${company}/apply`)}
+                  data-testid="submitButton2"
                 />
               )}
             </div>
@@ -286,7 +294,7 @@ const CustomizationUnit = ({
             ></div>
           </div>
         </div>
-        <div className={[styles.customization__body, styles.body].join(" ")}>
+        <div className={[styles.customization__body, styles.body].join(" ")}  data-testid="customizationBody">
           {body}
         </div>
         {!isAllStepsCompleted && (
@@ -299,6 +307,7 @@ const CustomizationUnit = ({
               disabled={
                 totalCategories === currentCategory - 1 || !isCurrentStepCompleted
               }
+              data-testid="customizationBottomButton"
             />
           </div>
         )}

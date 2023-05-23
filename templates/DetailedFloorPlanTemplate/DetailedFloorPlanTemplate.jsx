@@ -10,14 +10,16 @@ import { useRouter } from 'next/router';
 const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
     const router = useRouter();
     const{company}=router.query
+
+   
     return (
-        <div className={styles.DetailedFloorPlanTemplate}>
+        <div className={styles.DetailedFloorPlanTemplate} data-testid="detailed-floor-plan-template">
 
             <Container>
 
                 <Row>
                     {selectorPlan && (
-                        <Col xl='4' lg='4'>
+                        <Col xl='4' lg='4' data-testid="selector-plan-col">
                             <div className={styles.wrapItem}>
                                 <Item
                                     noButton
@@ -35,7 +37,7 @@ const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
                                 {selectorPlan && (
                                     <Slider
                                         images={selectorPlan.otherPhotos}
-                                    />
+                                     />
                                 )}
                             </div>
 
@@ -44,6 +46,7 @@ const DetailedFloorPlanTemplate = ({ selectorPlan,isLoading }) => {
                                 style={{ height: '50px' ,cursor:isLoading?"not-allowed":"pointer"}}
                                 onclick={() => Router.replace(`/${company}/Customize_Home`)}
                                 disabled={isLoading}
+                                data-testid="choose-floorplan-button"
                             />
 
                         </div>

@@ -19,8 +19,9 @@ const LoginTemplate = ({userDetails={} ,handleChange,handleSubmit, userValidatio
          value={username}
          onChange={(e) => handleChange(e.target.value, 'username')}
           className={styles.logininput}
+          data-testid="usernameInput"
         />
-         <span className={styles.errors}>{errors?.email}</span>
+         <span className={styles.errors} data-testid="usernameError">{errors?.email}</span>
         <input
           type="password"
           name='password'
@@ -28,11 +29,12 @@ const LoginTemplate = ({userDetails={} ,handleChange,handleSubmit, userValidatio
           value={password}
           onChange={(e) => handleChange(e.target.value, 'password')}
           className={styles.logininput}
+          data-testid="passwordInput"
         />
-         <span className={styles.errors}>{errors?.password}</span>
+         <span className={styles.errors} data-testid="passwordError">{errors?.password}</span>
         <Button type="submit" className="login-button"
         style={{ height: '50px', width: '100%' }}
-        text="Submit" onclick={(e)=>handleSubmit}/>
+        text="Submit" onclick={(e)=>handleSubmit}  data-testid="login-submitButton"/>
 
      
       </form>

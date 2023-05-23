@@ -279,7 +279,7 @@ const HomeTemplate = (categoryType) => {
             <div className={styles.HomeTemplate__centerBlock}>
                 <p className={styles.HomeTemplate__title}>Welcome! {/* {process.env.NEXT_PUBLIC_APP_ENVIRONMENT} */}</p>
                 <p className={styles.HomeTemplate__subTitle}>TO GS COURTYARD HOMES  {/* {process.env.APP_ENVIRONMENT} */}</p>
-                <div className={styles.HomeTemplate__wrapButton}>
+                <div className={styles.HomeTemplate__wrapButton} data-testid="buildButton">
                     <Button
                         text='Click here to build your next home'
                         onclick={gotoFloorPlan}
@@ -289,12 +289,13 @@ const HomeTemplate = (categoryType) => {
                 <div className={styles.orderDetail}>
                     <p className={styles.HomeTemplate__orderText}>Get your order detail</p>
 
-                    <input type="text" value={orderID} onChange={handleChange} className={styles.inputOrder} placeholder='Enter Order ID' />
-                    {error && <p className={styles.HomeTemplate__error}> * Field is required</p>}
+                    <input type="text" value={orderID} onChange={handleChange} className={styles.inputOrder} placeholder='Enter Order ID' data-testid="orderIDInput" />
+                    {error && <p className={styles.HomeTemplate__error}  data-testid="error"> * Field is required</p>}
                     <Button
                         text={loading ? "... Fetching Order" : "Get Order Detail"}
                         onclick={handleGetOrderDetail}
                         style={{ height: '40px', width: "fit-content" }}
+                        data-testid="getOrderDetailButton"
                     />
                 </div>
             </div>

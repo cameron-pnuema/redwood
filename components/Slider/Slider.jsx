@@ -68,6 +68,7 @@ const Slider = ({ images }) => {
                         <ItemSlider
                             key={i}
                             imgSlider={data.url}
+                            data-testid={`item-slider-${i}`}
                         />
                     )
                 }):<h3> No Images available yet...</h3>

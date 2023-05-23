@@ -16,7 +16,11 @@ const formatPrice = (price) => {
     })
 };
 
+
+
 const CustomizeInteriorRemplate = ({ activeCustomizationCategory, onCustomizationChange, onNext, onBack, totalCategories, currentCategory, totalCustomizationPrice, isCurrentStepCompleted, selectedPlan, isAllStepsCompleted,handleIconClick,notesState }) => {
+
+// console.log("activeCustomizationCategory",activeCustomizationCategory)
 
     // let categories = [];
     // customization.forEach(c => {

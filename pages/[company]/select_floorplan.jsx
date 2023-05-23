@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Layout from '../../components/layout/layout';
+import { useRouter } from 'next/router';
 import SelectFloorPlanTemplate from '../../templates/SelectFloorPlanTemplate/SelectFloorPlanTemplate';
 import plans from '../../db/plans';
 import useTimeout from '../../UTILS/useTimeout';
@@ -15,12 +16,20 @@ import { filterData } from "../../components/filterCriteria/utils"
 import FilterPills from "../../components/filterPills"
 const SelectFloorPlan = () => {
 
+    const router = useRouter()
+    
+    const companyName = router.query.company
+   
+     
+
     useTimeout();
     const [showFilter, setShowFilter] = useState(false)
     const [filterFloorPlan, setFilterFloorPlan] = useState([])
 
+
     const selectorLot = useSelector(state => state.lot.lotData);
     const priceFactor = useSelector(state => state.priceFactor);
+   
     const floorPlanFilter = useSelector(state => state.floorplan.filters);
     const plansSlot = useSelector(state => state.priceFactor.floorPlan.data)
    
@@ -59,14 +68,14 @@ const SelectFloorPlan = () => {
     return (
         <Layout showDisclaimer>
             <Container>
-                <Button onClick={handleFilterClick} outline color="primary">{showFilter ? "Hide Filters" : "Add Filters"}</Button>
+                <Button onClick={handleFilterClick} outline color="primary"  data-testid="filter-button">{showFilter ? "Hide Filters" : "Add Filters"}</Button>
                 <FilterPills floorPlanFilter={floorPlanFilter} handleFilterOptionClick={handleFilterOptionClick}/>
             </Container>
 
             <Collapse isOpen={showFilter}>
                 <FilterCriteria handleFilterOptionClick={handleFilterOptionClick} filterData={filterData} />
             </Collapse>
-            <ApplyForm className="form-modal" />
+            <ApplyForm className="form-modal" data-testid="form-modal" />
             {filterFloorPlan.length ? <SelectFloorPlanTemplate
                 plansSlot={filterFloorPlan} 
             /> : <h2 class="text-center">No Data Found</h2>}

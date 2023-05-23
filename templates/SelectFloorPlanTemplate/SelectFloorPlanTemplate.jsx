@@ -11,14 +11,14 @@ const SelectFloorPlanTemplate = ({ plansSlot }) => {
     })
 
     return (
-        <div className={styles.SelectFloorPlanTemplate}>
+        <div className={styles.SelectFloorPlanTemplate} data-testid="select-floor-plan-template"> 
             <div className={styles.SelectFloorPlanTemplate__innerContainer}>
                 <Container >
                     <Row>
                         {
                             floorPlan && floorPlan?.map((data, i) => {
                                 return (
-                                    <Col xl='4' lg='6' md='6' sm='12' key={i}>
+                                    <Col xl='4' lg='6' md='6' sm='12' key={i} data-testid={`floor-plan-item-${i}`} >
                                         <Item
                                             data={data.fields}
                                         />
