@@ -85,7 +85,7 @@ const Heder = () => {
     return (
         <div className={styles.Heder}>
             {
-                currentPage != "Select Floorplan" ? <span onClick={() => back()} className={styles.Heder__back}><img src={backImg} alt="img" />Back</span> : <span className={styles.Heder__back}></span>
+                currentPage != "Select Floorplan" ? <span onClick={() => back()} className={styles.Heder__back}  data-testid="back"><img src={backImg} alt="img" />Back</span> : <span className={styles.Heder__back}></span>
             }
             {
                 tabs.map((data) => {
@@ -99,11 +99,12 @@ const Heder = () => {
                                 // [styles.apply]:data.link === '/apply' && activeTab.id === 4,
                             })}
                             key={data.id}>{data.name}
+                            data-testid={`${data.name}`}
                         </span>
                     )
                 })
             }
-            <span onClick={() => logout()} className={styles.Heder__back}>Logout</span>
+            <span onClick={() => logout()} className={styles.Heder__back}  data-testid="logOut">Logout</span>
 
 
 
