@@ -27,12 +27,19 @@ const OptionsGroup = ({
 }) => {
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
+  
 
- 
-
-const filterOptions= options?.filter((item)=>{
-  return( item?.displayStatus==="On"|| item?.displayStatus===undefined) && (item?.homeSeriesName)
-})
+  const filterOptions = options?.filter((item) => {
+    if (selectedPlan?.homeType==="HUD-DW") {
+      return  (item?.displayStatus === "On" || item?.displayStatus === undefined)
+      && (item?.homeSeriesName?.some(name => name === selectedPlan?.homeSeriesName))
+    }
+    else
+    {
+    return (item?.displayStatus === "On" || item?.displayStatus === undefined)
+      && (item?.homeSeriesName ===selectedPlan?.homeSeriesName) }
+     
+  })
 
 
 
@@ -79,7 +86,7 @@ const filterOptions= options?.filter((item)=>{
                   }
                 }}
               >
-                { <><div className={styles.option__label}>
+                {<><div className={styles.option__label}>
                   {isQuantityType ? (
                     <InputCustomizeOption
                       groupId={groupId}
@@ -109,7 +116,7 @@ const filterOptions= options?.filter((item)=>{
                       spacing: true,
                       showDecimals: "NEVER",
                     })}
-                  </div></>   }
+                  </div></>}
               </div>
             );
           })}
