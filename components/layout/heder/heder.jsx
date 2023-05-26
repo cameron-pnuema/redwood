@@ -112,14 +112,14 @@ const Heder = () => {
 
             <Modal centered={true} contentClassName="custom_modal" isOpen={showWarningModal} style={{ marginBottom: "0px", marginTop: "0px", marginLeft: "500px" }} >
                 <ModalBody style={{ display: 'flex', alignItems: 'end', justifyContent: 'center', fontSize: "20px", fontWeight: "550", padding: "25px" }}  >
-                    Your current selection options,comments & customizations will be lost if you proceed  back to this page
+                    Your current selection options, comments, & customizations will be lost if you proceed  back to this page
                 </ModalBody>
                 <ModalFooter style={{ display: 'flex', justifyContent: 'space-around', border: 'none' }}>
                     <Button color="secondary" onClick={handleCloseModal} style={{ width: "16.2rem", fontWeight: "500", backgroundColor: "#3939ff" }}>
-                        No-Stay on the Current Page
+                        No - Stay on the Current Page
                     </Button>
                     <Button color="primary" onClick={handleConfirmNavigation} style={{ backgroundColor: 'rgb(209, 37, 61)', fontWeight: "500" }}>
-                        Yes-Return to this Previous Page
+                        Yes - Return to this Previous Page
                     </Button>
                 </ModalFooter>
             </Modal>

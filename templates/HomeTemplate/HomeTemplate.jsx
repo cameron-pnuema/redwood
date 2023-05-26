@@ -17,6 +17,7 @@ import { getMarkup, getFloorPlan, getConstructionCost } from "../../store/action
 import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
 import { customizationAction } from "../../store/actions/customization"
 import { setUserData } from "../../store/actions/user"
+import { setUserInforModal } from '../../store/actions/popup';
 
 const FLOORING = 'Flooring'
 
@@ -69,6 +70,7 @@ const HomeTemplate = (categoryType) => {
         dispatch(setLot(slotData));
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
         Router.replace(`/${companyName}/select_floorplan`);
+        dispatch((setUserInforModal(true)))
     }
 
     const handleFetch = async (offsetId) => {
