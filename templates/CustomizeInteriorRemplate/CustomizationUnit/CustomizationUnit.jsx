@@ -36,16 +36,26 @@ const CustomizationUnit = ({
   const customizations = useSelector(
     (state) => state.customization.customization
   );
-  const homeType = selectedPlan?.homeType
 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
-  const MARK_UP_MULTIPLIER = markupValue[`markUp${homeType}`];
+
+  let markUp;
+
+  if (data?.homeType === 'Modular') {
+    markUp = 'Modular Mark Up';
+  } else if (data?.homeType === 'HUD-DW') {
+    markUp = 'Double Wide Mark Up';
+  } else if (data?.homeType === 'HUD-SW') {
+    markUp = 'Single Wide Mark Up';
+  }
+
+  const MARK_UP_MULTIPLIER = markupValue[`${markUp}`];
 
 
   const router = useRouter();
   const { company } = router.query
- 
- 
+
+
 
   // const topRef = useRef(null)
 
@@ -60,7 +70,7 @@ const CustomizationUnit = ({
     body = (
       <>
         <div className={styles.body__category}>
-          <div className={styles.body__categoryName}  data-testid="categoryName">{categoryName}</div>
+          <div className={styles.body__categoryName} data-testid="categoryName">{categoryName}</div>
           <div className={styles.body__categoryDivider}></div>
         </div>
         <div className={styles.body__list}>
@@ -76,8 +86,8 @@ const CustomizationUnit = ({
                         <p className={styles.body__card__disclaimer}>*Flooring customization will be coming soon. A representative will reach out to you to discuss flooring options.</p>
                     </div>
                 } */}
-          {optionGroups?.map((og,index) => {
-      
+          {optionGroups?.map((og, index) => {
+
             let optionGroup = null;
             if (categoryName === "Flooring" || categoryName === 'Other ') {
               if (og.name === "Discount (Optional)") {
@@ -88,7 +98,7 @@ const CustomizationUnit = ({
                 if (og.name === "Vinyl Upgrades (Optional)") {
                   optionGroup = (
                     <>
-                      <div className={styles.body__card}  data-testid={`optionGroup-${index}`}>
+                      <div className={styles.body__card} data-testid={`optionGroup-${index}`}>
                         <p className={styles.body__card_text}>
                           Vinyl Flooring Upgrades (Optional)
                         </p>
@@ -136,7 +146,7 @@ const CustomizationUnit = ({
             if (categoryName !== "Flooring")
               optionGroup = (
                 <OptionGroup
-                selectedPlan={selectedPlan}
+                  selectedPlan={selectedPlan}
                   groupName={og.name}
                   categoryType={og.categoryType}
                   options={og.options}
@@ -180,7 +190,7 @@ const CustomizationUnit = ({
       selectedPlan
     );
     const housePrice = HousePrice(basePrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
-   
+
     return (
       housePrice +
       totalCustomizationPrice
@@ -220,12 +230,12 @@ const CustomizationUnit = ({
           </div>
         </div>
 
-        {optionGroups?.map((og,index) => {
+        {optionGroups?.map((og, index) => {
           let optionGroup = null; {
             if (og.name === "Discount (Optional)") {
               return optionGroup = (
                 <>
-                  <div className={styles.body__card} style={{ marginTop: "35px" }}  data-testid={`discountOptionGroup-${index}`}>
+                  <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
                     <p className={styles.body__card_text}>
                       Credit or Trade-In
                     </p>
@@ -263,7 +273,7 @@ const CustomizationUnit = ({
             </div>
             <div className={styles.header__actions}>
               {currentCategory > 1 && (
-                <Button text="Back" noArrow theme4 onclick={onBack}  data-testid="backButton"/>
+                <Button text="Back" noArrow theme4 onclick={onBack} data-testid="backButton" />
               )}
               {!isAllStepsCompleted && (
                 <Button
@@ -294,7 +304,7 @@ const CustomizationUnit = ({
             ></div>
           </div>
         </div>
-        <div className={[styles.customization__body, styles.body].join(" ")}  data-testid="customizationBody">
+        <div className={[styles.customization__body, styles.body].join(" ")} data-testid="customizationBody">
           {body}
         </div>
         {!isAllStepsCompleted && (

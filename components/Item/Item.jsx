@@ -27,10 +27,22 @@ const Item = ({ noButton, data }) => {
   const floorplan = useSelector((state) => state.floorplan);
 
  
- const homeType = data?.homeType
+ 
+ 
  
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
-  const MARK_UP_MULTIPLIER = markupValue[`markUp${homeType}`];
+ 
+  let markUp;
+
+if ( data?.homeType=== 'Modular') {
+  markUp = 'Modular Mark Up';
+} else if ( data?.homeType  === 'HUD-DW') {
+  markUp = 'Double Wide Mark Up';
+} else if ( data?.homeType  === 'HUD-SW') {
+  markUp = 'Single Wide Mark Up';
+}
+
+  const MARK_UP_MULTIPLIER = markupValue[`${markUp}`];
  
 
   const airtableCustomization = useSelector(
@@ -56,7 +68,7 @@ const Item = ({ noButton, data }) => {
 
   const baseConstructionCosts = data && getBaseContructionCostsPerSqureFit(data);
 
-  // console.log("basconsec",baseConstructionCosts)
+  console.log("basconsec",baseConstructionCosts)
 
   const finalPrice = format(
     HousePrice(data?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER),
@@ -67,11 +79,13 @@ const Item = ({ noButton, data }) => {
     }
   )
 
+  console.log("markup",MARK_UP_MULTIPLIER)
+
   const setFinalPriceData = (data, finalPrice) => {
     data.finalPrice = finalPrice
   }
 
-
+console.log("fina",finalPrice)
 
   return (
     <div className={styles.Item}>

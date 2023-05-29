@@ -14,6 +14,7 @@ import { HousePrice } from "../../UTILS/price";
 import pdfOrder from "../../UTILS/pdfOrder";
 import { initializeApp } from "firebase/app";
 import { ref, getDownloadURL, uploadBytesResumable, getStorage } from 'firebase/storage'
+import axios from "axios";
 // import base from "../../UTILS/airtable";
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base('appoZqa8oxVNB0DVZ');
@@ -123,10 +124,20 @@ const Apply = ({ data }) => {
   );
   const Plan = selectorLot.planData;
 
-  const homeType = Plan?.homeType
+
 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
-  const MARK_UP_MULTIPLIER = markupValue[`markUp${homeType}`];
+  let markUp;
+
+  if ( data?.homeType=== 'Modular') {
+    markUp = 'Modular Mark Up';
+  } else if ( data?.homeType  === 'HUD-DW') {
+    markUp = 'Double Wide Mark Up';
+  } else if ( data?.homeType  === 'HUD-SW') {
+    markUp = 'Single Wide Mark Up';
+  }
+  
+    const MARK_UP_MULTIPLIER = markupValue[`${markUp}`];
 
 
   const userFilledData = useSelector((state) => state.user.userFilledData);
@@ -409,34 +420,71 @@ const Apply = ({ data }) => {
       );
 
       const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" })
+      
+      
 
-      const storageRef = ref(storage, `order-${orderId}/`);
-      const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
 
-      uploadTask.on("state_changed",
-        (snapshot) => {
-          const progress =
-            Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          setProgresspercent(progress);
-        },
-        (error) => {
-          alert(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            base('Orders').update([{
-              id,
-              fields: {
-                orderPDF: downloadURL
-              }
-            }], function (err, record) {
-              if (err) {
-                return;
-              }
-            });
-          });
+      const handleFileUpload = async (pdfBlob) => {
+        console.log("hhhhhhh")
+        try {
+          const formData = new FormData();
+          formData.append(`file-${orderId}`, pdfBlob);
+
+          console.log("hhhhhhh")
+      
+          // Make a POST request to the file.io API to upload the file
+          const response = await axios.post('https://file.io', formData);
+      
+          console.log('File uploaded successfully:', response.data);
+          console.log('Download link:', response.data.link);
+          const downloadURL =  response.data.link
+
+          base('Orders').update([{
+                    id,
+                    fields: {
+                      orderPDF: downloadURL
+                    }
+                  }], function (err, record) {
+                    if (err) {
+                      return;
+                    }
+                  });
+        } catch (error) {
+         
         }
-      );
+      };
+
+
+      handleFileUpload(pdfBlob)
+
+
+      // const storageRef = ref(storage, `order-${orderId}/`);
+      // const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
+
+      // uploadTask.on("state_changed",
+      //   (snapshot) => {
+      //     const progress =
+      //       Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+      //     setProgresspercent(progress);
+      //   },
+      //   (error) => {
+      //     alert(error);
+      //   },
+      //   () => {
+      //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      //       base('Orders').update([{
+      //         id,
+      //         fields: {
+      //           orderPDF: downloadURL
+      //         }
+      //       }], function (err, record) {
+      //         if (err) {
+      //           return;
+      //         }
+      //       });
+      //     });
+      //   }
+      // );
 
       setCompleted(true);
       window &&
