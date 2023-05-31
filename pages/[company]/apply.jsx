@@ -424,67 +424,67 @@ const Apply = ({ data }) => {
       
 
 
-      const handleFileUpload = async (pdfBlob) => {
-        console.log("hhhhhhh")
-        try {
-          const formData = new FormData();
-          formData.append(`file-${orderId}`, pdfBlob);
+      // const handleFileUpload = async (pdfBlob) => {
+      //   console.log("hhhhhhh")
+      //   try {
+      //     const formData = new FormData();
+      //     formData.append(`file-${orderId}`, pdfBlob);
 
-          console.log("hhhhhhh")
+      //     console.log("hhhhhhh")
       
-          // Make a POST request to the file.io API to upload the file
-          const response = await axios.post('https://file.io', formData);
+      //     // Make a POST request to the file.io API to upload the file
+      //     const response = await axios.post('https://file.io', formData);
       
-          console.log('File uploaded successfully:', response.data);
-          console.log('Download link:', response.data.link);
-          const downloadURL =  response.data.link
+      //     console.log('File uploaded successfully:', response.data);
+      //     console.log('Download link:', response.data.link);
+      //     const downloadURL =  response.data.link
 
-          base('Orders').update([{
-                    id,
-                    fields: {
-                      orderPDF: downloadURL
-                    }
-                  }], function (err, record) {
-                    if (err) {
-                      return;
-                    }
-                  });
-        } catch (error) {
+      //     base('Orders').update([{
+      //               id,
+      //               fields: {
+      //                 orderPDF: downloadURL
+      //               }
+      //             }], function (err, record) {
+      //               if (err) {
+      //                 return;
+      //               }
+      //             });
+      //   } catch (error) {
          
-        }
-      };
-
-
-      handleFileUpload(pdfBlob)
-
-
-      // const storageRef = ref(storage, `order-${orderId}/`);
-      // const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
-
-      // uploadTask.on("state_changed",
-      //   (snapshot) => {
-      //     const progress =
-      //       Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-      //     setProgresspercent(progress);
-      //   },
-      //   (error) => {
-      //     alert(error);
-      //   },
-      //   () => {
-      //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      //       base('Orders').update([{
-      //         id,
-      //         fields: {
-      //           orderPDF: downloadURL
-      //         }
-      //       }], function (err, record) {
-      //         if (err) {
-      //           return;
-      //         }
-      //       });
-      //     });
       //   }
-      // );
+      // };
+
+
+      // handleFileUpload(pdfBlob)
+
+
+      const storageRef = ref(storage, `order-${orderId}/`);
+      const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
+
+      uploadTask.on("state_changed",
+        (snapshot) => {
+          const progress =
+            Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgresspercent(progress);
+        },
+        (error) => {
+          alert(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            base('Orders').update([{
+              id,
+              fields: {
+                orderPDF: downloadURL
+              }
+            }], function (err, record) {
+              if (err) {
+                return;
+              }
+            });
+          });
+        }
+      );
 
       setCompleted(true);
       window &&
