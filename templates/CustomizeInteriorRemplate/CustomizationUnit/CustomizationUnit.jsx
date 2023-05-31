@@ -41,11 +41,11 @@ const CustomizationUnit = ({
 
   let markUp;
 
-  if (data?.homeType === 'Modular') {
+  if (selectedPlan?.homeType === 'Modular') {
     markUp = 'Modular Mark Up';
-  } else if (data?.homeType === 'HUD-DW') {
+  } else if (selectedPlan?.homeType === 'HUD-DW') {
     markUp = 'Double Wide Mark Up';
-  } else if (data?.homeType === 'HUD-SW') {
+  } else if (selectedPlan?.homeType === 'HUD-SW') {
     markUp = 'Single Wide Mark Up';
   }
 
