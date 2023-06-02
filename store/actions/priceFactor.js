@@ -78,7 +78,6 @@ export const getFloorPlan = (data) => {
         try {
             const res = await getAirtableData({ url, method: "get" })
             const records = res.records
-            console.log("realRes==>",records)
             if (records) {
                 dispatch(getFloorPlanSuccess(records))
             }
@@ -91,7 +90,7 @@ export const getFloorPlan = (data) => {
 
 
 export const getConstructionCost = (data) => {
-    const url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/New%20Construction%20Options%20(NOT%20ACTIVE)?maxRecords=100&view=Grid%20view"
+    const url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Construction%20Options?maxRecords=100&view=Grid%20view"
     return async (dispatch) => {
         dispatch(getConstructionCostRequest());
         try {
