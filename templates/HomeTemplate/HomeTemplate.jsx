@@ -165,7 +165,9 @@ const HomeTemplate = (categoryType) => {
                                         itemObject = {
                                             id: mainIndex + 1,
                                             name: mainOption.fields.selectionOption,
-                                            price: mainOption.fields.price || 0
+                                            price: mainOption.fields.price || 0,
+                                            displayStatus: mainOption.fields?.displayStatus,
+                                            homeSeriesName:mainOption.fields?.homeSeriesName
                                         }
                                     }
 
