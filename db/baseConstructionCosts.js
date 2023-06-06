@@ -85,8 +85,12 @@ export let result;
 // export const baseContructionTotalCosts = {};
 
 const setCost = () => {
+  
   const data = store().getState().priceFactor.constructionCost.data;
-  const displayed = data?.filter((item) => item.fields["Displayed?"] === "Yes" || item.fields["Displayed?"] === undefined);
+
+
+ 
+  const displayed = data?.filter((item) => item.fields.displayStatus === "On" || item.fields.displayStatus === undefined);
 
   result = [
     { constructionOptionsMOD: {} },
@@ -94,11 +98,11 @@ const setCost = () => {
     { constructionOptionsHUD_SW: {} },
   ];
 
-  displayed.forEach((obj) => {
-    const constructionCategory = obj.fields.constructionCategory;
-    result[0].constructionOptionsMOD[constructionCategory] = obj.fields.constructionOptionsMOD;
-    result[1].constructionOptionsHUD_DW[constructionCategory] = obj.fields.constructionOptionsHUD_DW;
-    result[2].constructionOptionsHUD_SW[constructionCategory] = obj.fields.constructionOptionsHUD_SW;
+ data.forEach((obj) => {
+    const constructionSelectionName = obj.fields.constructionSelectionName   ;
+    result[0].constructionOptionsMOD[constructionSelectionName] = obj.fields.constructionOptionsMOD;
+    result[1].constructionOptionsHUD_DW[constructionSelectionName] = obj.fields.constructionOptionsHUD_DW;
+    result[2].constructionOptionsHUD_SW[constructionSelectionName] = obj.fields.constructionOptionsHUD_SW;
   });
   // if (!totalSqft) return 1;
 
@@ -130,7 +134,10 @@ export const getBaseContructionCostsPerSqureFit = (data) => {
     sum += constructionOptions[key];
   });
 
+
   return sum;
+
+
   // if (!data?.[category] ) return null;
   // if(data?.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
   // return baseContructionTotalCosts[data[category] + "ft"] * data[category];
