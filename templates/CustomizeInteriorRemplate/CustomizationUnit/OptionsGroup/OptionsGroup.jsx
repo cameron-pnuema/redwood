@@ -27,21 +27,13 @@ const OptionsGroup = ({
 }) => {
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
-  
+
 
   const filterOptions = options?.filter((item) => {
-    if (selectedPlan?.homeType==="HUD-DW") {
-      return  (item?.displayStatus === "On" || item?.displayStatus === undefined)
-      && (item?.homeSeriesName?.some(name => name === selectedPlan?.homeSeriesName))
-    }
-    else
-    {
-    return (item?.displayStatus === "On" || item?.displayStatus === undefined)
-      && (item?.homeSeriesName ===selectedPlan?.homeSeriesName) }
-     
-  })
-
-
+        return (item?.displayStatus === "On" || item?.displayStatus === undefined)
+      && (item?.homeSeriesName === selectedPlan?.homeSeriesName)
+  }
+  )
 
   return (
     <div className={styles.group}>
@@ -93,9 +85,7 @@ const OptionsGroup = ({
                       noOfUnit={o.noOfUnit}
                       activeOptionId={activeOptionId}
                       onChange={(value) => {
-
                         onChange({ optionId: o.id, value, endChildIndex })
-
                       }
                       }
                     />
