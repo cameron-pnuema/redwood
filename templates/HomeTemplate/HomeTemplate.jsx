@@ -18,6 +18,8 @@ import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
 import { customizationAction } from "../../store/actions/customization"
 import { setUserData } from "../../store/actions/user"
 import { setUserInforModal } from '../../store/actions/popup';
+import Popup from '../../components/UI/Popup/Popup';
+import store from "../../store/index"
 
 const FLOORING = 'Flooring'
 
@@ -46,13 +48,13 @@ const getCategoryName = (airtableCategoryName) => {
 }
 
 const HomeTemplate = (categoryType) => {
- let userCompany
+    let userCompany
     if (typeof window !== 'undefined') {
-         userCompany = localStorage.getItem('companyName')
-      }
+        userCompany = localStorage.getItem('companyName')
+    }
     const router = useRouter()
     const companyName = router.query.company || userCompany
-     
+
 
     const totalRecords = useRef([])
     let manufacturerData = useRef({
@@ -72,6 +74,25 @@ const HomeTemplate = (categoryType) => {
         Router.replace(`/${companyName}/select_floorplan`);
         dispatch((setUserInforModal(true)))
     }
+
+
+    const data = store().getState().priceFactor.constructionCost.data;
+
+    const variableCost = data?.filter((item) => item.fields.displayStatus === "Variable Cost");
+
+    const transformedItems = variableCost.map((item,index)=> {
+    const price =selectorPlan.homeType==="Modular"?item.fields.constructionOptionsMOD:
+     selectorPlan.homeType==="HUD_DW"?item.fields.constructionOptionsHUD_DW
+     :item.fields.constructionOptionsHUD_SW
+        
+
+        return {
+          id: index+1,
+          name: item.fields.constructionSelectionName,
+          price:price<50?price*selectorPlan["sq Ft"]:price,
+          category:item.fields.category
+        }; 
+      });
 
     const handleFetch = async (offsetId) => {
 
@@ -99,7 +120,7 @@ const HomeTemplate = (categoryType) => {
         })
 
         const realRes = await res.json()
-       
+
 
         totalRecords.current = [...totalRecords.current, ...realRes.records]
         if (realRes.offset) {
@@ -112,7 +133,7 @@ const HomeTemplate = (categoryType) => {
                 .map((group, groupIndex) => {
 
                     const buildingManufacturerName = group[0]?.fields.manufacturerName
-                  
+
                     let a = []
 
 
@@ -167,7 +188,7 @@ const HomeTemplate = (categoryType) => {
                                             name: mainOption.fields.selectionOption,
                                             price: mainOption.fields.price || 0,
                                             displayStatus: mainOption.fields?.displayStatus,
-                                            homeSeriesName:mainOption.fields?.homeSeriesName
+                                            homeSeriesName: mainOption.fields?.homeSeriesName
                                         }
                                     }
 
@@ -204,6 +225,35 @@ const HomeTemplate = (categoryType) => {
 
                     }).value()
 
+                    const obj = {
+                        category: a.length + 1,
+                        active: false,
+                        name: "Variable Cost",
+                        underCategories: [],
+                        manufacturerName: `${selectorPlan?.manufacturerName}`
+                    }
+
+                    const categories = [...new Set(variableCost.map(item => item.fields.category))];
+                    let item
+                    mainOptionIndex = 0
+                   
+                    const items = categories.map((category,index) => {
+                        const filteredItems = transformedItems.filter((item,index)=> item.category=== category);
+                        const optionsCategory = { [category]: filteredItems.map(item => item) };
+                        return {
+                          id: index+1,
+                          name: category,
+                          active: null,
+                          options: optionsCategory[category],
+                        };
+                        
+                      });
+                                       
+                    a.push({
+                        ...obj,
+                        underCategories: items
+                    })
+
                     manufacturerData.current[buildingManufacturerName] = a.sort((a, b) => a.category - b.category);
 
                     return group
@@ -234,6 +284,11 @@ const HomeTemplate = (categoryType) => {
         });
 
         const orderData = await res.json()
+        const orderDays = orderData.records.map((item) => {
+            const day = item.fields && item?.fields?.Age
+            return day
+        })
+
         if (!orderData.records.length) {
             toast.error('Please enter valid order ID!', {
                 position: "top-right",
@@ -244,13 +299,13 @@ const HomeTemplate = (categoryType) => {
                 draggable: true,
                 progress: undefined,
             });
-        } else {
+        }
+
+        else if (orderData.records.length && orderDays[0] < 60) {
             const { orderInfo, userInfo, selectedPlan } = orderData.records[0].fields
             const lot = JSON.parse(selectedPlan)
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
-
-
 
             order[order.length - 1].active = false
             order[0].active = true
@@ -260,8 +315,21 @@ const HomeTemplate = (categoryType) => {
             dispatch(setUserData(userData))
             getAllDataOfApp()
         }
+        else {
+            toast.error('order ID expired!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
 
     }
+
+
 
     const getAllDataOfApp = () => {
         Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost())]).then((res) => {
@@ -294,7 +362,7 @@ const HomeTemplate = (categoryType) => {
                     <p className={styles.HomeTemplate__orderText}>Get your order detail</p>
 
                     <input type="text" value={orderID} onChange={handleChange} className={styles.inputOrder} placeholder='Enter Order ID' data-testid="orderIDInput" />
-                    {error && <p className={styles.HomeTemplate__error}  data-testid="error"> * Field is required</p>}
+                    {error && <p className={styles.HomeTemplate__error} data-testid="error"> * Field is required</p>}
                     <Button
                         text={loading ? "... Fetching Order" : "Get Order Detail"}
                         onclick={handleGetOrderDetail}

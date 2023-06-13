@@ -15,7 +15,7 @@ const isNotesSelected = (notesState, key) => {
 
 const OptionsGroup = ({
   groupName,
-  categoryType,
+  categoryName,
   options,
   activeOptionId,
   onChange,
@@ -28,13 +28,21 @@ const OptionsGroup = ({
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
 
-
+ 
   const filterOptions = options?.filter((item) => {
-        return (item?.displayStatus === "On" || item?.displayStatus === undefined)
+    if (categoryName==="Variable Cost")  {
+      return options
+    }
+    else{
+      return (item?.displayStatus === "On" || item?.displayStatus === undefined)
       && (item?.homeSeriesName === selectedPlan?.homeSeriesName)
+    }
+
   }
   )
 
+  
+ 
   return (
     <div className={styles.group}>
       <div className={styles.group__name}>{groupName}</div>

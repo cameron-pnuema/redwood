@@ -90,7 +90,7 @@ const setCost = () => {
 
 
  
-  const displayed = data?.filter((item) => item.fields.displayStatus === "On" || item.fields.displayStatus === undefined);
+  const displayed = data?.filter((item) => item.fields.displayStatus === "Fixed Cost" || item.fields.displayStatus === undefined);
 
   result = [
     { constructionOptionsMOD: {} },
@@ -98,7 +98,7 @@ const setCost = () => {
     { constructionOptionsHUD_SW: {} },
   ];
 
- data.forEach((obj) => {
+  displayed.forEach((obj) => {
     const constructionSelectionName = obj.fields.constructionSelectionName   ;
     result[0].constructionOptionsMOD[constructionSelectionName] = obj.fields.constructionOptionsMOD;
     result[1].constructionOptionsHUD_DW[constructionSelectionName] = obj.fields.constructionOptionsHUD_DW;
@@ -136,8 +136,6 @@ export const getBaseContructionCostsPerSqureFit = (data) => {
 
 
   return sum;
-
-
   // if (!data?.[category] ) return null;
   // if(data?.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
   // return baseContructionTotalCosts[data[category] + "ft"] * data[category];

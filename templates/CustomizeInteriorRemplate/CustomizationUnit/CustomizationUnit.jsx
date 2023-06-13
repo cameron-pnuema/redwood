@@ -1,4 +1,4 @@
-import react, { useRef } from "react";
+import react, { useRef, useState } from "react";
 import styles from "./CustomizationUntit.module.scss";
 import Button from "../../../components/UI/Button/Button";
 import { format } from "number-currency-format";
@@ -37,6 +37,7 @@ const CustomizationUnit = ({
     (state) => state.customization.customization
   );
 
+
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
 
   let markUp;
@@ -51,11 +52,9 @@ const CustomizationUnit = ({
 
   const MARK_UP_MULTIPLIER = markupValue[`${markUp}`];
 
-
+  
   const router = useRouter();
   const { company } = router.query
-
-
 
   // const topRef = useRef(null)
 
@@ -87,12 +86,19 @@ const CustomizationUnit = ({
                     </div>
                 } */}
           {optionGroups?.map((og, index) => {
-
             let optionGroup = null;
             if (categoryName === "Flooring" || categoryName === 'Other ') {
               if (og.name === "Discount (Optional)") {
                 return optionGroup = (
-                  null);
+                  <>
+                    <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
+                      <p className={styles.body__card_text}>
+                        Credit or Trade-In
+                      </p>
+                      <DiscountUpgrade og={og} onChange={onChange} />
+                    </div>
+                  </>
+                );
               }
               else
                 if (og.name === "Vinyl Upgrades (Optional)") {
@@ -110,6 +116,7 @@ const CustomizationUnit = ({
                 else {
                   optionGroup = (
                     <OptionGroup
+                      categoryName={categoryName}
                       selectedPlan={selectedPlan}
                       groupName={og.name}
                       categoryType={og.categoryType}
@@ -146,6 +153,7 @@ const CustomizationUnit = ({
             if (categoryName !== "Flooring")
               optionGroup = (
                 <OptionGroup
+                  categoryName={categoryName}
                   selectedPlan={selectedPlan}
                   groupName={og.name}
                   categoryType={og.categoryType}
@@ -230,22 +238,7 @@ const CustomizationUnit = ({
           </div>
         </div>
 
-        {optionGroups?.map((og, index) => {
-          let optionGroup = null; {
-            if (og.name === "Discount (Optional)") {
-              return optionGroup = (
-                <>
-                  <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
-                    <p className={styles.body__card_text}>
-                      Credit or Trade-In
-                    </p>
-                    <DiscountUpgrade og={og} onChange={onChange} />
-                  </div>
-                </>
-              );
-            }
-          }
-        })}
+       
 
       </>
     );
