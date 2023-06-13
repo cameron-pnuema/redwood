@@ -129,11 +129,11 @@ const Apply = ({ data }) => {
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   let markUp;
 
-  if ( data?.homeType=== 'Modular') {
+  if ( Plan?.homeType=== 'Modular') {
     markUp = 'Modular Mark Up';
-  } else if ( data?.homeType  === 'HUD-DW') {
+  } else if (Plan?.homeType  === 'HUD-DW') {
     markUp = 'Double Wide Mark Up';
-  } else if ( data?.homeType  === 'HUD-SW') {
+  } else if ( Plan?.homeType  === 'HUD-SW') {
     markUp = 'Single Wide Mark Up';
   }
   
@@ -150,7 +150,8 @@ const Apply = ({ data }) => {
   const lot = selectorLot.lotData;
 
 
-
+  const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
+  const housePrice = HousePrice(Plan?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
 
   useEffect(() => {
     setDetails(userFilledData);
@@ -173,12 +174,14 @@ const Apply = ({ data }) => {
 
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
-    const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
-    const housePrice = HousePrice(Plan?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
+  
+
     const totalPrice = formatPrice(
       housePrice +
       (finalPrice || 0)
     )
+
+    console.log("total",totalPrice)
     const responseData = await saveOrderData({
       fields: {
         email: userDetails?.email,
