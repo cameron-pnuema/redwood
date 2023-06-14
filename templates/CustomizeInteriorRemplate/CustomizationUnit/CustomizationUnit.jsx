@@ -52,7 +52,7 @@ const CustomizationUnit = ({
 
   const MARK_UP_MULTIPLIER = markupValue[`${markUp}`];
 
-  
+  // console.log("  optionGroups", optionGroups)
   const router = useRouter();
   const { company } = router.query
 
@@ -85,108 +85,109 @@ const CustomizationUnit = ({
                         <p className={styles.body__card__disclaimer}>*Flooring customization will be coming soon. A representative will reach out to you to discuss flooring options.</p>
                     </div>
                 } */}
-          {optionGroups?.map((og, index) => {
-            let optionGroup = null;
-            if (categoryName === "Flooring" || categoryName === 'Other ') {
-              if (og.name === "Discount (Optional)") {
-                return optionGroup = (
-                  <>
-                    <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
-                      <p className={styles.body__card_text}>
-                        Credit or Trade-In
-                      </p>
-                      <DiscountUpgrade og={og} onChange={onChange} />
-                    </div>
-                  </>
-                );
-              }
-              else
-                if (og.name === "Vinyl Upgrades (Optional)") {
-                  optionGroup = (
+          {optionGroups
+            .sort((a, b) => (a.name === "Discount (Optional)") - (b.name === "Discount (Optional)"))?.map((og, index) => {
+              let optionGroup = null;
+              if (categoryName === "Flooring" || categoryName === 'Other ') {
+                if (og.name === "Discount (Optional)") {
+                  return optionGroup = (
                     <>
-                      <div className={styles.body__card} data-testid={`optionGroup-${index}`}>
+                      <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
                         <p className={styles.body__card_text}>
-                          Vinyl Flooring Upgrades (Optional)
+                          Credit or Trade-In
                         </p>
-                        <FloringUpgrade og={og} onChange={onChange} />
+                        <DiscountUpgrade og={og} onChange={onChange} />
                       </div>
                     </>
                   );
                 }
-                else {
-                  optionGroup = (
-                    <OptionGroup
-                      categoryName={categoryName}
-                      selectedPlan={selectedPlan}
-                      groupName={og.name}
-                      categoryType={og.categoryType}
-                      options={og.options}
-                      activeOptionId={og.active}
-                      groupId={og.id}
-                      onChange={({
-                        optionId,
-                        value,
-                        endChildIndex,
-                        selectionType,
-                        notes,
-                      }) => {
-                        const payload = { groupId: og.id, optionId };
-                        if (value) payload.inputAnswer = value;
-                        if (endChildIndex !== undefined)
-                          payload.endChildIndex = endChildIndex;
-                        if (selectionType) payload.selectionType = selectionType;
-                        if (notes) {
-                          payload.notes = notes;
-                        }
+                else
+                  if (og.name === "Vinyl Upgrades (Optional)") {
+                    optionGroup = (
+                      <>
+                        <div className={styles.body__card} data-testid={`optionGroup-${index}`}>
+                          <p className={styles.body__card_text}>
+                            Vinyl Flooring Upgrades (Optional)
+                          </p>
+                          <FloringUpgrade og={og} onChange={onChange} />
+                        </div>
+                      </>
+                    );
+                  }
+                  else {
+                    optionGroup = (
+                      <OptionGroup
+                        categoryName={categoryName}
+                        selectedPlan={selectedPlan}
+                        groupName={og.name}
+                        categoryType={og.categoryType}
+                        options={og.options}
+                        activeOptionId={og.active}
+                        groupId={og.id}
+                        onChange={({
+                          optionId,
+                          value,
+                          endChildIndex,
+                          selectionType,
+                          notes,
+                        }) => {
+                          const payload = { groupId: og.id, optionId };
+                          if (value) payload.inputAnswer = value;
+                          if (endChildIndex !== undefined)
+                            payload.endChildIndex = endChildIndex;
+                          if (selectionType) payload.selectionType = selectionType;
+                          if (notes) {
+                            payload.notes = notes;
+                          }
 
-                        onChange(payload);
-                      }}
-                      handleIconClick={() => handleIconClick(og)}
-                      notesState={notesState}
-                      notes={og.notes}
-                      data-testid={`optionGroup-${index}`}
-                    />
-                  );
-                }
-            }
+                          onChange(payload);
+                        }}
+                        handleIconClick={() => handleIconClick(og)}
+                        notesState={notesState}
+                        notes={og.notes}
+                        data-testid={`optionGroup-${index}`}
+                      />
+                    );
+                  }
+              }
 
-            if (categoryName !== "Flooring")
-              optionGroup = (
-                <OptionGroup
-                  categoryName={categoryName}
-                  selectedPlan={selectedPlan}
-                  groupName={og.name}
-                  categoryType={og.categoryType}
-                  options={og.options}
-                  activeOptionId={og.active}
-                  groupId={og.id}
-                  onChange={({
-                    optionId,
-                    value,
-                    endChildIndex,
-                    selectionType,
-                    notes,
-                  }) => {
-                    const payload = { groupId: og.id, optionId };
-                    if (value) payload.inputAnswer = value;
-                    if (endChildIndex !== undefined)
-                      payload.endChildIndex = endChildIndex;
-                    if (selectionType) payload.selectionType = selectionType;
-                    if (notes) {
-                      payload.notes = notes;
-                    }
+              if (categoryName !== "Flooring")
+                optionGroup = (
+                  <OptionGroup
+                    categoryName={categoryName}
+                    selectedPlan={selectedPlan}
+                    groupName={og.name}
+                    categoryType={og.categoryType}
+                    options={og.options}
+                    activeOptionId={og.active}
+                    groupId={og.id}
+                    onChange={({
+                      optionId,
+                      value,
+                      endChildIndex,
+                      selectionType,
+                      notes,
+                    }) => {
+                      const payload = { groupId: og.id, optionId };
+                      if (value) payload.inputAnswer = value;
+                      if (endChildIndex !== undefined)
+                        payload.endChildIndex = endChildIndex;
+                      if (selectionType) payload.selectionType = selectionType;
+                      if (notes) {
+                        payload.notes = notes;
+                      }
 
-                    onChange(payload);
-                  }}
-                  handleIconClick={() => handleIconClick(og)}
-                  notesState={notesState}
-                  notes={og.notes}
-                  data-testid={`optionGroup-${index}`}
-                />
-              );
+                      onChange(payload);
+                    }}
+                    handleIconClick={() => handleIconClick(og)}
+                    notesState={notesState}
+                    notes={og.notes}
+                    data-testid={`optionGroup-${index}`}
+                  />
+                );
 
-            return optionGroup;
-          })}
+              return optionGroup;
+            })}
         </div>
         <h3 data-testid="additionalNotes">Additional Notes</h3>
       </>
@@ -238,7 +239,7 @@ const CustomizationUnit = ({
           </div>
         </div>
 
-       
+
 
       </>
     );
