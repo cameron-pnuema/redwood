@@ -87,6 +87,7 @@ const CustomizationUnit = ({
                 } */}
           {optionGroups
             .sort((a, b) => (a.name === "Discount (Optional)") - (b.name === "Discount (Optional)"))?.map((og, index) => {
+           
               let optionGroup = null;
               if (categoryName === "Flooring" || categoryName === 'Other ') {
                 if (og.name === "Discount (Optional)") {
@@ -101,19 +102,19 @@ const CustomizationUnit = ({
                     </>
                   );
                 }
-                else
-                  if (og.name === "Vinyl Upgrades (Optional)") {
-                    optionGroup = (
-                      <>
-                        <div className={styles.body__card} data-testid={`optionGroup-${index}`}>
-                          <p className={styles.body__card_text}>
-                            Vinyl Flooring Upgrades (Optional)
-                          </p>
-                          <FloringUpgrade og={og} onChange={onChange} />
-                        </div>
-                      </>
-                    );
-                  }
+                // else
+                //   if (og.name === "Vinyl Upgrades (Optional)") {
+                //     optionGroup = (
+                //       <>
+                //         <div className={styles.body__card} data-testid={`optionGroup-${index}`}>
+                //           <p className={styles.body__card_text}>
+                //             Vinyl Flooring Upgrades (Optional)
+                //           </p>
+                //           <FloringUpgrade og={og} onChange={onChange} />
+                //         </div>
+                //       </>
+                //     );
+                //   }
                   else {
                     optionGroup = (
                       <OptionGroup

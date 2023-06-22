@@ -74,10 +74,10 @@ const DetailedFloorPlan = () => {
 
 
         if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
-            url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(MOD)`
+            url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(MOD)`
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDDW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-DW)"
+            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-DW)"
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDSW) {
             url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-SW)"
@@ -105,6 +105,7 @@ const DetailedFloorPlan = () => {
         } else {
 
             let mainOptionIndex = 0
+
 
             var result = _(totalRecords.current)
                 .groupBy(x => x.fields.manufacturerName)
@@ -158,7 +159,7 @@ const DetailedFloorPlan = () => {
                                     } else {
                                         itemObject = {
                                             id: mainIndex + 1,
-                                            name: mainOption.fields.selectionOption,
+                                            name: mainOption.fields.selectionOptionDisplay,
                                             price: mainOption.fields.price || 0,
                                             displayStatus: mainOption.fields?.displayStatus,
                                             homeSeriesName: mainOption.fields?.homeSeriesName
@@ -168,7 +169,7 @@ const DetailedFloorPlan = () => {
                                     }
 
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
-                                        item.active = 1
+                                        item.active = 0
                                     }
 
                                     if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY) {
@@ -231,7 +232,6 @@ const DetailedFloorPlan = () => {
                     return group
                 })
                 .value();
-
 
 
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
