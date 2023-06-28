@@ -28,26 +28,28 @@ const OptionsGroup = ({
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
 
- 
-  const filterOptions = options?.filter((item) => {
-    if (categoryName==="Variable Cost")  {
-      return options
-    }
-    else{
-      return (item?.displayStatus === "On" || item?.displayStatus === undefined)
-      && (item?.homeSeriesName === selectedPlan?.homeSeriesName)
-    }
-
-  }
-  )
-
   
+  // const filterOptions = options?.filter((item) => {
+  //   if (categoryName==="Variable Cost")  {
+  //     return options
+  //   }
+  //   else{
+  //     return (item?.displayStatus === "On" || item?.displayStatus === undefined)
+  //     && (item?.homeSeriesName === selectedPlan?.homeSeriesName)
+  //   }
+
+  // }
+  // )
+
+  // console.log("options",options)
+  // console.log("filterOptions",filterOptions,selectedPlan?.homeSeriesName)
+
  
   return (
     <div className={styles.group}>
       <div className={styles.group__name}>{groupName}</div>
       <div className={styles.group__options}>
-        {filterOptions
+        {options
           ?.sort((a, b) => a.price - b.price)
           ?.map((o, endChildIndex) => {
             const isQuantityType =
@@ -87,6 +89,7 @@ const OptionsGroup = ({
                 }}
               >
                 {<><div className={styles.option__label}>
+             
                   {isQuantityType ? (
                     <InputCustomizeOption
                       groupId={groupId}
