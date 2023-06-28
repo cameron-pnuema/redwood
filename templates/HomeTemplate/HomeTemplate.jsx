@@ -194,7 +194,8 @@ const HomeTemplate = (categoryType) => {
                                         }
                                     }
 
-
+                                  
+                                  
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
                                     }
@@ -203,7 +204,7 @@ const HomeTemplate = (categoryType) => {
                                         itemObject.categoryType = selectionFieldTypes.QUANTITY
                                         item.categoryType = selectionFieldTypes.QUANTITY
                                         itemObject.noOfUnit = 0
-
+ 
                                     } else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE) {
                                         itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
                                         item.categoryType = selectionFieldTypes.QUANTITY
@@ -244,13 +245,25 @@ const HomeTemplate = (categoryType) => {
                         const filteredItems = transformedItems.filter((item,index)=> item.category=== category);
                         const optionsCategory = { [category]: filteredItems.map(item => item) };
                        
+
+                        if(category.includes("Optional")){
+                            return {
+                                id: index+1,
+                                name: category,
+                                active: 1,
+                                options: optionsCategory[category],
+                              };
+                        }
+                         else   {
                             return {
                                 id: index+1,
                                 name: category,
                                 active: null,
                                 options: optionsCategory[category],
                               };
-                         
+                         }
+                          
+                           
                         
                       });
                                        

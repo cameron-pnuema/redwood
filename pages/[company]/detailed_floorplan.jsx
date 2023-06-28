@@ -167,6 +167,8 @@ const DetailedFloorPlan = () => {
 
 
                                     }
+
+                                   
                                   
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
@@ -216,12 +218,22 @@ const DetailedFloorPlan = () => {
                     const items = categories.map((category,index) => {
                         const filteredItems = transformedItems.filter((item,index)=> item.category=== category);
                         const optionsCategory = { [category]: filteredItems.map(item => item) };
-                        return {
-                          id: index+1,
-                          name: category,
-                          active: null,
-                          options: optionsCategory[category],
-                        };
+                        if(category.includes("Optional")){
+                            return {
+                                id: index+1,
+                                name: category,
+                                active: 1,
+                                options: optionsCategory[category],
+                              };
+                        }
+                         else   {
+                            return {
+                                id: index+1,
+                                name: category,
+                                active: null,
+                                options: optionsCategory[category],
+                              };
+                         }
                         
                       });
                                        
