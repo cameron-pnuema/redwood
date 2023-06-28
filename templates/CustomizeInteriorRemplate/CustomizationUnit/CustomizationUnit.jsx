@@ -237,7 +237,7 @@ const CustomizationUnit = ({
         </div>
 
         {optionGroups
-            .sort((a, b) => (a.name === "Discount (Optional)") - (b.name === "Discount (Optional)"))?.map((og, index) => {
+            ?.map((og, index) => {
            
               let optionGroup = null;
               if (categoryName === "Flooring" || categoryName === 'Other '||categoryName === 'Variable Cost') {
