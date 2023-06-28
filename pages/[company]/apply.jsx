@@ -61,7 +61,7 @@ const formatPrice = (price) => {
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
 
   let htmlElement = "";
-  if (categoryName === "Vinyl Upgrades " || categoryName === "Discount ") {
+  if (categoryName === "Vinyl Upgrades " || categoryName === "Discount") {
     if (option?.price === 0) {
       htmlElement += ``
     }
@@ -122,6 +122,9 @@ const Apply = ({ data }) => {
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
+
+
+
   const Plan = selectorLot.planData;
 
 
@@ -181,11 +184,11 @@ const Apply = ({ data }) => {
       (finalPrice || 0)
     )
 
-    console.log("total",totalPrice)
+ 
     const responseData = await saveOrderData({
       fields: {
         email: userDetails?.email,
-        orderInfo: сustomizations,
+        orderInfo: сustomizations.slice(0,5),
         userInfo: userDetails,
         selectedPlan: selectorLot,
         price: {
@@ -294,7 +297,7 @@ const Apply = ({ data }) => {
       });
       сustomizations?.forEach((c) => {
         c.underCategories.filter((cc) => {
-          if (cc?.name === "Discount (Optional)") {
+          if (cc?.name === "Discount(Optional)") {
             (cc.options?.forEach((item) => {
               if (item.price != 0) {
                 html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${cc.name}</h3>`;
