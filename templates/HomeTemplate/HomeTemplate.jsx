@@ -94,6 +94,8 @@ const HomeTemplate = (categoryType) => {
         }; 
       });
 
+    
+
     const handleFetch = async (offsetId) => {
 
         let url
@@ -104,7 +106,7 @@ const HomeTemplate = (categoryType) => {
             url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-DW)"
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDSW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-SW)"
+            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-SW)"
         }
         if (offsetId) {
             url = url + `?offset=${offsetId}`
@@ -192,6 +194,7 @@ const HomeTemplate = (categoryType) => {
                                         }
                                     }
 
+
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
                                     }
@@ -240,12 +243,14 @@ const HomeTemplate = (categoryType) => {
                     const items = categories.map((category,index) => {
                         const filteredItems = transformedItems.filter((item,index)=> item.category=== category);
                         const optionsCategory = { [category]: filteredItems.map(item => item) };
-                        return {
-                          id: index+1,
-                          name: category,
-                          active: null,
-                          options: optionsCategory[category],
-                        };
+                       
+                            return {
+                                id: index+1,
+                                name: category,
+                                active: null,
+                                options: optionsCategory[category],
+                              };
+                         
                         
                       });
                                        

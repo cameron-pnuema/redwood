@@ -29,15 +29,17 @@ export const getTotalCustomizationPrice = (customizations) => {
    
   });
 
-  let customizationPrice = 0;
+  let customizationPrice = 0;   
+
+
   categories.forEach((c) => {
-    
     const activeOption = c.options.find((o) => o?.id === c.active);
     if (
       c.categoryName === selectionCategoryNames.WINDOWS ||
       c.categoryName === selectionCategoryNames.LIGNTING ||
       c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON ||
-      c.categoryType === "quantity"
+      c.categoryType === "quantity"||
+      c.name === 'Discount(Optional)'
     ) {
       c.options.map((a) => {
         if (Array.isArray(c.active) && c.active.includes(a.id)) {
@@ -48,8 +50,13 @@ export const getTotalCustomizationPrice = (customizations) => {
             customizationPrice += a?.price;
           }
         }
+        else if (a?.name==="I/O") {
+          customizationPrice += a?.price;
+        }
       });
-    } else {
+    }
+   
+    else {
       if (!activeOption) return;
       customizationPrice += activeOption?.price;
      
@@ -66,7 +73,7 @@ const CustomizeInterior = () => {
     (state) => state.customization.customization
   );
 
- 
+
 
   const dispatch = useDispatch();
   const [notesState, setNotesState] = useState([]);
@@ -104,22 +111,24 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
+          console.log("uc",uc)
        
           if (
             uc.categoryType===selectionFieldTypes.QUANTITY ||
             uc.name === "Vinyl Upgrades (Optional)" ||
-            uc.name === "Discount (Optional)"||
+            uc.name === 'Discount(Optional)'||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
             uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
           ) {
 
             let selectionItem = { ...uc };
-         
+           
             selectionItem.options = [
               ...uc.options.map((el, index) => {
 
                  if (el.name === `I/O`) {
+               
                   return {
                     ...el,
                     value: inputAnswer|| [],
@@ -127,14 +136,14 @@ const CustomizeInterior = () => {
                     active: true,
                   };
                 }
-                else if (el.name === `N/A`) {
-                  return {
-                    ...el,
-                    value: inputAnswer || [],
-                    price: getPrice(inputAnswer || []),
-                    active: true,
-                  };
-                }
+                // else if (el.name === `N/A`) {
+                //   return {
+                //     ...el,
+                //     value: inputAnswer || [],
+                //     price: getPrice(inputAnswer || []),
+                //     active: true,
+                //   };
+                // }
 
 
                 if (uc.categoryType === selectionFieldTypes.QUANTITY) {

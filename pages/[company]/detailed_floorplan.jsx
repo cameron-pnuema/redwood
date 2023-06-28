@@ -80,7 +80,7 @@ const DetailedFloorPlan = () => {
             url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-DW)"
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDSW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-SW)"
+            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-SW)"
         }
         setIsLoading(true)
 
@@ -167,10 +167,11 @@ const DetailedFloorPlan = () => {
 
 
                                     }
-
+                                  
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
                                     }
+
 
                                     if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY) {
                                         itemObject.categoryType = selectionFieldTypes.QUANTITY

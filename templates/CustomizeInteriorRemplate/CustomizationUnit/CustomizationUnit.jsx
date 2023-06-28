@@ -86,20 +86,13 @@ const CustomizationUnit = ({
                     </div>
                 } */}
           {optionGroups
-            .sort((a, b) => (a.name === "Discount (Optional)") - (b.name === "Discount (Optional)"))?.map((og, index) => {
+            ?.map((og, index) => {
            
               let optionGroup = null;
-              if (categoryName === "Flooring" || categoryName === 'Other ') {
-                if (og.name === "Discount (Optional)") {
+              if (categoryName === "Flooring" || categoryName === 'Other '||categoryName === 'Variable Cost') {
+                if (og.name === 'Discount(Optional)') {
                   return optionGroup = (
-                    <>
-                      <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
-                        <p className={styles.body__card_text}>
-                          Credit or Trade-In
-                        </p>
-                        <DiscountUpgrade og={og} onChange={onChange} />
-                      </div>
-                    </>
+                  null
                   );
                 }
                 // else
@@ -230,6 +223,8 @@ const CustomizationUnit = ({
             />
           </div>
 
+          
+
           <div className={styles.summary__disclaimer}>
             All pricing is Turn-Key: Includes Foundation (40” concrete block crawl
             space), backfill, insulated crawl space, Delivery, Set-up, all
@@ -238,8 +233,27 @@ const CustomizationUnit = ({
             tax.
 
           </div>
+
         </div>
 
+        {optionGroups
+            .sort((a, b) => (a.name === "Discount (Optional)") - (b.name === "Discount (Optional)"))?.map((og, index) => {
+           
+              let optionGroup = null;
+              if (categoryName === "Flooring" || categoryName === 'Other '||categoryName === 'Variable Cost') {
+                if (og.name === 'Discount(Optional)') {
+                  return optionGroup = (
+                    <>
+                      <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
+                        <p className={styles.body__card_text}>
+                          Credit or Trade-In
+                        </p>
+                        <DiscountUpgrade og={og} onChange={onChange} />
+                      </div>
+                    </>
+                  );
+                }
+              }})}
 
 
       </>
@@ -316,6 +330,8 @@ const CustomizationUnit = ({
             />
           </div>
         )}
+
+
       </div>
     </>
   );
