@@ -188,7 +188,6 @@ const Apply = ({ data }) => {
     const responseData = await saveOrderData({
       fields: {
         email: userDetails?.email,
-        orderInfo: сustomizations.slice(0,5),
         userInfo: userDetails,
         selectedPlan: selectorLot,
         price: {
@@ -481,7 +480,8 @@ const Apply = ({ data }) => {
             base('Orders').update([{
               id,
               fields: {
-                orderPDF: downloadURL
+                orderPDF: downloadURL,
+                orderInfo: сustomizations.slice(0,5)
               }
             }], function (err, record) {
               if (err) {

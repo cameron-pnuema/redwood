@@ -68,6 +68,9 @@ const HomeTemplate = (categoryType) => {
     const dispatch = useDispatch()
     const selectorPlan = useSelector(state => state.lot.planData);
 
+    const homeSeries = selectorPlan?.homeSeriesName
+  
+
     const gotoFloorPlan = () => {
         dispatch(setLot(slotData));
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
@@ -80,21 +83,19 @@ const HomeTemplate = (categoryType) => {
 
     const variableCost = data?.filter((item) => item.fields.displayStatus === "Variable Cost");
 
-    const transformedItems = variableCost.map((item,index)=> {
-    const price =selectorPlan.homeType==="Modular"?item.fields.constructionOptionsMOD:
-     selectorPlan.homeType==="HUD_DW"?item.fields.constructionOptionsHUD_DW
-     :item.fields.constructionOptionsHUD_SW
-        
+    const transformedItems = variableCost.map((item, index) => {
+        const price = selectorPlan.homeType === "Modular" ? item.fields.constructionOptionsMOD :
+            selectorPlan.homeType === "HUD_DW" ? item.fields.constructionOptionsHUD_DW
+                : item.fields.constructionOptionsHUD_SW
+
 
         return {
-          id: index+1,
-          name: item.fields.constructionSelectionName,
-          price:price<50?price*selectorPlan["sq Ft"]:price,
-          category:item.fields.category
-        }; 
-      });
-
-    
+            id: index + 1,
+            name: item.fields.constructionSelectionName,
+            price: price < 50 ? price * selectorPlan["sq Ft"] : price,
+            category: item.fields.category
+        };
+    });
 
     const handleFetch = async (offsetId) => {
 
@@ -125,6 +126,14 @@ const HomeTemplate = (categoryType) => {
 
 
         totalRecords.current = [...totalRecords.current, ...realRes.records]
+
+
+        totalRecords.current = totalRecords.current.filter((record) => {
+
+            return record.fields?.homeSeriesName === `${homeSeries}`
+                && record.fields?.displayStatus === "On"
+        })
+
         if (realRes.offset) {
             handleFetch(realRes.offset)
         } else {
@@ -170,7 +179,7 @@ const HomeTemplate = (categoryType) => {
 
                             item.id = mainOptionIndex + 1
                             item.name = categoryName
-                        
+
                             categoryGroup.sort((a, b) => (a.fields?.price || 0) - (b.fields?.price) || 0).
                                 map((mainOption, mainIndex) => {
                                     let itemObject = {}
@@ -194,8 +203,8 @@ const HomeTemplate = (categoryType) => {
                                         }
                                     }
 
-                                  
-                                  
+
+
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
                                     }
@@ -204,7 +213,7 @@ const HomeTemplate = (categoryType) => {
                                         itemObject.categoryType = selectionFieldTypes.QUANTITY
                                         item.categoryType = selectionFieldTypes.QUANTITY
                                         itemObject.noOfUnit = 0
- 
+
                                     } else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE) {
                                         itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
                                         item.categoryType = selectionFieldTypes.QUANTITY
@@ -240,33 +249,33 @@ const HomeTemplate = (categoryType) => {
                     const categories = [...new Set(variableCost.map(item => item.fields.category))];
                     let item
                     mainOptionIndex = 0
-                   
-                    const items = categories.map((category,index) => {
-                        const filteredItems = transformedItems.filter((item,index)=> item.category=== category);
-                        const optionsCategory = { [category]: filteredItems.map(item => item) };
-                       
 
-                        if(category.includes("Optional")){
+                    const items = categories.map((category, index) => {
+                        const filteredItems = transformedItems.filter((item, index) => item.category === category);
+                        const optionsCategory = { [category]: filteredItems.map(item => item) };
+
+
+                        if (category.includes("Optional")) {
                             return {
-                                id: index+1,
+                                id: index + 1,
                                 name: category,
                                 active: 1,
                                 options: optionsCategory[category],
-                              };
+                            };
                         }
-                         else   {
+                        else {
                             return {
-                                id: index+1,
+                                id: index + 1,
                                 name: category,
                                 active: null,
                                 options: optionsCategory[category],
-                              };
-                         }
-                          
-                           
-                        
-                      });
-                                       
+                            };
+                        }
+
+
+
+                    });
+
                     a.push({
                         ...obj,
                         underCategories: items
