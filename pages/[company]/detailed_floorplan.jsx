@@ -47,7 +47,7 @@ const DetailedFloorPlan = () => {
 
     const selectorPlan = useSelector(state => state.lot.planData);
 
-    const homeSeries = selectorPlan.homeSeriesName
+    const homeSeries = selectorPlan?.homeSeriesName
  
 
     useTimeout();
