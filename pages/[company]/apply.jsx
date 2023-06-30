@@ -123,7 +123,7 @@ const Apply = ({ data }) => {
     (state) => state.customization.customization
   );
 
-
+console.log("custom",сustomizations)
 
   const Plan = selectorLot.planData;
 
@@ -209,7 +209,8 @@ const Apply = ({ data }) => {
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
-        orderInfo: сustomizations.slice(0,5)
+        orderInfo: сustomizations
+        
         // orderPDF: downloadFileName,
       },
 
