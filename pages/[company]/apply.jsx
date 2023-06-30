@@ -148,6 +148,8 @@ console.log("custom",сustomizations)
     (state) => state.customization.customization
   );
 
+ 
+
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
@@ -209,8 +211,8 @@ console.log("custom",сustomizations)
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
-        orderInfo: сustomizations
-        
+        orderInfo:customizationPrice.splice(0,5)
+
         // orderPDF: downloadFileName,
       },
 
