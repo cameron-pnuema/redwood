@@ -57,16 +57,16 @@ const DetailedFloorPlan = () => {
     const variableCost = data?.filter((item) => item.fields.displayStatus === "Variable Cost");
 
     const transformedItems = variableCost.map((item, index) => {
-        const price = selectorPlan.homeType === "Modular" ? item.fields.constructionOptionsMOD :
-            selectorPlan.homeType === "HUD_DW" ? item.fields.constructionOptionsHUD_DW
+        const price = selectorPlan?.homeType === "Modular" ? item.fields.constructionOptionsMOD :
+            selectorPlan?.homeType === "HUD_DW" ? item.fields.constructionOptionsHUD_DW
                 : item.fields.constructionOptionsHUD_SW
 
 
         return {
             id: index + 1,
             name: item.fields.constructionSelectionName,
-            price: price < 50 ? price * selectorPlan["sq Ft"] : price,
-            category: item.fields.category
+            price: price < 50 && selectorPlan ? price * selectorPlan["sq Ft"] : price,
+            category: item.fields?.category
         };
     });
 
@@ -258,7 +258,7 @@ const DetailedFloorPlan = () => {
                         underCategories: items
                     })
                     manufacturerData.current[buildingManufacturerName] = a.sort((a, b) => a.category - b.category);
-                    console.log(" manufacturerData.current", manufacturerData.current)
+                    
                     return group
                 })
                 .value();
