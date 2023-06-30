@@ -79,11 +79,11 @@ const HomeTemplate = (categoryType) => {
     }
 
 
-    const data = store().getState().priceFactor.constructionCost.data;
+    const data = store().getState().priceFactor?.constructionCost.data;
 
     const variableCost = data?.filter((item) => item.fields.displayStatus === "Variable Cost");
 
-    const transformedItems = variableCost.map((item, index) => {
+    const transformedItems = variableCost?.map((item, index) => {
         const price = selectorPlan.homeType === "Modular" ? item.fields.constructionOptionsMOD :
             selectorPlan.homeType === "HUD_DW" ? item.fields.constructionOptionsHUD_DW
                 : item.fields.constructionOptionsHUD_SW
@@ -91,9 +91,9 @@ const HomeTemplate = (categoryType) => {
 
         return {
             id: index + 1,
-            name: item.fields.constructionSelectionName,
+            name: item.fields?.constructionSelectionName,
             price: price < 50 ? price * selectorPlan["sq Ft"] : price,
-            category: item.fields.category
+            category: item.fields?.category
         };
     });
 
