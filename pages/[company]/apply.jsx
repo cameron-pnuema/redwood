@@ -213,7 +213,7 @@ console.log("custom",сustomizations)
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
-        orderInfo:estData
+        orderInfo:testData
 
         // orderPDF: downloadFileName,
       },
