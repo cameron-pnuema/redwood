@@ -208,7 +208,8 @@ const Apply = ({ data }) => {
         manufacturerName: Plan?.manufacturerName,
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
-        streetAddress: userDetails?.description
+        streetAddress: userDetails?.description,
+        orderInfo: сustomizations.slice(0,5)
         // orderPDF: downloadFileName,
       },
 
@@ -481,7 +482,7 @@ const Apply = ({ data }) => {
               id,
               fields: {
                 orderPDF: downloadURL,
-                orderInfo: сustomizations.slice(0,5)
+              
               }
             }], function (err, record) {
               if (err) {
