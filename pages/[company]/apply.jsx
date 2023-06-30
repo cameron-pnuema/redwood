@@ -149,8 +149,10 @@ console.log("custom",сustomizations)
   );
 
    const testData= сustomizations?.filter((item)=>{
-    return item.id>5
+    return item.category>5
    })
+
+   
 
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
