@@ -81,7 +81,7 @@ const HomeTemplate = (categoryType) => {
 
     const data = store().getState().priceFactor?.constructionCost.data;
 
-    const variableCost = data?.filter((item) => item.fields.displayStatus === "Variable Cost");
+    const variableCost = data?.filter((item) => item.fields?.displayStatus === "Variable Cost");
 
     const transformedItems = variableCost?.map((item, index) => {
         const price = selectorPlan?.homeType === "Modular" ? item.fields.constructionOptionsMOD :
@@ -329,16 +329,19 @@ const HomeTemplate = (categoryType) => {
         }
 
         else if (orderData.records.length && orderDays[0] < 60) {
-            const { orderInfo, userInfo, selectedPlan } = orderData.records[0].fields
+            const { orderInfo, userInfo, selectedPlan,orderInfo2 } = orderData.records[0].fields
             const lot = JSON.parse(selectedPlan)
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
+            const order2 = JSON.parse(orderInfo2)
+
+            const combinedOrder = [...order, ...order2];
 
             order[order.length - 1].active = false
             order[0].active = true
             dispatch(setPlan(lot.planData));
             dispatch(setLot(slotData));
-            dispatch(customizationAction(order))
+            dispatch(customizationAction(combinedOrder))
             dispatch(setUserData(userData))
             getAllDataOfApp()
         }
