@@ -329,13 +329,14 @@ const HomeTemplate = (categoryType) => {
         }
 
         else if (orderData.records.length && orderDays[0] < 60) {
-            const { orderInfo, userInfo, selectedPlan, orderInfo2 } = orderData.records[0].fields
+            const { orderInfo, userInfo, selectedPlan, orderInfo2 , orderInfo3} = orderData.records[0].fields
             const lot = JSON.parse(selectedPlan)
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
             const order2 = JSON.parse(orderInfo2)
+            const order3 = JSON.parse(orderInfo3)
 
-            const combinedOrder = [...order, ...order2];
+            const combinedOrder = [...order, ...order2,...order3];
 
             order[order.length - 1].active = false
             order[0].active = true

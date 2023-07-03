@@ -131,15 +131,15 @@ const Apply = ({ data }) => {
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   let markUp;
 
-  if ( Plan?.homeType=== 'Modular') {
+  if (Plan?.homeType === 'Modular') {
     markUp = 'Modular Mark Up';
-  } else if (Plan?.homeType  === 'HUD-DW') {
+  } else if (Plan?.homeType === 'HUD-DW') {
     markUp = 'Double Wide Mark Up';
-  } else if ( Plan?.homeType  === 'HUD-SW') {
+  } else if (Plan?.homeType === 'HUD-SW') {
     markUp = 'Single Wide Mark Up';
   }
-  
-    const MARK_UP_MULTIPLIER = markupValue[`${markUp}`];
+
+  const MARK_UP_MULTIPLIER = markupValue[`${markUp}`];
 
 
   const userFilledData = useSelector((state) => state.user.userFilledData);
@@ -176,16 +176,17 @@ const Apply = ({ data }) => {
 
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
-  
+
 
     const totalPrice = formatPrice(
       housePrice +
       (finalPrice || 0)
     )
 
-    const orderInfo = сustomizations.slice(0, 6);
-    const orderInfo2 = сustomizations.slice(6)
- 
+    const orderInfo = сustomizations.slice(0, 3);
+    const orderInfo2 = сustomizations.slice(3, 6);
+    const orderInfo3 = сustomizations.slice(6);
+
     const responseData = await saveOrderData({
       fields: {
         email: userDetails?.email,
@@ -211,7 +212,7 @@ const Apply = ({ data }) => {
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
         orderInfo,
-        orderInfo2
+        orderInfo2,orderInfo3 
 
         // orderPDF: downloadFileName,
       },
@@ -429,8 +430,8 @@ const Apply = ({ data }) => {
       );
 
       const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" })
-      
-      
+
+
 
 
       // const handleFileUpload = async (pdfBlob) => {
@@ -440,10 +441,10 @@ const Apply = ({ data }) => {
       //     formData.append(`file-${orderId}`, pdfBlob);
 
       //     console.log("hhhhhhh")
-      
+
       //     // Make a POST request to the file.io API to upload the file
       //     const response = await axios.post('https://file.io', formData);
-      
+
       //     console.log('File uploaded successfully:', response.data);
       //     console.log('Download link:', response.data.link);
       //     const downloadURL =  response.data.link
@@ -459,7 +460,7 @@ const Apply = ({ data }) => {
       //               }
       //             });
       //   } catch (error) {
-         
+
       //   }
       // };
 
@@ -485,7 +486,7 @@ const Apply = ({ data }) => {
               id,
               fields: {
                 orderPDF: downloadURL,
-              
+
               }
             }], function (err, record) {
               if (err) {
