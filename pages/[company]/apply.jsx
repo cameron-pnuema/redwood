@@ -147,11 +147,6 @@ const Apply = ({ data }) => {
     (state) => state.customization.customization
   );
 
-   
-   
-  
-
-
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
@@ -213,7 +208,7 @@ const Apply = ({ data }) => {
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
-        orderInfo:сustomizations.slice(5,12)
+        orderInfo:сustomizations.slice(9,13)
 
         // orderPDF: downloadFileName,
       },
