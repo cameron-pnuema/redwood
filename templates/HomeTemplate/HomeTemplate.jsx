@@ -107,7 +107,7 @@ const HomeTemplate = (categoryType) => {
             url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-DW)"
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDSW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Selection%20Options%20(HUD-SW)"
+            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-SW)"
         }
         if (offsetId) {
             url = url + `?offset=${offsetId}`
@@ -329,7 +329,7 @@ const HomeTemplate = (categoryType) => {
         }
 
         else if (orderData.records.length && orderDays[0] < 60) {
-            const { orderInfo, userInfo, selectedPlan,orderInfo2 } = orderData.records[0].fields
+            const { orderInfo, userInfo, selectedPlan, orderInfo2 } = orderData.records[0].fields
             const lot = JSON.parse(selectedPlan)
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
