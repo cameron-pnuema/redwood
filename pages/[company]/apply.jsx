@@ -210,7 +210,7 @@ const Apply = ({ data }) => {
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
-        orderInfo,
+        orderInfo:orderInfo.pop(),
         orderInfo2
 
         // orderPDF: downloadFileName,
