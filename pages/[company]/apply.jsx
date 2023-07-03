@@ -183,6 +183,8 @@ const Apply = ({ data }) => {
       (finalPrice || 0)
     )
 
+    const orderInfo = сustomizations.slice(0, 5);
+    const orderInfo2 = сustomizations.slice(5);
  
     const responseData = await saveOrderData({
       fields: {
@@ -208,8 +210,8 @@ const Apply = ({ data }) => {
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
-        orderInfo:сustomizations.slice(0,5),
-        orderInfo2:сustomizations.slice(6,сustomizations.length)
+        orderInfo,
+        orderInfo2
 
         // orderPDF: downloadFileName,
       },
