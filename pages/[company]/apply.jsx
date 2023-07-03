@@ -183,8 +183,8 @@ const Apply = ({ data }) => {
       (finalPrice || 0)
     )
 
-    const orderInfo = сustomizations.slice(0, 5);
-    const orderInfo2 = сustomizations.slice(5);
+    const orderInfo = сustomizations.slice(0, 6);
+    const orderInfo2 = сustomizations.slice(6);
  
     const responseData = await saveOrderData({
       fields: {
