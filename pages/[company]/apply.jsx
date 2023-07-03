@@ -208,7 +208,7 @@ const Apply = ({ data }) => {
         sqFT: Plan['sq Ft'],
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
-        orderInfo:сustomizations.slice(9,13)
+        orderInfo:сustomizations.slice(9,14)
 
         // orderPDF: downloadFileName,
       },
