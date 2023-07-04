@@ -333,8 +333,16 @@ const HomeTemplate = (categoryType) => {
             const lot = JSON.parse(selectedPlan)
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
-            const order2 = JSON.parse(orderInfo2)
-            const order3 = JSON.parse(orderInfo3)
+            let order2 = [];
+            let order3 = [];
+          
+            if (orderInfo2) {
+              order2 = JSON.parse(orderInfo2);
+            }
+          
+            if (orderInfo3) {
+              order3 = JSON.parse(orderInfo3);
+            }
 
             const combinedOrder = [...order, ...order2,...order3];
 
