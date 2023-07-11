@@ -74,7 +74,7 @@ const CustomizeInterior = () => {
   );
 
 
-
+ 
   const dispatch = useDispatch();
   const [notesState, setNotesState] = useState([]);
    
@@ -111,11 +111,9 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
-          console.log("uc",uc)
-       
-          if (
+        
+      if (
             uc.categoryType===selectionFieldTypes.QUANTITY ||
-            uc.name === "Vinyl Upgrades (Optional)" ||
             uc.name === 'Discount(Optional)'||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
