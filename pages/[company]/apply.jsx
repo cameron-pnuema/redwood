@@ -61,7 +61,7 @@ const formatPrice = (price) => {
 const getFieldToUser = ({ option, itemPrice, numOfUnit, categoryName }) => {
 
   let htmlElement = "";
-  if (categoryName === "Vinyl Upgrades " || categoryName === "Discount") {
+  if (categoryName === "Discount") {
     if (option?.price === 0) {
       htmlElement += ``
     }
@@ -271,7 +271,7 @@ const Apply = ({ data }) => {
               numOfUnit,
               categoryName,
             });
-            if (categoryName != "Discount " && categoryName != "Vinyl Upgrades ") {
+            if (categoryName != "Discount ") {
               html += '<tr >';
               html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${categoryName}</td>`;
               html += `${shownFieldToUser}`;
@@ -280,17 +280,7 @@ const Apply = ({ data }) => {
               html += "</td>";
               html += "</tr>";
             }
-            else if (categoryName == "Vinyl Upgrades ") {
-              html += '<tr >';
-              html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">${categoryName}</td>`;
-              html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> </td>`;
-              html += `<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;"> </td>`;
-              html += '<td style="border: 1px solid #dddddd; text-align: left;  padding: 8px;">';
-              html += `<span>Notes</span>: ${cc.notes || ""}`;
-              html += "</td>";
-              html += `${shownFieldToUser}`;
 
-            }
             else {
               html += ""
             }
