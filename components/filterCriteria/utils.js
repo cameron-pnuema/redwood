@@ -9,12 +9,12 @@ export const filterData =[
     {
         id: uuidv4(),
         title: "Bedrooms",
-        options: [{ id: uuidv4(), label: 1, value: 1, operation: "equal" }, { id: uuidv4(), label: 2, value: 2, operation: "equal" }, { id: uuidv4(), label: 3, value: 3, operation: "equal" }, { id: uuidv4(), label: "4+", value: 4, operation: "greater" }]
+        options: [{ id: uuidv4(), label: 1, value: 1, operation: "equal" }, { id: uuidv4(), label: 2, value: 2, operation: "equal" }, { id: uuidv4(), label: 3, value: 3, operation: "equal" }, { id: uuidv4(), label: "4", value: 4, operation: "equal" }]
     },
     {
         id: uuidv4(),
         title: "Bathrooms",
-        options: [{ id: uuidv4(), label: 1, value: 1, operation: "equal" }, { id: uuidv4(), label: 2, value: 2, operation: "equal" }, { id: uuidv4(), label: "3+", value: 3, operation: "greater" }]
+        options: [{ id: uuidv4(), label: 1, value: 1, operation: "equal" }, { id: uuidv4(), label: 2, value: 2, operation: "equal" }, { id: uuidv4(), label: "3", value: 3, operation: "equal" }]
     },
     {
         id: uuidv4(),

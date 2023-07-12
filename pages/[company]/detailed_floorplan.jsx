@@ -65,7 +65,7 @@ const DetailedFloorPlan = () => {
         return {
             id: index + 1,
             name: item.fields.constructionSelectionName,
-            price: price < 50 && selectorPlan ? price * selectorPlan["sq Ft"] : price,
+            price: price < 50 && selectorPlan ? (price * selectorPlan["sq Ft"]) : price,
             category: item.fields?.category
         };
     });
@@ -188,6 +188,7 @@ const DetailedFloorPlan = () => {
 
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
+                                        item.categoryType = selectionFieldTypes.QUANTITY
                                     }
 
 
