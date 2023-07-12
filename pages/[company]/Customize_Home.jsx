@@ -111,7 +111,6 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
-        
       if (
             uc.categoryType===selectionFieldTypes.QUANTITY ||
             uc.name === 'Discount(Optional)'||
@@ -160,34 +159,48 @@ const CustomizeInterior = () => {
 
             if (
               uc.categoryType === selectionFieldTypes.QUANTITY ||
-              selectionType === selectionFieldTypes.SELECT_MULTIPLE    
+              selectionType === selectionFieldTypes.SELECT_MULTIPLE ||
+              uc.name.includes("Optional") 
             ) {
-            
+          
               let activeItemsIds = [];
               if (Array.isArray(selectionItem.active)) {
                 activeItemsIds = selectionItem.active;
               }
 
               if (selectionType === selectionFieldTypes.SELECT_MULTIPLE) {
+               
                 if (activeItemsIds.includes(optionId)) {
                   activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
-                 
+        
                 } else {
                   activeItemsIds.push(optionId);
-                 
-                }
-              } else {
-                const isActive = inputAnswer && inputAnswer > 0;
-                if (isActive && !activeItemsIds.includes(optionId)) {
-                  activeItemsIds.push(optionId);
-                } else if (!isActive && activeItemsIds.includes(optionId)) {
-                  activeItemsIds = activeItemsIds.filter((b) => b !== optionId);
-                 
+            
                 }
               }
+
+              else{
+                if (activeItemsIds.includes(optionId)) {
+                  activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
+                } else {
+                  activeItemsIds.push(optionId);
+                }
+              }
+             
+
+              if (selectionType === selectionFieldTypes.QUANTITY) {
+               
+                if (activeItemsIds.includes(optionId)) {
+                  activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
+                } else {
+                  activeItemsIds.push(optionId)
+                }
+              }
+  
               selectionItem.active =
-                activeItemsIds.length > 0 ? activeItemsIds : 1;
+                activeItemsIds.length > 0 ? activeItemsIds : 0;
             } else {
+             
               selectionItem.active = optionId;
             }
 
@@ -201,6 +214,7 @@ const CustomizeInterior = () => {
         }),
       };
     });
+   
    
     dispatch(customizationAction(newCustomizations));
     dispatch(setCustomizationPriceAction(totalCustomizationPrice));
