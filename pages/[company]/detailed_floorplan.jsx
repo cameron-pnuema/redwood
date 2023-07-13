@@ -104,11 +104,13 @@ const DetailedFloorPlan = () => {
         const realRes = await res.json()
 
         totalRecords.current = [...totalRecords.current, ...realRes.records]
+   
 
            totalRecords.current = totalRecords.current.filter((record) => {
              return record.fields.homeSeriesName === `${homeSeries}`
              && record.fields.displayStatus === "On"
           })
+         
 
  
 
@@ -127,7 +129,7 @@ const DetailedFloorPlan = () => {
 
                     const buildingManufacturerName = group[0]?.fields.manufacturerName
                 
-
+     
                   
 
                     _(group).groupBy(x => x.fields.pageName).map((pageGroup, pageNameIndex) => {
@@ -191,6 +193,10 @@ const DetailedFloorPlan = () => {
                                         item.categoryType = selectionFieldTypes.QUANTITY
                                     }
 
+
+                                    if (categoryName.includes('Roof Pitch')) { 
+                                        item.active = 1
+                                    }
 
                                     if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY) {
                                         itemObject.categoryType = selectionFieldTypes.QUANTITY
@@ -259,15 +265,16 @@ const DetailedFloorPlan = () => {
                         underCategories: items
                     })
                     manufacturerData.current[buildingManufacturerName] = a.sort((a, b) => a.category - b.category);
-                    
+                   
                     return group
                 })
                 .value();
 
-
+            
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
 
             dispatch(customizationAction(manufacturerData.current[selectorPlan?.manufacturerName]));
+           
             setIsLoading(false)
 
         }

@@ -28,7 +28,7 @@ const OptionsGroup = ({
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
 
-  
+
   // const filterOptions = options?.filter((item) => {
   //   if (categoryName==="Variable Cost")  {
   //     return options
@@ -43,11 +43,12 @@ const OptionsGroup = ({
 
   // console.log("options",options)
   // console.log("filterOptions",filterOptions,selectedPlan?.homeSeriesName)
+console.log("categoryName",categoryName,groupName)
 
- 
   return (
     <div className={styles.group}>
       <div className={styles.group__name}>{groupName}</div>
+      {groupName === "Roof Pitch" && <div className={styles.Caution}>Caution: Choosing a roof pitch that is not standard may impact the construction costs associated with your home</div>}
       <div className={styles.group__options}>
         {options
           ?.sort((a, b) => a.price - b.price)
@@ -89,7 +90,7 @@ const OptionsGroup = ({
                 }}
               >
                 {<><div className={styles.option__label}>
-             
+
                   {isQuantityType ? (
                     <InputCustomizeOption
                       groupId={groupId}

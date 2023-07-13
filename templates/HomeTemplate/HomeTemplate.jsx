@@ -210,6 +210,10 @@ const HomeTemplate = (categoryType) => {
                                         item.categoryType = selectionFieldTypes.QUANTITY
                                     }
 
+                                    if (categoryName.includes('Roof Pitch')) { 
+                                        item.active = 1
+                                    }
+
                                     if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.QUANTITY) {
                                         itemObject.categoryType = selectionFieldTypes.QUANTITY
                                         item.categoryType = selectionFieldTypes.QUANTITY
