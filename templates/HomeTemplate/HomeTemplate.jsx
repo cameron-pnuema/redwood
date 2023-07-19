@@ -74,12 +74,11 @@ const HomeTemplate = (categoryType) => {
     const slotData = slots[0]
     const dispatch = useDispatch()
     const selectorPlan = useSelector(state => state.lot.planData);
-    console.log("selector",selectorPlan)
+   
 
     const homeSeries = selectorPlan?.homeSeriesName
     const homeLength = useSelector((state) => state.lot.planData?.homeLength);
 
-    console.log("homelenght", homeLength)
     const gotoFloorPlan = () => {
         dispatch(setLot(slotData));
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
@@ -241,8 +240,8 @@ const HomeTemplate = (categoryType) => {
 
                                     }
                                     else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_ONE_LF) {
-
-                                        itemObject.price = itemObject.price * homeLength
+                                        item.categoryType = selectionFieldTypes.SELECT_ONE_LF
+                                        itemObject.price = itemObject.price*homeLength
                                     }
 
                                     if (item.categoryType && getCategoryName(categoryName)) {
