@@ -7,7 +7,7 @@ import plans from '../../db/plans';
 import useTimeout from '../../UTILS/useTimeout';
 import ApplyForm from '../../components/applyForm/ApplyForm';
 import { setUserInforModal } from '../../store/actions/popup';
-import { getMarkup, getFloorPlan, getConstructionCost } from "../../store/actions/priceFactor"
+import { getMarkup, getFloorPlan, getConstructionCost ,getConstructionCostNew} from "../../store/actions/priceFactor"
 import FilterCriteria from "../../components/filterCriteria"
 import { Collapse, Container, Button } from "reactstrap"
 import { floorplanFilterAction, floorplanClearFilterAction } from "../../store/actions/floorplan"
@@ -28,7 +28,7 @@ const SelectFloorPlan = () => {
 
 
     const selectorLot = useSelector(state => state.lot.lotData);
-    const priceFactor = useSelector(state => state.priceFactor);
+    const priceFactor = useSelector(state => state);
    
     const floorPlanFilter = useSelector(state => state.floorplan.filters);
     const plansSlot = useSelector(state => state.priceFactor.floorPlan.data)
@@ -41,6 +41,7 @@ const SelectFloorPlan = () => {
         dispatch(getMarkup())
         dispatch(getFloorPlan())
         dispatch(getConstructionCost())
+        dispatch(getConstructionCostNew())
         return () => {
             // dispatch(floorplanClearFilterAction())
         }
