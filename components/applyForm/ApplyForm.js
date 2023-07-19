@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import Form from '../../templates/ApplyTemplate/Form/Form';
 import styles from './ApplyForm.module.scss'
@@ -39,6 +39,8 @@ const ApplyForm = (props) => {
     dispatch(setUserData(data));
   }
 
+
+
   const handleSubmit = async () => {
     let errors = formValidator(state)
     setState({ ...state, errors })
@@ -69,7 +71,7 @@ const ApplyForm = (props) => {
     },
     typecast :true
     }
-   
+
     const res = await fetch(url, {
       method: "post",
       headers: new Headers({
@@ -87,7 +89,7 @@ const ApplyForm = (props) => {
           toast('Your details are saved successfully.')
         }
       } catch (error) {
-        
+
     }
   }
 
@@ -99,14 +101,14 @@ const ApplyForm = (props) => {
       dispatch(setUserInforModal(false))
       return false
     } 
-    if(isUserInfoModal && window?.location.hostname==="localhost")return false
+    if(isUserInfoModal && window?.location.hostname==="localhost")return true
     return isUserInfoModal
   }
 
   return (
     <div>
       <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
-      <Modal isOpen={isModalOpen()} className={className}>
+      <Modal isOpen={isModalOpen()} className={className} data-testid="modals"  >
         <ModalBody className={styles.modalBody}>
             <Form
               formValues={state}
@@ -114,7 +116,7 @@ const ApplyForm = (props) => {
             />
         </ModalBody>
         <ModalFooter>
-          <Button className={styles.submitButton} onClick={handleSubmit}>Submit</Button>{' '}
+          <Button className={styles.submitButton} onClick={handleSubmit} data-testid="Submit" >Submit</Button>{' '}
         </ModalFooter>
       </Modal>
     </div>
@@ -122,3 +124,5 @@ const ApplyForm = (props) => {
 }
 
 export default ApplyForm;
+
+
