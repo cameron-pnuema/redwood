@@ -12,6 +12,7 @@ import {
   selectionFieldTypes,
 } from "../../db/custumizationGroupsFairmont";
 
+var homeLength
 
 const getPrice = (data) => {
   let price = 0;
@@ -23,13 +24,13 @@ const getPrice = (data) => {
 
 export const getTotalCustomizationPrice = (customizations) => {
   let categories = [];
-  
+
   customizations.forEach((c) => {
     categories = categories.concat(c.underCategories);
-   
+
   });
 
-  let customizationPrice = 0;   
+  let customizationPrice = 0;
 
 
   categories.forEach((c) => {
@@ -38,7 +39,7 @@ export const getTotalCustomizationPrice = (customizations) => {
       c.categoryName === selectionCategoryNames.WINDOWS ||
       c.categoryName === selectionCategoryNames.LIGNTING ||
       c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON ||
-      c.categoryType === "quantity"||
+      c.categoryType === "quantity" ||
       c.name === 'Discount(Optional)'
     ) {
       c.options.map((a) => {
@@ -50,16 +51,16 @@ export const getTotalCustomizationPrice = (customizations) => {
             customizationPrice += a?.price;
           }
         }
-        else if (a?.name==="I/O") {
+        else if (a?.name === "I/O") {
           customizationPrice += a?.price;
         }
       });
     }
-   
+    
     else {
       if (!activeOption) return;
       customizationPrice += activeOption?.price;
-     
+
     }
   });
   return customizationPrice;
@@ -69,22 +70,26 @@ const CustomizeInterior = () => {
   useTimeout();
 
   const selectedPlan = useSelector((state) => state.lot.planData);
+
+
+
   const customizations = useSelector(
     (state) => state.customization.customization
   );
 
 
- 
+
+
   const dispatch = useDispatch();
   const [notesState, setNotesState] = useState([]);
-   
- 
+
+
   const activeCustomizationCategory = customizations.find((c) => c.active);
- 
+
   const activeCategoryIndex = customizations.findIndex((c) => c.active);
- 
+
   const totalCustomizationPrice = getTotalCustomizationPrice(customizations);
- 
+
   const [isAllStepsCompleted, setAllStepsCompleted] = useState(
     activeCategoryIndex === customizations.length - 1
   );
@@ -96,12 +101,14 @@ const CustomizeInterior = () => {
     selectionType,
     notes,
   }) => {
-   
-    
+
+
     const newCustomizations = customizations.map((category) => {
       if (category.category !== activeCustomizationCategory.category)
         return category;
-      
+
+
+    
 
       return {
         ...category,
@@ -111,25 +118,26 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
-      if (
-            uc.categoryType===selectionFieldTypes.QUANTITY ||
-            uc.name === 'Discount(Optional)'||
+    
+          if (
+            uc.categoryType === selectionFieldTypes.QUANTITY ||
+            uc.name === 'Discount(Optional)' ||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
             uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
           ) {
 
             let selectionItem = { ...uc };
-           
+        
             selectionItem.options = [
               ...uc.options.map((el, index) => {
 
-                 if (el.name === `I/O`) {
-               
+                if (el.name === `I/O`) {
+
                   return {
                     ...el,
-                    value: inputAnswer|| [],
-                    price: - getPrice(inputAnswer|| []),
+                    value: inputAnswer || [],
+                    price: - getPrice(inputAnswer || []),
                     active: true,
                   };
                 }
@@ -160,47 +168,54 @@ const CustomizeInterior = () => {
             if (
               uc.categoryType === selectionFieldTypes.QUANTITY ||
               selectionType === selectionFieldTypes.SELECT_MULTIPLE ||
-              uc.name.includes("Optional") 
+              uc.name.includes("Optional")||
+              uc.categoryType===selectionFieldTypes.SELECT_MULTIPLE_LF
             ) {
-          
+
               let activeItemsIds = [];
               if (Array.isArray(selectionItem.active)) {
                 activeItemsIds = selectionItem.active;
               }
 
-              if (selectionType === selectionFieldTypes.SELECT_MULTIPLE) {
-               
+              if (selectionType === selectionFieldTypes.SELECT_MULTIPLE 
+                 ) {
+                      
                 if (activeItemsIds.includes(optionId)) {
                   activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
-        
+                 
+
                 } else {
                   activeItemsIds.push(optionId);
-            
+                 
                 }
               }
 
-              else{
+
+              else {
                 if (activeItemsIds.includes(optionId)) {
                   activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
                 } else {
                   activeItemsIds.push(optionId);
                 }
               }
-             
+
 
               if (selectionType === selectionFieldTypes.QUANTITY) {
-               
+
                 if (activeItemsIds.includes(optionId)) {
                   activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
                 } else {
                   activeItemsIds.push(optionId)
                 }
               }
-  
+
               selectionItem.active =
                 activeItemsIds.length > 0 ? activeItemsIds : 0;
-            } else {
-             
+            }
+           
+
+            else {
+
               selectionItem.active = optionId;
             }
 
@@ -214,13 +229,13 @@ const CustomizeInterior = () => {
         }),
       };
     });
-   
-   
+
+
     dispatch(customizationAction(newCustomizations));
     dispatch(setCustomizationPriceAction(totalCustomizationPrice));
   };
 
- 
+
   const handleNextCategory = () => {
     if (activeCategoryIndex >= customizations.length - 1) {
       setAllStepsCompleted(true);
@@ -245,7 +260,7 @@ const CustomizeInterior = () => {
   //     active: 1,
   //   });
   const get = (underCategories) => {
-   
+
     const ca = [...underCategories];
     underCategories.forEach((el, i) => {
       if (el.name === `Flooring`) {
@@ -279,10 +294,10 @@ const CustomizeInterior = () => {
   };
 
   useEffect(() => {
-    const data=[]
+    const data = []
     activeCustomizationCategory?.underCategories?.forEach((item) => {
       if (item.notes) {
-         data.push(item.name + item.id)
+        data.push(item.name + item.id)
       }
     })
     setNotesState(data)

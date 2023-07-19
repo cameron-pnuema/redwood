@@ -13,7 +13,7 @@ import _ from 'lodash'
 import { setAirtablecustomizationAction } from '../../store/actions/customization';
 import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames } from '../../db/custumizationGroupsFairmont';
 import { toast } from 'react-toastify';
-import { getMarkup, getFloorPlan, getConstructionCost } from "../../store/actions/priceFactor"
+import { getMarkup, getFloorPlan, getConstructionCost,getConstructionCostNew } from "../../store/actions/priceFactor"
 import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
 import { customizationAction } from "../../store/actions/customization"
 import { setUserData } from "../../store/actions/user"
@@ -30,6 +30,13 @@ const getCategoryType = (categoryName) => {
         return selectionFieldTypes.QUANTITY
     } else if (cName == selectionCategoryFullNames.MULTIPLE_SELECT) {
         return selectionFieldTypes.SELECT_MULTIPLE
+    }
+    else if (cName == selectionCategoryFullNames.MULTIPLE_SELECT_LF) {
+
+        return selectionFieldTypes.SELECT_MULTIPLE_LF
+    }
+    else if (cName == selectionCategoryFullNames.SELECT_ONE_LF) {
+        return selectionFieldTypes.SELECT_ONE_LF
     }
 
     return null
@@ -67,10 +74,12 @@ const HomeTemplate = (categoryType) => {
     const slotData = slots[0]
     const dispatch = useDispatch()
     const selectorPlan = useSelector(state => state.lot.planData);
+    console.log("selector",selectorPlan)
 
     const homeSeries = selectorPlan?.homeSeriesName
-  
+    const homeLength = useSelector((state) => state.lot.planData?.homeLength);
 
+    console.log("homelenght", homeLength)
     const gotoFloorPlan = () => {
         dispatch(setLot(slotData));
         dispatch(floorplanAction({ width: slotData.width, length: slotData.length }));
@@ -210,7 +219,8 @@ const HomeTemplate = (categoryType) => {
                                         item.categoryType = selectionFieldTypes.QUANTITY
                                     }
 
-                                    if (categoryName.includes('Roof Pitch')) { 
+
+                                    if (categoryName.includes('Roof Pitch')) {
                                         item.active = 1
                                     }
 
@@ -223,6 +233,16 @@ const HomeTemplate = (categoryType) => {
                                         itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
                                         item.categoryType = selectionFieldTypes.QUANTITY
 
+                                    }
+                                    else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE_LF) {
+                                        itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
+                                        item.categoryType = selectionFieldTypes.QUANTITY
+                                        itemObject.price = itemObject.price * homeLength
+
+                                    }
+                                    else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_ONE_LF) {
+
+                                        itemObject.price = itemObject.price * homeLength
                                     }
 
                                     if (item.categoryType && getCategoryName(categoryName)) {
@@ -334,22 +354,22 @@ const HomeTemplate = (categoryType) => {
         }
 
         else if (orderData.records.length && orderDays[0] < 60) {
-            const { orderInfo, userInfo, selectedPlan, orderInfo2 , orderInfo3} = orderData.records[0].fields
+            const { orderInfo, userInfo, selectedPlan, orderInfo2, orderInfo3 } = orderData.records[0].fields
             const lot = JSON.parse(selectedPlan)
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
             let order2 = [];
             let order3 = [];
-          
+
             if (orderInfo2) {
-              order2 = JSON.parse(orderInfo2);
-            }
-          
-            if (orderInfo3) {
-              order3 = JSON.parse(orderInfo3);
+                order2 = JSON.parse(orderInfo2);
             }
 
-            const combinedOrder = [...order, ...order2,...order3];
+            if (orderInfo3) {
+                order3 = JSON.parse(orderInfo3);
+            }
+
+            const combinedOrder = [...order, ...order2, ...order3];
 
             order[order.length - 1].active = false
             order[0].active = true
@@ -376,7 +396,7 @@ const HomeTemplate = (categoryType) => {
 
 
     const getAllDataOfApp = () => {
-        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost())]).then((res) => {
+        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()),dispatch(getConstructionCostNew())]).then((res) => {
             setLoading(false)
         })
     }

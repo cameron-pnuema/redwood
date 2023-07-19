@@ -6,6 +6,7 @@ const initialState = {
    floorPlan:{isLoading:false,iSSuccess:false,isError:"false",data:[],error:""},
    constructionCost:{isLoading:false,iSSuccess:false,isError:"false",data:[],error:""},
    client:{isLoading:false,iSSuccess:false,isError:"false",data:[],error:""},
+   constructionNewCost:{isLoading:false,iSSuccess:false,isError:"false",data:[],error:""},
 };
 
 const reducer = (state = initialState, action) => {
@@ -111,6 +112,33 @@ const reducer = (state = initialState, action) => {
         newState.constructionCost.iSSuccess = false;
         newState.constructionCost.iSError = true;
         newState.constructionCost.error =action.payload;
+        return newState;
+    }
+
+    
+    if(action.type === actionTypes.CONSTRUCTION_COST_NEW_REQUEST){
+        const newState = {...state};
+        newState.constructionNewCost.isLoading = true;
+        newState.constructionNewCost.iSSuccess = false;
+        newState.constructionNewCost.iSError = false;
+        return newState;
+    }
+
+    if(action.type === actionTypes.CONSTRUCTION_COST_NEW_SUCCESS){
+        const newState = {...state};
+        newState.constructionNewCost.isLoading = false;
+        newState.constructionNewCost.iSSuccess = true;
+        newState.constructionNewCost.iSError = false;
+        newState.constructionNewCost.data =action.payload;
+        return newState;
+    }
+
+    if(action.type === actionTypes.CONSTRUCTION_COST_NEW_ERROR){
+        const newState = {...state};
+        newState.constructionNewCost.isLoading = false;
+        newState.constructionNewCost.iSSuccess = false;
+        newState.constructionNewCost.iSError = true;
+        newState.constructionNewCost.error =action.payload;
         return newState;
     }
 

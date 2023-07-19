@@ -19,19 +19,25 @@
 
 export const selectionFieldTypes = {
   QUANTITY: 'quantity',
-  SELECT_MULTIPLE: 'selectMultiple'
+  SELECT_MULTIPLE: 'selectMultiple',
+  SELECT_MULTIPLE_LF: 'linearFeetMultipleSelect',
+  SELECT_ONE_LF:"linearFeetSelectOne"
+
 }
 
 export const selectionCategoryNames = {
   LIGNTING: 'lighting',
   ADDITONAL_ADDS_ON: 'additionalAddOns',
-  WINDOWS: 'windows'
+  WINDOWS: 'windows',
+
 }
 
 export const selectionCategoryFullNames = {
   QUANTITY: 'quantity',
+  SELECT_ONE_LF: 'linear_feet_single_select',
   SELECT_ONE: 'select_one',
-  MULTIPLE_SELECT: 'select_multiple'
+  MULTIPLE_SELECT: 'select_multiple',
+  MULTIPLE_SELECT_LF:'linear_feet_multiple_select'
 }
 
 const customizationGroup = [

@@ -4,6 +4,7 @@ import close from "../../assets/close-red-icon.svg"
 
 
 const FilterPills = ({ floorPlanFilter, handleFilterOptionClick }) => {
+    
 
     return <span className={styles.filter_pill} data-testid="filter-pills" >{floorPlanFilter.map((filter ,index) =>
         

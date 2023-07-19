@@ -14,11 +14,17 @@ const FLOORING = 'Flooring'
 
 const getCategoryType = (categoryName) => {
     const cName = categoryName?.split(" ")?.join('_').toLowerCase()
-
     if (cName == selectionCategoryFullNames.QUANTITY) {
         return selectionFieldTypes.QUANTITY
     } else if (cName == selectionCategoryFullNames.MULTIPLE_SELECT) {
         return selectionFieldTypes.SELECT_MULTIPLE
+    }
+    else if (cName == selectionCategoryFullNames.MULTIPLE_SELECT_LF) {
+      
+        return selectionFieldTypes.SELECT_MULTIPLE_LF
+    }
+    else if (cName == selectionCategoryFullNames.SELECT_ONE_LF) {
+        return selectionFieldTypes.SELECT_ONE_LF
     }
 
     return null
@@ -46,9 +52,12 @@ const DetailedFloorPlan = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     const selectorPlan = useSelector(state => state.lot.planData);
+    const homeLength = useSelector((state) => state.lot.planData?.homeLength);
 
+    
+  
+    
     const homeSeries = selectorPlan?.homeSeriesName
- 
 
     useTimeout();
 
@@ -112,14 +121,11 @@ const DetailedFloorPlan = () => {
           })
          
 
- 
-
         if (realRes.offset) {
             handleFetch(realRes.offset)
         } else {
 
             let mainOptionIndex = 0
-
 
             var result = _(totalRecords.current)
                 .groupBy(x => x.fields.manufacturerName)
@@ -129,9 +135,6 @@ const DetailedFloorPlan = () => {
 
                     const buildingManufacturerName = group[0]?.fields.manufacturerName
                 
-     
-                  
-
                     _(group).groupBy(x => x.fields.pageName).map((pageGroup, pageNameIndex) => {
 
                         let mainOption = {
@@ -185,14 +188,12 @@ const DetailedFloorPlan = () => {
 
 
                                     }
-
-
+                                    
 
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
                                         item.categoryType = selectionFieldTypes.QUANTITY
                                     }
-
 
                                     if (categoryName.includes('Roof Pitch')) { 
                                         item.active = 1
@@ -206,11 +207,21 @@ const DetailedFloorPlan = () => {
                                     } else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE) {
                                         itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
                                         item.categoryType = selectionFieldTypes.QUANTITY
+                                    }
 
+                                    else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE_LF) {
+                                        itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
+                                        item.categoryType = selectionFieldTypes.QUANTITY
+                                        itemObject.price = itemObject.price*homeLength
+
+                                    }
+                                    else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_ONE_LF) {
+                                       item.categoryType = selectionFieldTypes.SELECT_ONE_LF
+                                       itemObject.price = itemObject.price*homeLength
                                     }
 
                                     if (item.categoryType && getCategoryName(categoryName)) {
-                                        item.categoryName = getCategoryName(categoryName)
+                                       item.categoryType = getCategoryName(categoryName)
                                     }
 
                                     item.options.push(itemObject)
@@ -270,7 +281,6 @@ const DetailedFloorPlan = () => {
                 })
                 .value();
 
-            
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
 
             dispatch(customizationAction(manufacturerData.current[selectorPlan?.manufacturerName]));

@@ -15,6 +15,10 @@ const getConstructionCostRequest = () => ({ type: actionTypes.CONSTRUCTION_COST_
 const getConstructionCostSuccess = (data) => ({ type: actionTypes.CONSTRUCTION_COST_SUCCESS, payload: data });
 const getConstructionCostError = (data) => ({ type: actionTypes.CONSTRUCTION_COST_ERROR, payload: data });
 
+const getConstructionCostNewRequest = () => ({ type: actionTypes.CONSTRUCTION_COST_NEW_REQUEST });
+const getConstructionCostNewSuccess = (data) => ({ type: actionTypes.CONSTRUCTION_COST_NEW_SUCCESS, payload: data });
+const getConstructionCostNewError = (data) => ({ type: actionTypes.CONSTRUCTION_COST_NEW_ERROR, payload: data });
+
 const getFloorPlanRequest = () => ({ type: actionTypes.FLOORPLAN_REQUEST });
 const getFloorPlanSuccess = (data) => ({ type: actionTypes.FLOORPLAN_SUCCESS, payload: data });
 const getFloorPlanError = (data) => ({ type: actionTypes.FLOORPLAN_ERROR, payload: data });
@@ -102,6 +106,23 @@ export const getConstructionCost = (data) => {
         } catch (e) {
             toast(e.response ? e.response.data : 'Что-то пошло не так111');
             dispatch(getConstructionCostError());
+        }
+    }
+}
+
+export const getConstructionCostNew = (data) => {
+    const url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Construction%20Options%20(Size%20Dependent)?maxRecords=100&view=Grid%20view"
+    return async (dispatch) => {
+        dispatch(getConstructionCostNewRequest());
+        try {
+            const res = await getAirtableData({ url, method: "get" })
+            const records = res.records
+            if (records) {
+                dispatch(getConstructionCostNewSuccess(records))
+            }
+        } catch (e) {
+            toast(e.response ? e.response.data : 'Что-то пошло не так111');
+            dispatch(getConstructionCostNewError());
         }
     }
 }
