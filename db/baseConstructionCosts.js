@@ -129,17 +129,17 @@ export const getBaseContructionCostsPerSqureFit = (data) => {
   };
 
 
-  const filteredPrice = data2.filter((house) => {
+  const filteredPrice = data2?.filter((house) => {
     return (
-      house.fields.homeWidth === data.homeWidth &&
-      house.fields.homeLengthMinimum <= data.homeLength &&
-      house.fields.homeLengthMaximum >= data.homeLength &&
-      house.fields.roofDependency === roofDependencyMap[data.homeType]
+      house.fields.homeWidth === data?.homeWidth &&
+      house.fields.homeLengthMinimum <= data?.homeLength &&
+      house.fields.homeLengthMaximum >= data?.homeLength &&
+      house.fields.roofDependency === roofDependencyMap[data?.homeType]
     );
   })
 
 
-  const actualPrice = filteredPrice.map((item) => {
+  const actualPrice = filteredPrice?.map((item) => {
     const { constructionOptionsHUD_DW, constructionOptionsMOD } = item.fields;
     const maxValue = Math.max(constructionOptionsHUD_DW, constructionOptionsMOD);
     return maxValue
