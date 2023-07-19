@@ -154,7 +154,7 @@ export const getBaseContructionCostsPerSqureFit = (data) => {
   setCost();
 
   const category = "sq Ft";
-  let sum = 0 + actualPrice[0];
+  let sum = 0 ;
   // console.log(sum, "summ")
 
   const constructionOptions = data?.homeType === "HUD-DW"
