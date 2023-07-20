@@ -13,7 +13,7 @@ import _ from 'lodash'
 import { setAirtablecustomizationAction } from '../../store/actions/customization';
 import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames } from '../../db/custumizationGroupsFairmont';
 import { toast } from 'react-toastify';
-import { getMarkup, getFloorPlan, getConstructionCost,getConstructionCostNew } from "../../store/actions/priceFactor"
+import { getMarkup, getFloorPlan, getConstructionCost, getConstructionCostNew } from "../../store/actions/priceFactor"
 import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
 import { customizationAction } from "../../store/actions/customization"
 import { setUserData } from "../../store/actions/user"
@@ -74,7 +74,7 @@ const HomeTemplate = (categoryType) => {
     const slotData = slots[0]
     const dispatch = useDispatch()
     const selectorPlan = useSelector(state => state.lot.planData);
-    console.log("lot.planDATa",selectorPlan)
+   
 
     const homeSeries = selectorPlan?.homeSeriesName
     const homeLength = useSelector((state) => state.lot.planData?.homeLength);
@@ -106,7 +106,7 @@ const HomeTemplate = (categoryType) => {
     });
 
     const handleFetch = async (offsetId) => {
-
+       
         let url
         if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
             url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(MOD)`
@@ -241,7 +241,7 @@ const HomeTemplate = (categoryType) => {
                                     }
                                     else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_ONE_LF) {
                                         item.categoryType = selectionFieldTypes.SELECT_ONE_LF
-                                        itemObject.price = itemObject.price*homeLength
+                                        itemObject.price = itemObject.price * homeLength
                                     }
 
                                     if (item.categoryType && getCategoryName(categoryName)) {
@@ -334,7 +334,7 @@ const HomeTemplate = (categoryType) => {
             }),
         });
 
-       
+
         const orderData = await res.json()
         const orderDays = orderData.records.map((item) => {
             const day = item.fields && item?.fields?.Age
@@ -354,13 +354,13 @@ const HomeTemplate = (categoryType) => {
         }
 
         else if (orderData.records.length && orderDays[0] < 60) {
-            const { orderInfo, userInfo, selectedPlan, orderInfo2, orderInfo3 ,orderInfo4} = orderData.records[0].fields
+            const { orderInfo, userInfo, selectedPlan, orderInfo2, orderInfo3, orderInfo4 } = orderData.records[0].fields
             const lot = JSON.parse(selectedPlan)
             const order = JSON.parse(orderInfo)
             const userData = JSON.parse(userInfo)
             let order2 = [];
             let order3 = [];
-            let order4=[];
+            let order4 = [];
 
             if (orderInfo2) {
                 order2 = JSON.parse(orderInfo2);
@@ -370,10 +370,11 @@ const HomeTemplate = (categoryType) => {
                 order3 = JSON.parse(orderInfo3);
             }
             if (orderInfo4) {
-                order3 = JSON.parse(orderInfo4);
+                order4 = JSON.parse(orderInfo4);
             }
 
-            const combinedOrder = [...order, ...order2, ...order3,...order4];
+            const combinedOrder = [...order, ...order2, ...order3, ...order4];
+           
 
             order[order.length - 1].active = false
             order[0].active = true
@@ -382,6 +383,7 @@ const HomeTemplate = (categoryType) => {
             dispatch(customizationAction(combinedOrder))
             dispatch(setUserData(userData))
             getAllDataOfApp()
+           
         }
         else {
             toast.error('order ID expired!', {
@@ -400,13 +402,15 @@ const HomeTemplate = (categoryType) => {
 
 
     const getAllDataOfApp = () => {
-        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()),dispatch(getConstructionCostNew())]).then((res) => {
+        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()), dispatch(getConstructionCostNew())]).then((res) => {
             setLoading(false)
         })
     }
 
     React.useEffect(() => {
+     
         if (selectorPlan) {
+         
             handleFetch()
         }
     }, [selectorPlan])
