@@ -126,7 +126,7 @@ const Apply = ({ data }) => {
 
   const Plan = selectorLot.planData;
 
-// console.log("plan",Plan)
+console.log("selectorLot",selectorLot)
 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   let markUp;
@@ -150,7 +150,7 @@ const Apply = ({ data }) => {
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
-
+  console.log("selector153Lot",lot)
 
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
   const housePrice = HousePrice(Plan?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
@@ -194,7 +194,7 @@ const Apply = ({ data }) => {
       fields: {
         email: userDetails?.email,
         userInfo: userDetails,
-        selectedPlan: Plan,
+        selectedPlan: selectorLot,
         price: {
           finalPrice: totalPrice,
           floorPlanCost: formatPrice(Plan.floorplanPrice)
