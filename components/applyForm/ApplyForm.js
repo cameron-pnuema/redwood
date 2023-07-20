@@ -98,10 +98,10 @@ const ApplyForm = (props) => {
       const data = { ...state }
       delete data.errors
       typeof window !== "undefined" && window.sessionStorage.setItem('USER_DETAILS', JSON.stringify(data))
-      dispatch(setUserInforModal(false))
+     
       return false
     } 
-    if(isUserInfoModal && window?.location.hostname==="localhost")return true
+    if(isUserInfoModal && window?.location.hostname==="localhost")return false
     return isUserInfoModal
   }
 
