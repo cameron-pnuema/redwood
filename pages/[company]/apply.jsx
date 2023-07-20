@@ -118,7 +118,7 @@ const Apply = ({ data }) => {
     errors: {},
   });
 
-  const selectorLot = useSelector((state) => state.lot);
+  const selectorLot = useSelector((state) => state.lot.planData);
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
@@ -126,7 +126,7 @@ const Apply = ({ data }) => {
 
   const Plan = selectorLot.planData;
 
-
+// console.log("plan",Plan)
 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   let markUp;
@@ -182,6 +182,9 @@ const Apply = ({ data }) => {
       housePrice +
       (finalPrice || 0)
     )
+
+    // console.log("custom",сustomizations
+    // )
 
     const orderInfo = сustomizations.slice(0, 3);
     const orderInfo2 = сustomizations.slice(3, 6);
