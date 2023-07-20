@@ -183,12 +183,12 @@ const Apply = ({ data }) => {
       (finalPrice || 0)
     )
 
-    // console.log("custom",сustomizations
-    // )
+   
 
     const orderInfo = сustomizations.slice(0, 3);
     const orderInfo2 = сustomizations.slice(3, 6);
-    const orderInfo3 = сustomizations.slice(6);
+    const orderInfo3 = сustomizations.slice(6,9);
+    const orderInfo4 = сustomizations.slice(3);
 
     const responseData = await saveOrderData({
       fields: {
@@ -215,7 +215,7 @@ const Apply = ({ data }) => {
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
         orderInfo,
-        orderInfo2,orderInfo3 
+        orderInfo2,orderInfo3 ,orderInfo4
 
         // orderPDF: downloadFileName,
       },
