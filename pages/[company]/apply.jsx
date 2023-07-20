@@ -188,7 +188,7 @@ const Apply = ({ data }) => {
     const orderInfo = сustomizations.slice(0, 3);
     const orderInfo2 = сustomizations.slice(3, 6);
     const orderInfo3 = сustomizations.slice(6,9);
-    const orderInfo4 = сustomizations.slice(3);
+    const orderInfo4 = сustomizations.slice(9);
 
     const responseData = await saveOrderData({
       fields: {
