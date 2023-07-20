@@ -118,7 +118,7 @@ const Apply = ({ data }) => {
     errors: {},
   });
 
-  const selectorLot = useSelector((state) => state.lot.planData);
+  const selectorLot = useSelector((state) => state.lot);
   const сustomizations = useSelector(
     (state) => state.customization.customization
   );
@@ -194,7 +194,7 @@ const Apply = ({ data }) => {
       fields: {
         email: userDetails?.email,
         userInfo: userDetails,
-        selectedPlan: selectorLot,
+        selectedPlan: Plan,
         price: {
           finalPrice: totalPrice,
           floorPlanCost: formatPrice(Plan.floorplanPrice)
