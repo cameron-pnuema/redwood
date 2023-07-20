@@ -39,7 +39,7 @@ export const getTotalCustomizationPrice = (customizations) => {
       c.categoryName === selectionCategoryNames.WINDOWS ||
       c.categoryName === selectionCategoryNames.LIGNTING ||
       c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON ||
-      c.categoryType === "quantity" ||
+      c.categoryType === "quantity" ||   c.categoryType === "windows"||
       c.name === 'Discount(Optional)'
     ) {
       c.options.map((a) => {
@@ -118,13 +118,15 @@ const CustomizeInterior = () => {
             uc.notes = notes?.event?.target?.value;
             return uc;
           }
+        
     
           if (
             uc.categoryType === selectionFieldTypes.QUANTITY ||
             uc.name === 'Discount(Optional)' ||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
-            uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON
+            uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON||
+            uc.categoryType === "windows"
           ) {
 
             let selectionItem = { ...uc };
@@ -151,7 +153,7 @@ const CustomizeInterior = () => {
                 // }
 
 
-                if (uc.categoryType === selectionFieldTypes.QUANTITY) {
+                if (uc.categoryType === selectionFieldTypes.QUANTITY||  uc.categoryType === "windows") {
                   if (index === endChildIndex) {
                     return {
                       ...el,
