@@ -373,7 +373,7 @@ const HomeTemplate = (categoryType) => {
                 order3 = JSON.parse(orderInfo4);
             }
 
-            const combinedOrder = [...order, ...order2, ...order3];
+            const combinedOrder = [...order, ...order2, ...order3,...order4];
 
             order[order.length - 1].active = false
             order[0].active = true
