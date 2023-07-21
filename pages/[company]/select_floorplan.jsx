@@ -17,10 +17,12 @@ import FilterPills from "../../components/filterPills"
 const SelectFloorPlan = () => {
 
     const router = useRouter()
+
+    console.log("router",router)
     
     const companyName = router.query.company
    
-     
+     console.log("company===>",companyName)
 
     useTimeout();
     const [showFilter, setShowFilter] = useState(false)
@@ -37,6 +39,9 @@ const SelectFloorPlan = () => {
     useEffect(() => {
         if (typeof window !== "undefined" && !window.sessionStorage.getItem('USER_DETAILS')) {
             dispatch(setUserInforModal(true))
+        }
+        else {
+            dispatch(setUserInforModal(false))
         }
         dispatch(getMarkup())
         dispatch(getFloorPlan())
