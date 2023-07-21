@@ -18,11 +18,10 @@ const SelectFloorPlan = () => {
 
     const router = useRouter()
 
-    console.log("router",router)
+   
     
     const companyName = router.query.company
    
-     console.log("company===>",companyName)
 
     useTimeout();
     const [showFilter, setShowFilter] = useState(false)
@@ -31,7 +30,8 @@ const SelectFloorPlan = () => {
 
     const selectorLot = useSelector(state => state.lot.lotData);
     const priceFactor = useSelector(state => state);
-   
+
+
     const floorPlanFilter = useSelector(state => state.floorplan.filters);
     const plansSlot = useSelector(state => state.priceFactor.floorPlan.data)
    
@@ -40,9 +40,9 @@ const SelectFloorPlan = () => {
         if (typeof window !== "undefined" && !window.sessionStorage.getItem('USER_DETAILS')) {
             dispatch(setUserInforModal(true))
         }
-        else {
-            dispatch(setUserInforModal(false))
-        }
+
+      
+       
         dispatch(getMarkup())
         dispatch(getFloorPlan())
         dispatch(getConstructionCost())
@@ -70,6 +70,9 @@ const SelectFloorPlan = () => {
         setFilterFloorPlan(data)
     }, [floorPlanFilter,plansSlot])
     
+      const modalDisplay= (typeof window !== "undefined" && window.sessionStorage.getItem('USER_DETAILS')) 
+   
+    
 
     return (
         <Layout showDisclaimer>
@@ -81,7 +84,7 @@ const SelectFloorPlan = () => {
             <Collapse isOpen={showFilter}>
                 <FilterCriteria handleFilterOptionClick={handleFilterOptionClick} filterData={filterData} />
             </Collapse>
-            <ApplyForm className="form-modal" data-testid="form-modal" />
+            {!modalDisplay && <ApplyForm className="form-modal" data-testid="form-modal" />}
             {filterFloorPlan.length ? <SelectFloorPlanTemplate
                 plansSlot={filterFloorPlan} 
             /> : <h2 class="text-center">No Data Found</h2>}
