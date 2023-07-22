@@ -40,7 +40,7 @@ export const getTotalCustomizationPrice = (customizations) => {
       c.categoryName === selectionCategoryNames.LIGNTING ||
       c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON ||
       c.categoryType === "quantity" ||   c.categoryType === "windows"||
-      c.name === 'Discount(Optional)'
+      c.name === 'Discount(Optional)'|| c.categoryType==='lighting'
     ) {
       c.options.map((a) => {
         if (Array.isArray(c.active) && c.active.includes(a.id)) {
@@ -77,7 +77,7 @@ const CustomizeInterior = () => {
     (state) => state.customization.customization
   );
 
-
+ 
 
 
   const dispatch = useDispatch();
@@ -117,6 +117,7 @@ const CustomizeInterior = () => {
           if (notes) {
             uc.notes = notes?.event?.target?.value;
             return uc;
+        
           }
         
     
@@ -126,7 +127,7 @@ const CustomizeInterior = () => {
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
             uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON||
-            uc.categoryType === "windows"
+            uc.categoryType === "windows"|| uc.categoryType==='lighting'
           ) {
 
             let selectionItem = { ...uc };
@@ -153,7 +154,7 @@ const CustomizeInterior = () => {
                 // }
 
 
-                if (uc.categoryType === selectionFieldTypes.QUANTITY||  uc.categoryType === "windows") {
+                if (uc.categoryType === selectionFieldTypes.QUANTITY||  uc.categoryType === "windows"|| uc.categoryType==='lighting') {
                   if (index === endChildIndex) {
                     return {
                       ...el,
