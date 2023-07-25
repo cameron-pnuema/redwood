@@ -1,5 +1,5 @@
 import store from "../store/index";
-import { useSelector } from "react-redux";
+
 
 
 
@@ -117,10 +117,14 @@ const setCost = () => {
   // baseContructionTotalCosts["2000ft-HUD-DW"] = totalSqft.fields["2000-sq-ft-HUD-DW"];
 };
 
-export const getBaseContructionCostsPerSqureFit = (data) => {
+export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
+  setCost();
+
+  // console.log("data::::", data)
 
 
   const data2 = store().getState().priceFactor.constructionNewCost.data;
+  // console.log("data2::::", data2)
 
   const roofDependencyMap = {
     "Modular": "5/12",
@@ -130,13 +134,28 @@ export const getBaseContructionCostsPerSqureFit = (data) => {
 
 
   const filteredPrice = data2?.filter((house) => {
-    return (
-      house.fields.homeWidth === data?.homeWidth &&
-      house.fields.homeLengthMinimum <= data?.homeLength &&
-      house.fields.homeLengthMaximum >= data?.homeLength &&
-      house.fields.roofDependency === roofDependencyMap[data?.homeType]
-    );
+
+    if (roofPitch) {
+      return (
+        house.fields?.homeWidth === data?.homeWidth &&
+        house.fields?.homeLengthMinimum <= data?.homeLength &&
+        house.fields?.homeLengthMaximum >= data?.homeLength &&
+        house.fields?.roofDependency.includes(roofPitch)
+      );
+    }
+    else {
+      return (
+        house.fields?.homeWidth === data?.homeWidth &&
+        house.fields?.homeLengthMinimum <= data?.homeLength &&
+        house.fields?.homeLengthMaximum >= data?.homeLength &&
+        house.fields?.roofDependency === roofDependencyMap[data?.homeType]
+      )
+    }
+
+
   })
+
+  // console.log("filteredPrice", filteredPrice)
 
 
   const actualPrice = filteredPrice?.map((item) => {
@@ -145,17 +164,12 @@ export const getBaseContructionCostsPerSqureFit = (data) => {
     return maxValue
   })
 
-  // console.log("filtered price", filteredPrice, actualPrice[0], "actual")
+  // console.log("actualPrice", actualPrice)
 
 
-
-  // console.log("ddddd=====>", data2)
-
-  setCost();
 
   const category = "sq Ft";
-  let sum = 0+actualPrice[0];
-  // console.log(sum, "summ")
+  let sum = 0 + actualPrice[0];
 
   const constructionOptions = data?.homeType === "HUD-DW"
     ? result[1].constructionOptionsHUD_DW
@@ -171,7 +185,7 @@ export const getBaseContructionCostsPerSqureFit = (data) => {
     sum += constructionOptions[key];
   });
 
-
+  // console.log("sum", sum)
   return sum;
 
 

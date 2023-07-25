@@ -20,17 +20,15 @@ import { HousePrice } from "../../UTILS/price";
 import { useRouter } from "next/router";
 
 
-const Item = ({ noButton, data }) => {
+const Item = ({ noButton, data ,roofPitch}) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { company } = router.query
-  const floorplan = useSelector((state) => state.floorplan);
+  const floorplan = useSelector((state) => state);
+ 
 
- 
- 
- 
- 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
+ 
  
   let markUp;
 
@@ -66,9 +64,10 @@ if ( data?.homeType=== 'Modular') {
     Router.replace(`/${company}/detailed_floorplan`);
   };
 
-  const baseConstructionCosts = data && getBaseContructionCostsPerSqureFit(data);
+  const baseConstructionCosts = data && getBaseContructionCostsPerSqureFit(data,roofPitch);
 
-  console.log("basconsec",baseConstructionCosts)
+  // console.log("roofPitch",roofPitch)
+
 
   const finalPrice = format(
     HousePrice(data?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER),
@@ -79,32 +78,31 @@ if ( data?.homeType=== 'Modular') {
     }
   )
 
-  console.log("markup",MARK_UP_MULTIPLIER)
-
   const setFinalPriceData = (data, finalPrice) => {
     data.finalPrice = finalPrice
   }
 
-console.log("fina",finalPrice)
 
   return (
-    <div className={styles.Item}>
+    <div className={styles.Item} data-testid="item-component">
       {data && (
         <>
           {data.floorplanPrice ? (
-            <span className={styles.Item__price}>
+            <span className={styles.Item__price} data-testid="item-price">
               $
               {finalPrice}
               {setFinalPriceData(data, finalPrice)}
             </span>
           ) : (
-            <span className={styles.Item__price}>
+            <span className={styles.Item__price} data-testid="item-spinner">
               <Spinner animation="border" role="status" size="sm">
                 <span className="visually-hidden">Loading...</span>
               </Spinner>
             </span>
           )}
-          <span className={styles.Item__type} style={{
+          <span className={styles.Item__type}
+           data-testid="item-homeType"
+          style={{
             "backgroundColor": data.homeType === "Modular"
               ? "#d1253d"
               : data.homeType === "HUD-DW"
@@ -114,11 +112,11 @@ console.log("fina",finalPrice)
                   : null
           }}>{data.homeType}</span>
           <div className={styles.Item__wrapImg}>
-            <img src={data['coverPhoto']?.[0]?.url} alt="Home image" />
+            <img src={data['coverPhoto']?.[0]?.url} alt="Home image" data-testid="item-coverPhoto"/>
           </div>
 
           <div className={styles.Item__wrapData}>
-            <p className={styles.Item__title}>{data.floorplanName} - {data.manufacturerName}</p>
+            <p className={styles.Item__title} data-testid="item-floorplanName">{data.floorplanName} - {data.manufacturerName}</p>
 
             <div
               className={cx(styles.Item__params, {
@@ -127,19 +125,19 @@ console.log("fina",finalPrice)
             >
               <div className={styles.Item__paramsLabel}>
                 <img src={badroomsImg} alt="badroomsImg" />
-                <span>{data.bedCount}</span>
+                <span  data-testid="item-bedrooms">{data.bedCount}</span>
                 <span className={styles.Item__LabeName}>Bedrooms</span>
               </div>
 
               <div className={styles.Item__paramsLabel}>
                 <img src={bathImg} alt="bathImg" />
-                <span>{data.bathCount}</span>
+                <span data-testid="item-bathrooms">{data.bathCount}</span>
                 <span className={styles.Item__LabeName}>Bathrooms</span>
               </div>
 
               <div className={styles.Item__paramsLabel}>
                 <img src={PlanImg} alt="badroomsImg" />
-                <span>{data['sq Ft']}</span>
+                <span data-testid="item-sqft">{data['sq Ft']}</span>
                 <span className={styles.Item__LabeName}>Sq.Ft</span>
               </div>
             </div>
@@ -149,6 +147,7 @@ console.log("fina",finalPrice)
                 text="View this Floorplan"
                 style={{ width: "100%", height: "50px" }}
                 onclick={() => selectPlan()}
+                data-testid="item-viewButton"
               />
             )}
           </div>

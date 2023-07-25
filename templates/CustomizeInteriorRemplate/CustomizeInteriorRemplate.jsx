@@ -18,9 +18,9 @@ const formatPrice = (price) => {
 
 
 
-const CustomizeInteriorRemplate = ({ activeCustomizationCategory, onCustomizationChange, onNext, onBack, totalCategories, currentCategory, totalCustomizationPrice, isCurrentStepCompleted, selectedPlan, isAllStepsCompleted,handleIconClick,notesState }) => {
+const CustomizeInteriorRemplate = ({ activeCustomizationCategory, onCustomizationChange, onNext, onBack, totalCategories, currentCategory, totalCustomizationPrice, isCurrentStepCompleted, selectedPlan, isAllStepsCompleted, handleIconClick, notesState, roofPitch }) => {
 
-// console.log("activeCustomizationCategory",activeCustomizationCategory)
+    // console.log("activeCustomizationCategory",activeCustomizationCategory)
 
     // let categories = [];
     // customization.forEach(c => {
@@ -34,14 +34,17 @@ const CustomizeInteriorRemplate = ({ activeCustomizationCategory, onCustomizatio
     // });
     const refForTheScrollToTop = useRef()
 
+
+
     return (
-        <div ref={refForTheScrollToTop} className={styles.CustomizeInteriorRemplate}>
+        <div ref={refForTheScrollToTop} className={styles.CustomizeInteriorRemplate} data-testid="customize-interior-template">
             <Container>
                 <Row>
                     <Col xl='4'>
                         <Item
                             noButton
                             data={selectedPlan}
+                            roofPitch={roofPitch}
                         />
 
                     </Col>

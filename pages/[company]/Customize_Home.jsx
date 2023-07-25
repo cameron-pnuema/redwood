@@ -12,7 +12,8 @@ import {
   selectionFieldTypes,
 } from "../../db/custumizationGroupsFairmont";
 
-var homeLength
+
+
 
 const getPrice = (data) => {
   let price = 0;
@@ -23,6 +24,7 @@ const getPrice = (data) => {
 };
 
 export const getTotalCustomizationPrice = (customizations) => {
+
   let categories = [];
 
   customizations.forEach((c) => {
@@ -32,9 +34,14 @@ export const getTotalCustomizationPrice = (customizations) => {
 
   let customizationPrice = 0;
 
-
   categories.forEach((c) => {
     const activeOption = c.options.find((o) => o?.id === c.active);
+  
+    //  if (c.name==="Roof Pitch"){
+    //   console.log("activeoptions",activeOption?.name)
+    //   roofPitchtype= activeOption?.name
+    //  }
+   
     if (
       c.categoryName === selectionCategoryNames.WINDOWS ||
       c.categoryName === selectionCategoryNames.LIGNTING ||
@@ -43,6 +50,7 @@ export const getTotalCustomizationPrice = (customizations) => {
       c.name === 'Discount(Optional)'|| c.categoryType==='lighting'
     ) {
       c.options.map((a) => {
+        // console.log("a",a)
         if (Array.isArray(c.active) && c.active.includes(a.id)) {
           if (a.categoryType === selectionFieldTypes.QUANTITY) {
             if (a.noOfUnit && a.noOfUnit > 0)
@@ -77,7 +85,7 @@ const CustomizeInterior = () => {
     (state) => state.customization.customization
   );
 
- 
+//  console.log("customizations",customizations)
 
 
   const dispatch = useDispatch();
@@ -85,6 +93,7 @@ const CustomizeInterior = () => {
 
 
   const activeCustomizationCategory = customizations.find((c) => c.active);
+
 
   const activeCategoryIndex = customizations.findIndex((c) => c.active);
 
@@ -119,8 +128,7 @@ const CustomizeInterior = () => {
             return uc;
         
           }
-        
-    
+        // console.log("uc",uc)
           if (
             uc.categoryType === selectionFieldTypes.QUANTITY ||
             uc.name === 'Discount(Optional)' ||
@@ -131,6 +139,8 @@ const CustomizeInterior = () => {
           ) {
 
             let selectionItem = { ...uc };
+            // console.log("new customiza0",selectionItem)
+            
         
             selectionItem.options = [
               ...uc.options.map((el, index) => {
@@ -193,7 +203,6 @@ const CustomizeInterior = () => {
                 }
               }
 
-
               else {
                 if (activeItemsIds.includes(optionId)) {
                   activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
@@ -215,10 +224,7 @@ const CustomizeInterior = () => {
               selectionItem.active =
                 activeItemsIds.length > 0 ? activeItemsIds : 0;
             }
-           
-
             else {
-
               selectionItem.active = optionId;
             }
 
@@ -233,10 +239,23 @@ const CustomizeInterior = () => {
       };
     });
 
-
     dispatch(customizationAction(newCustomizations));
     dispatch(setCustomizationPriceAction(totalCustomizationPrice));
   };
+
+
+  let roofPitch
+
+  customizations.forEach((categories)=> 
+  categories.underCategories.forEach((c)=>{
+    const activeOption = c.options.find((o) => o?.id === c.active);
+     if (c.name==="Roof Pitch"){
+     roofPitch= activeOption?.name
+     }
+  })
+  )
+  
+
 
 
   const handleNextCategory = () => {
@@ -293,8 +312,11 @@ const CustomizeInterior = () => {
         active: true,
       };
     });
+   
     dispatch(customizationAction(newCustomizations));
   };
+
+  
 
   useEffect(() => {
     const data = []
@@ -340,6 +362,7 @@ const CustomizeInterior = () => {
         isAllStepsCompleted={isAllStepsCompleted}
         handleIconClick={handleIconClick}
         notesState={notesState}
+        roofPitch={roofPitch}
       />
     </Layout>
   );
