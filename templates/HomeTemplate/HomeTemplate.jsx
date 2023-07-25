@@ -285,6 +285,7 @@ const HomeTemplate = (categoryType) => {
                                 name: category,
                                 active: 1,
                                 options: optionsCategory[category],
+                                categoryType: selectionFieldTypes.QUANTITY
                             };
                         }
                         else {

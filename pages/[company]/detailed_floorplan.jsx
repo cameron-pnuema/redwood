@@ -75,7 +75,8 @@ const DetailedFloorPlan = () => {
             id: index + 1,
             name: item.fields.constructionSelectionName,
             price: price < 50 && selectorPlan ? (price * selectorPlan["sq Ft"]) : price,
-            category: item.fields?.category
+            category: item.fields?.category,
+
         };
     });
 
@@ -146,7 +147,7 @@ const DetailedFloorPlan = () => {
                         }
 
                         const pageNumber = pageGroup[0]?.fields?.pageNumber;
-
+                    
                         mainOption.category = pageNumber;
                         mainOption.active = pageNumber === 1 ? true : false
                         mainOption.name = pageNameIndex
@@ -189,6 +190,7 @@ const DetailedFloorPlan = () => {
 
                                     }
                                     
+
 
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
@@ -258,7 +260,10 @@ const DetailedFloorPlan = () => {
                                 name: category,
                                 active: 1,
                                 options: optionsCategory[category],
+                                categoryType: selectionFieldTypes.QUANTITY
                             };
+
+                            
                         }
                         else {
                             return {
