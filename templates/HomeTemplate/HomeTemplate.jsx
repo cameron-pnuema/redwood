@@ -215,7 +215,6 @@ const HomeTemplate = (categoryType) => {
 
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
-                                        item.categoryType = selectionFieldTypes.QUANTITY
                                     }
 
 
