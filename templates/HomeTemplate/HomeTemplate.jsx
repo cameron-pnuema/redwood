@@ -100,7 +100,7 @@ const HomeTemplate = (categoryType) => {
         return {
             id: index + 1,
             name: item.fields?.constructionSelectionName,
-            price: price < 50 && selectorPlan ? price * selectorPlan["sq Ft"] : price,
+            price: price < 50 && selectorPlan ? price * selectorPlan?.["sq Ft"] : price,
             category: item.fields?.category
         };
     });

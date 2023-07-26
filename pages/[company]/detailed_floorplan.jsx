@@ -65,7 +65,7 @@ const DetailedFloorPlan = () => {
 
     const variableCost = data?.filter((item) => item.fields.displayStatus === "Variable Cost");
 
-    const transformedItems = variableCost.map((item, index) => {
+    const transformedItems = variableCost?.map((item, index) => {
         const price = selectorPlan?.homeType === "Modular" ? item.fields.constructionOptionsMOD :
             selectorPlan?.homeType === "HUD_DW" ? item.fields.constructionOptionsHUD_DW
                 : item.fields.constructionOptionsHUD_SW
@@ -74,7 +74,7 @@ const DetailedFloorPlan = () => {
         return {
             id: index + 1,
             name: item.fields.constructionSelectionName,
-            price: price < 50 && selectorPlan ? (price * selectorPlan["sq Ft"]) : price,
+            price: price < 50 && selectorPlan ? (price * selectorPlan?.["sq Ft"]) : price,
             category: item.fields?.category,
 
         };
