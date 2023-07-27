@@ -36,18 +36,18 @@ export const getTotalCustomizationPrice = (customizations) => {
 
   categories.forEach((c) => {
     const activeOption = c.options.find((o) => o?.id === c.active);
-  
+
     //  if (c.name==="Roof Pitch"){
     //   console.log("activeoptions",activeOption?.name)
     //   roofPitchtype= activeOption?.name
     //  }
-   
+
     if (
       c.categoryName === selectionCategoryNames.WINDOWS ||
       c.categoryName === selectionCategoryNames.LIGNTING ||
       c.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON ||
-      c.categoryType === "quantity" ||   c.categoryType === "windows"||
-      c.name === 'Discount(Optional)'|| c.categoryType==='lighting'
+      c.categoryType === "quantity" || c.categoryType === "windows" ||
+      c.name === 'Discount(Optional)' || c.categoryType === 'lighting'
     ) {
       c.options.map((a) => {
         // console.log("a",a)
@@ -64,7 +64,7 @@ export const getTotalCustomizationPrice = (customizations) => {
         }
       });
     }
-    
+
     else {
       if (!activeOption) return;
       customizationPrice += activeOption?.price;
@@ -85,7 +85,7 @@ const CustomizeInterior = () => {
     (state) => state.customization.customization
   );
 
-//  console.log("customizations",customizations)
+
 
 
   const dispatch = useDispatch();
@@ -117,7 +117,7 @@ const CustomizeInterior = () => {
         return category;
 
 
-    
+
 
       return {
         ...category,
@@ -126,22 +126,22 @@ const CustomizeInterior = () => {
           if (notes) {
             uc.notes = notes?.event?.target?.value;
             return uc;
-        
+
           }
-        // console.log("uc",uc)
+          // console.log("uc",uc)
           if (
             uc.categoryType === selectionFieldTypes.QUANTITY ||
             uc.name === 'Discount(Optional)' ||
             uc.categoryName === selectionCategoryNames.WINDOWS ||
             uc.categoryName === selectionCategoryNames.LIGNTING ||
-            uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON||
-            uc.categoryType === "windows"|| uc.categoryType==='lighting'
+            uc.categoryName === selectionCategoryNames.ADDITONAL_ADDS_ON ||
+            uc.categoryType === "windows" || uc.categoryType === 'lighting'
           ) {
 
             let selectionItem = { ...uc };
             // console.log("new customiza0",selectionItem)
-            
-        
+
+
             selectionItem.options = [
               ...uc.options.map((el, index) => {
 
@@ -164,7 +164,7 @@ const CustomizeInterior = () => {
                 // }
 
 
-                if (uc.categoryType === selectionFieldTypes.QUANTITY||  uc.categoryType === "windows"|| uc.categoryType==='lighting') {
+                if (uc.categoryType === selectionFieldTypes.QUANTITY || uc.categoryType === "windows" || uc.categoryType === 'lighting') {
                   if (index === endChildIndex) {
                     return {
                       ...el,
@@ -181,8 +181,8 @@ const CustomizeInterior = () => {
             if (
               uc.categoryType === selectionFieldTypes.QUANTITY ||
               selectionType === selectionFieldTypes.SELECT_MULTIPLE ||
-              uc.name.includes("Optional")||
-              uc.categoryType===selectionFieldTypes.SELECT_MULTIPLE_LF
+              uc.name.includes("Optional") ||
+              uc.categoryType === selectionFieldTypes.SELECT_MULTIPLE_LF
             ) {
 
               let activeItemsIds = [];
@@ -190,16 +190,16 @@ const CustomizeInterior = () => {
                 activeItemsIds = selectionItem.active;
               }
 
-              if (selectionType === selectionFieldTypes.SELECT_MULTIPLE 
-                 ) {
-                      
+              if (selectionType === selectionFieldTypes.SELECT_MULTIPLE
+              ) {
+
                 if (activeItemsIds.includes(optionId)) {
                   activeItemsIds = activeItemsIds.filter((a) => a !== optionId);
-                 
+
 
                 } else {
                   activeItemsIds.push(optionId);
-                 
+
                 }
               }
 
@@ -246,17 +246,22 @@ const CustomizeInterior = () => {
 
   let roofPitch
 
-  customizations.forEach((categories)=> 
-  categories.underCategories.forEach((c)=>{
-    const activeOption = c.options.find((o) => o?.id === c.active);
-     if (c.name==="Roof Pitch"){
-     roofPitch= activeOption?.name
-     }
-  })
+  customizations.forEach((categories) =>
+    categories.underCategories.forEach((c) => {
+      const activeOption = c.options.find((o) => o?.id === c.active);
+      if (c.name === "Roof Pitch") {
+        if (activeOption?.name.includes("3/12")) {
+          roofPitch = "3/12"
+        }
+        else if (activeOption?.name.includes("5/12")) {
+          roofPitch = "5/12"
+        }
+        else if (activeOption?.name.includes("7/12")) {
+          roofPitch = "7/12"
+        }
+      }
+    })
   )
-  
-
-
 
   const handleNextCategory = () => {
     if (activeCategoryIndex >= customizations.length - 1) {
@@ -312,11 +317,11 @@ const CustomizeInterior = () => {
         active: true,
       };
     });
-   
+
     dispatch(customizationAction(newCustomizations));
   };
 
-  
+
 
   useEffect(() => {
     const data = []
