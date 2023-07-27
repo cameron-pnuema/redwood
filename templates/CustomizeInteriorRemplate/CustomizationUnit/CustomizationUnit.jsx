@@ -7,9 +7,9 @@ import Router from "next/router";
 import { useRouter } from "next/router";
 import OptionGroup from "./OptionsGroup/OptionsGroup";
 import { getBaseContructionCostsPerSqureFit } from "../../../db/baseConstructionCosts";
-import FloringUpgrade from "./FloringUpgrade";
 import DiscountUpgrade from "./DiscountUpgrade";
 import { HousePrice } from "../../../UTILS/price";
+import { categoriesArray } from "../../../db/custumizationGroupsFairmont";
 
 const formatPrice = (price) => {
   return format(price, {
@@ -64,6 +64,26 @@ const CustomizationUnit = ({
   let totalCompleted = currentCategory - 1;
   if (isAllStepsCompleted) totalCompleted = currentCategory;
 
+
+  const caseInsensitiveCompare = (a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' });
+
+  const sortedData = optionGroups?.sort((a, b) => {
+    const aIndex = categoriesArray.findIndex(name => caseInsensitiveCompare(name, a.name) === 0);
+    const bIndex = categoriesArray.findIndex(name => caseInsensitiveCompare(name, b.name) === 0);
+
+    if (aIndex === -1 && bIndex === -1) {
+      return caseInsensitiveCompare(a.name, b.name);
+    } else if (aIndex === -1) {
+      return 1;
+    } else if (bIndex === -1) {
+      return -1;
+    }
+
+    return aIndex - bIndex;
+  });
+
+  
+
   let body = null;
   if (!isAllStepsCompleted)
     body = (
@@ -87,12 +107,12 @@ const CustomizationUnit = ({
                 } */}
           {optionGroups
             ?.map((og, index) => {
-           
+
               let optionGroup = null;
-              if (categoryName === "Flooring" || categoryName === 'Other '||categoryName === 'Variable Cost') {
+              if (categoryName === "Flooring" || categoryName === 'Other ' || categoryName === 'Variable Cost') {
                 if (og.name === 'Discount(Optional)') {
                   return optionGroup = (
-                  null
+                    null
                   );
                 }
                 // else
@@ -108,41 +128,41 @@ const CustomizationUnit = ({
                 //       </>
                 //     );
                 //   }
-                  else {
-                    optionGroup = (
-                      <OptionGroup
-                        categoryName={categoryName}
-                        selectedPlan={selectedPlan}
-                        groupName={og.name}
-                        categoryType={og.categoryType}
-                        options={og.options}
-                        activeOptionId={og.active}
-                        groupId={og.id}
-                        onChange={({
-                          optionId,
-                          value,
-                          endChildIndex,
-                          selectionType,
-                          notes,
-                        }) => {
-                          const payload = { groupId: og.id, optionId };
-                          if (value) payload.inputAnswer = value;
-                          if (endChildIndex !== undefined)
-                            payload.endChildIndex = endChildIndex;
-                          if (selectionType) payload.selectionType = selectionType;
-                          if (notes) {
-                            payload.notes = notes;
-                          }
+                else {
+                  optionGroup = (
+                    <OptionGroup
+                      categoryName={categoryName}
+                      selectedPlan={selectedPlan}
+                      groupName={og.name}
+                      categoryType={og.categoryType}
+                      options={og.options}
+                      activeOptionId={og.active}
+                      groupId={og.id}
+                      onChange={({
+                        optionId,
+                        value,
+                        endChildIndex,
+                        selectionType,
+                        notes,
+                      }) => {
+                        const payload = { groupId: og.id, optionId };
+                        if (value) payload.inputAnswer = value;
+                        if (endChildIndex !== undefined)
+                          payload.endChildIndex = endChildIndex;
+                        if (selectionType) payload.selectionType = selectionType;
+                        if (notes) {
+                          payload.notes = notes;
+                        }
 
-                          onChange(payload);
-                        }}
-                        handleIconClick={() => handleIconClick(og)}
-                        notesState={notesState}
-                        notes={og.notes}
-                        data-testid={`optionGroup-${index}`}
-                      />
-                    );
-                  }
+                        onChange(payload);
+                      }}
+                      handleIconClick={() => handleIconClick(og)}
+                      notesState={notesState}
+                      notes={og.notes}
+                      data-testid={`optionGroup-${index}`}
+                    />
+                  );
+                }
               }
 
               if (categoryName !== "Flooring")
@@ -223,7 +243,7 @@ const CustomizationUnit = ({
             />
           </div>
 
-          
+
 
           <div className={styles.summary__disclaimer}>
             All pricing is Turn-Key: Includes Foundation (40” concrete block crawl
@@ -237,23 +257,24 @@ const CustomizationUnit = ({
         </div>
 
         {optionGroups
-            ?.map((og, index) => {
-           
-              let optionGroup = null;
-              if (categoryName === "Flooring" || categoryName === 'Other '||categoryName === 'Variable Cost') {
-                if (og.name === 'Discount(Optional)') {
-                  return optionGroup = (
-                    <>
-                      <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
-                        <p className={styles.body__card_text}>
-                          Credit or Trade-In
-                        </p>
-                        <DiscountUpgrade og={og} onChange={onChange} />
-                      </div>
-                    </>
-                  );
-                }
-              }})}
+          ?.map((og, index) => {
+
+            let optionGroup = null;
+            if (categoryName === "Flooring" || categoryName === 'Other ' || categoryName === 'Variable Cost') {
+              if (og.name === 'Discount(Optional)') {
+                return optionGroup = (
+                  <>
+                    <div className={styles.body__card} style={{ marginTop: "35px" }} data-testid={`discountOptionGroup-${index}`}>
+                      <p className={styles.body__card_text}>
+                        Credit or Trade-In
+                      </p>
+                      <DiscountUpgrade og={og} onChange={onChange} />
+                    </div>
+                  </>
+                );
+              }
+            }
+          })}
 
 
       </>
