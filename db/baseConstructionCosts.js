@@ -102,7 +102,7 @@ const setCost = () => {
   ];
 
   displayed.forEach((obj) => {
-    const constructionSelectionName = obj.fields.constructionSelectionName+ obj.fields[`How's it priced?`];
+    const constructionSelectionName = obj.fields.constructionSelectionName + obj.fields[`How's it priced?`];
     result[0].constructionOptionsMOD[constructionSelectionName] = obj.fields.constructionOptionsMOD;
     result[1].constructionOptionsHUD_DW[constructionSelectionName] = obj.fields.constructionOptionsHUD_DW;
     result[2].constructionOptionsHUD_SW[constructionSelectionName] = obj.fields.constructionOptionsHUD_SW;
@@ -120,11 +120,11 @@ const setCost = () => {
 export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
   setCost();
 
-  // console.log("data::::", data)
+
 
 
   const data2 = store().getState().priceFactor.constructionNewCost.data;
-  // console.log("data2::::", data2)
+
 
   const roofDependencyMap = {
     "Modular": "5/12",
@@ -132,11 +132,59 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
     "HUD-SW": "7/12"
   };
 
+  const hvacPrice = data2?.filter((house) => {
+    if (house.fields.category === "HVAC") {
+      return (
+        house.fields?.homeWidth === data?.homeWidth &&
+        house.fields?.homeLengthMinimum <= data?.homeLength &&
+        house.fields?.homeLengthMaximum >= data?.homeLength
+      )
+    }
+  })
+
+  const actualHvacPrice = hvacPrice?.map((item) => {
+    const { constructionOptionsHUD_DW, constructionOptionsMOD } = item.fields;
+    const maxValue = Math.max(constructionOptionsHUD_DW, constructionOptionsMOD);
+    return maxValue
+  })
+
+  const deliveryPrice = data2?.filter((house) => {
+    if (house.fields.category === "Delivery") {
+      return (
+        house.fields?.homeWidth === data?.homeWidth &&
+        house.fields?.homeLengthMinimum <= data?.homeLength &&
+        house.fields?.homeLengthMaximum >= data?.homeLength
+      )
+    }
+  })
+
+  const actualDeliveryPrice = deliveryPrice?.map((item) => {
+    const { constructionOptionsHUD_DW, constructionOptionsMOD } = item.fields;
+    const maxValue = Math.max(constructionOptionsHUD_DW, constructionOptionsMOD);
+    return maxValue
+  })
+
+  const gutterPrice = data2?.filter((house) => {
+    if (house.fields.category === "Gutters") {
+      return (
+        house.fields?.homeWidth === data?.homeWidth &&
+        house.fields?.homeLengthMinimum <= data?.homeLength &&
+        house.fields?.homeLengthMaximum >= data?.homeLength
+      )
+    }
+  })
+
+  const actualGutterPrice = gutterPrice?.map((item) => {
+    const { constructionOptionsHUD_DW, constructionOptionsMOD } = item.fields;
+    const maxValue = Math.max(constructionOptionsHUD_DW, constructionOptionsMOD);
+    return maxValue
+  })
+
 
   const filteredPrice = data2?.filter((house) => {
     const fields = house.fields;
     const roofDependency = roofPitch ? roofPitch : roofDependencyMap[data?.homeType];
-  
+
     return (
       house.fields?.homeWidth === data?.homeWidth &&
       house.fields?.homeLengthMinimum <= data?.homeLength &&
@@ -145,8 +193,6 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
     );
   });
 
-  // console.log("filteredPrice", filteredPrice)
-
 
   const actualPrice = filteredPrice?.map((item) => {
     const { constructionOptionsHUD_DW, constructionOptionsMOD } = item.fields;
@@ -154,12 +200,10 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
     return maxValue
   })
 
-  // console.log("actualPrice", actualPrice)
-
-
 
   const category = "sq Ft";
-  let sum = 0 + actualPrice[0];
+  let sum = 0 + actualPrice[0] + actualHvacPrice[0] + actualDeliveryPrice[0] + actualGutterPrice[0];
+
 
   const constructionOptions = data?.homeType === "HUD-DW"
     ? result[1].constructionOptionsHUD_DW
@@ -168,25 +212,25 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
       : result[0].constructionOptionsMOD;
 
 
-      Object.entries(constructionOptions).forEach(([key, value]) => {
 
-        if (key.includes("Per Sq Ft")) {
-          constructionOptions[key] = value * data[category];
-        }
-        if (key.includes("Linear Feet")){
-         
-          constructionOptions[key] = value * data?.homeLength;
-        }
-        sum += constructionOptions[key];
-      });
-    
-     
-      return sum;
-    
-    
-    
-      // if (!data?.[category] ) return null;
-      // if(data?.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
-      // return baseContructionTotalCosts[data[category] + "ft"] * data[category]; 
-    };
+  Object.entries(constructionOptions).forEach(([key, value]) => {
+
+    if (key.includes("Per Sq Ft")) {
+      constructionOptions[key] = value * data[category];
+    }
+    if (key.includes("Linear Feet")) {
+      constructionOptions[key] = value * data?.homeLength;
+    }
+    sum += constructionOptions[key];
+
+  });
+
+  return sum;
+
+
+
+  // if (!data?.[category] ) return null;
+  // if(data?.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
+  // return baseContructionTotalCosts[data[category] + "ft"] * data[category]; 
+};
 
