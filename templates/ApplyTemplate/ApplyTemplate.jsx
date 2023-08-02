@@ -27,7 +27,7 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
         <div className={styles.thankyou} data-testid="thankyouSection">
             <h3>Thank you for customizing your home! Your order number is<div data-testid="orderId">{orderId}</div></h3>
             <Button text="Restart" noArrow style={{ height: 50, width: '100%' }}  data-testid="restartButton" onclick={() => {
-                dispatch(userLogOut())
+                // dispatch(userLogOut())
                 Router.replace('/')
             }} />
         </div>

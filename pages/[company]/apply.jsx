@@ -126,7 +126,6 @@ const Apply = ({ data }) => {
 
   const Plan = selectorLot.planData;
 
-console.log("selectorLot",selectorLot)
 
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
   let markUp;
@@ -150,7 +149,10 @@ console.log("selectorLot",selectorLot)
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
-  console.log("selector153Lot",lot)
+
+
+  
+
 
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
   const housePrice = HousePrice(Plan?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
@@ -176,6 +178,7 @@ console.log("selectorLot",selectorLot)
 
   async function sendEmail(e) {
     let errors = formValidator(userDetails);
+   
 
 
     const totalPrice = formatPrice(
@@ -389,16 +392,17 @@ console.log("selectorLot",selectorLot)
         obj,
         emailJsConfigs.USER_ID
       );
-
-      await emailjs.send(
+   
+     
+     await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "user_report",
         {
           preview: getLetter(
-            Plan.otherPhotos.map(
+            Plan?.otherPhotos?.map(
               (i) =>
                 `https://rrc-home-configurator-git-dev-vpilip.vercel.app${i}`
-            )
+            ) || []
           ),
           first_name: userDetails.firstName,
           last_name: userDetails.lastName,
@@ -420,7 +424,8 @@ console.log("selectorLot",selectorLot)
         },
 
         emailJsConfigs.USER_ID
-      );
+      )
+      
 
       const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" })
 
