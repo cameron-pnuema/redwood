@@ -30,7 +30,7 @@ if (typeof window !== 'undefined') {
 }
 
 const dynamicUrl= urlObjects[userCompany]
-console.log("userrrr==>",userCompany)
+
 
 
 export async function getAirtableData({ url, method }) {
@@ -58,7 +58,6 @@ export const clientProfile = (data) => {
             if (fields) {
                 dispatch(clientProfileSuccess(fields))
             }
-
         } catch (e) {
             toast(e.response ? e.response.data : 'Что-то пошло не так');
             dispatch(clientProfileError());
@@ -86,7 +85,7 @@ export const getMarkup = (data) => {
 }
 
 export const getFloorPlan = (data) => {
-    const url = dynamicUrl.getFloorPlan
+    const url = dynamicUrl?.getFloorPlan
     return async (dispatch) => {
         dispatch(getFloorPlanRequest());
         try {
@@ -104,7 +103,7 @@ export const getFloorPlan = (data) => {
 
 
 export const getConstructionCost = (data) => {
-    const url = dynamicUrl.getConstructionCost
+    const url = dynamicUrl?.getConstructionCost
     return async (dispatch) => {
         dispatch(getConstructionCostRequest());
         try {
@@ -121,7 +120,7 @@ export const getConstructionCost = (data) => {
 }
 
 export const getConstructionCostNew = (data) => {
-    const url = dynamicUrl.getConstructionCostNew
+    const url = dynamicUrl?.getConstructionCostNew
     return async (dispatch) => {
         dispatch(getConstructionCostNewRequest());
         try {
