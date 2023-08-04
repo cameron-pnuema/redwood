@@ -27,9 +27,10 @@ if (typeof window !== 'undefined') {
     userCompany = localStorage.getItem('companyName')
 }
 
+
 const dynamicUrl= urlObjects[userCompany]
 
-const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl.key);
+const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl?.key);
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
