@@ -6,7 +6,9 @@ import useTimeout from '../../UTILS/useTimeout';
 import { setAirtablecustomizationAction, customizationAction } from '../../store/actions/customization';
 import store from "../../store/index"
 import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames } from '../../db/custumizationGroupsFairmont';
-import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
+import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan";
+import { useRouter } from 'next/router';
+import { urlObjects } from '../../UTILS/urlObjects';
 
 
 
@@ -54,8 +56,15 @@ const DetailedFloorPlan = () => {
     const selectorPlan = useSelector(state => state.lot.planData);
     const homeLength = useSelector((state) => state.lot.planData?.homeLength);
 
-    
-  
+    const router = useRouter()
+    const companyName = router.query.company 
+
+    //  console.log("company",companyName)
+
+
+
+     const dynamicUrl= urlObjects[companyName]
+       
     
     const homeSeries = selectorPlan?.homeSeriesName
 
@@ -88,13 +97,13 @@ const DetailedFloorPlan = () => {
 
 
         if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
-            url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(MOD)`
+            url = dynamicUrl.selectOptionMOD
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDDW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-DW)"
+            url = dynamicUrl.selectOptionHUD_DW
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDSW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-SW)"
+            url = dynamicUrl.selectOptionHUD_SW
         }
         setIsLoading(true)
 
@@ -120,6 +129,7 @@ const DetailedFloorPlan = () => {
              return record.fields.homeSeriesName === `${homeSeries}`
              && record.fields.displayStatus === "On"
           })
+         
          
 
         if (realRes.offset) {
@@ -187,11 +197,10 @@ const DetailedFloorPlan = () => {
                                             homeSeriesName: mainOption.fields?.homeSeriesName
                                         }
 
-
                                     }
+
+                                   
                                     
-
-
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
                                         
@@ -235,9 +244,11 @@ const DetailedFloorPlan = () => {
 
                             return categoryGroup
                         }).value()
+                        
                         a.push(mainOption)
-
+                      
                     }).value()
+              
 
                     const obj = {
                         category: a.length + 1,
@@ -261,9 +272,7 @@ const DetailedFloorPlan = () => {
                                 active: 1,
                                 options: optionsCategory[category],
                                 categoryType: selectionFieldTypes.QUANTITY
-                            };
-
-                            
+                            };   
                         }
                         else {
                             return {
@@ -281,7 +290,6 @@ const DetailedFloorPlan = () => {
                         underCategories: items
                     })
                     manufacturerData.current[buildingManufacturerName] = a.sort((a, b) => a.category - b.category);
-                   
                     return group
                 })
                 .value();

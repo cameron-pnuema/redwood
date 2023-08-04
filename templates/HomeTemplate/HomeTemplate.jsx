@@ -19,7 +19,11 @@ import { customizationAction } from "../../store/actions/customization"
 import { setUserData } from "../../store/actions/user"
 import { setUserInforModal } from '../../store/actions/popup';
 import Popup from '../../components/UI/Popup/Popup';
-import store from "../../store/index"
+import store from "../../store/index";
+import { urlObjects } from '../../UTILS/urlObjects';
+
+
+
 
 const FLOORING = 'Flooring'
 
@@ -62,6 +66,7 @@ const HomeTemplate = (categoryType) => {
     const router = useRouter()
     const companyName = router.query.company || userCompany
 
+    const dynamicUrl = urlObjects[companyName]
 
     const totalRecords = useRef([])
     let manufacturerData = useRef({
@@ -74,7 +79,7 @@ const HomeTemplate = (categoryType) => {
     const slotData = slots[0]
     const dispatch = useDispatch()
     const selectorPlan = useSelector(state => state.lot.planData);
-   
+
 
     const homeSeries = selectorPlan?.homeSeriesName
     const homeLength = useSelector((state) => state.lot.planData?.homeLength);
@@ -106,16 +111,16 @@ const HomeTemplate = (categoryType) => {
     });
 
     const handleFetch = async (offsetId) => {
-       
+
         let url
         if (selectorPlan?.homeType === HOME_TYPE.MODULAR) {
-            url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(MOD)`
+            url = dynamicUrl.selectOptionMOD
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDDW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-DW)"
+            url = dynamicUrl.selectOptionHUD_DW
         }
         else if (selectorPlan?.homeType === HOME_TYPE.HUDSW) {
-            url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-SW)"
+            url = dynamicUrl.selectOptionHUD_SW
         }
         if (offsetId) {
             url = url + `?offset=${offsetId}`
@@ -215,6 +220,7 @@ const HomeTemplate = (categoryType) => {
 
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
+                                        itemObject.categoryType = "Optional Select One"
                                     }
 
 
@@ -325,7 +331,8 @@ const HomeTemplate = (categoryType) => {
         }
         setLoading(true)
         setError(false)
-        const url = `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Orders?filterByFormula=SEARCH('${orderID}',{orderID})`
+        const url = urlObjects[companyName].orderDetail(orderID)
+
         const res = await fetch(url, {
             method: "get",
             headers: new Headers({
@@ -374,7 +381,7 @@ const HomeTemplate = (categoryType) => {
             }
 
             const combinedOrder = [...order, ...order2, ...order3, ...order4];
-           
+
 
             order[order.length - 1].active = false
             order[0].active = true
@@ -383,7 +390,7 @@ const HomeTemplate = (categoryType) => {
             dispatch(customizationAction(combinedOrder))
             dispatch(setUserData(userData))
             getAllDataOfApp()
-           
+
         }
         else {
             toast.error('order ID expired!', {
@@ -407,10 +414,16 @@ const HomeTemplate = (categoryType) => {
         })
     }
 
+    function capitalizeAllLetters(str) {
+        return str === "fawaffordablehomes" ?
+         "FAW AFFORDABLE HOMES" : "GS COURTYARD HOMES"
+
+    }
+
     React.useEffect(() => {
-     
+
         if (selectorPlan) {
-         
+
             handleFetch()
         }
     }, [selectorPlan])
@@ -422,7 +435,7 @@ const HomeTemplate = (categoryType) => {
 
             <div className={styles.HomeTemplate__centerBlock}>
                 <p className={styles.HomeTemplate__title}>Welcome! {/* {process.env.NEXT_PUBLIC_APP_ENVIRONMENT} */}</p>
-                <p className={styles.HomeTemplate__subTitle}>TO GS COURTYARD HOMES  {/* {process.env.APP_ENVIRONMENT} */}</p>
+                <p className={styles.HomeTemplate__subTitle}>TO {companyName && capitalizeAllLetters(companyName)} {/* {process.env.APP_ENVIRONMENT} */}</p>
                 <div className={styles.HomeTemplate__wrapButton} data-testid="buildButton">
                     <Button
                         text='Click here to build your next home'

@@ -17,7 +17,19 @@ import { ref, getDownloadURL, uploadBytesResumable, getStorage } from 'firebase/
 import axios from "axios";
 // import base from "../../UTILS/airtable";
 import Airtable from 'airtable';
-const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base('appoZqa8oxVNB0DVZ');
+import { urlObjects } from "../../UTILS/urlObjects";
+
+
+
+
+let userCompany
+if (typeof window !== 'undefined') {
+    userCompany = localStorage.getItem('companyName')
+}
+
+const dynamicUrl= urlObjects[userCompany]
+
+const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl.key);
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -149,8 +161,9 @@ const Apply = ({ data }) => {
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
+  
 
-
+  
   
 
 

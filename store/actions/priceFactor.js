@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 import { addUser, authorizationUser, getUser, addStor } from '../../UTILS/api';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { urlObjects } from '../../UTILS/urlObjects';
 
 const getMarkupRequest = () => ({ type: actionTypes.MARKUP_REQUEST });
 const getMarkupSuccess = (data) => ({ type: actionTypes.MARKUP_SUCCESS, payload: data });
@@ -23,6 +24,13 @@ const getFloorPlanRequest = () => ({ type: actionTypes.FLOORPLAN_REQUEST });
 const getFloorPlanSuccess = (data) => ({ type: actionTypes.FLOORPLAN_SUCCESS, payload: data });
 const getFloorPlanError = (data) => ({ type: actionTypes.FLOORPLAN_ERROR, payload: data });
 
+let userCompany
+if (typeof window !== 'undefined') {
+    userCompany = localStorage.getItem('companyName')
+}
+
+const dynamicUrl= urlObjects[userCompany]
+console.log("userrrr==>",userCompany)
 
 
 export async function getAirtableData({ url, method }) {
@@ -37,6 +45,8 @@ export async function getAirtableData({ url, method }) {
 
     return realRes
 }
+
+
 
 export const clientProfile = (data) => {
     let url = "https://api.airtable.com/v0/appNSZE4sLntsJdpb/Client%20List%20%26%20Profiles?maxRecords=100&view=Client%20List%20%26%20General%20Info"
@@ -57,7 +67,7 @@ export const clientProfile = (data) => {
 }
 
 export const getMarkup = (data) => {
-    let url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Client%20Profile/recgPVsLYxndCLFLP"
+    let url = dynamicUrl.getMarkup
     return async (dispatch) => {
         dispatch(getMarkupRequest());
         try {
@@ -76,7 +86,7 @@ export const getMarkup = (data) => {
 }
 
 export const getFloorPlan = (data) => {
-    const url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Floorplan%20Costs?maxRecords=100&view=Grid%20view"
+    const url = dynamicUrl.getFloorPlan
     return async (dispatch) => {
         dispatch(getFloorPlanRequest());
         try {
@@ -94,7 +104,7 @@ export const getFloorPlan = (data) => {
 
 
 export const getConstructionCost = (data) => {
-    const url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Construction%20Options?maxRecords=100&view=Grid%20view"
+    const url = dynamicUrl.getConstructionCost
     return async (dispatch) => {
         dispatch(getConstructionCostRequest());
         try {
@@ -111,7 +121,7 @@ export const getConstructionCost = (data) => {
 }
 
 export const getConstructionCostNew = (data) => {
-    const url = "https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Construction%20Options%20(Size%20Dependent)?maxRecords=100&view=Grid%20view"
+    const url = dynamicUrl.getConstructionCostNew
     return async (dispatch) => {
         dispatch(getConstructionCostNewRequest());
         try {
