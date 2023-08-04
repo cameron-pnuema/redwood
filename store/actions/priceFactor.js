@@ -67,7 +67,7 @@ export const clientProfile = (data) => {
 }
 
 export const getMarkup = (data) => {
-    let url = dynamicUrl.getMarkup
+    let url = dynamicUrl?.getMarkup
     return async (dispatch) => {
         dispatch(getMarkupRequest());
         try {
