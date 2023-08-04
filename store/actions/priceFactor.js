@@ -66,7 +66,7 @@ export const clientProfile = (data) => {
 }
 
 export const getMarkup = (data) => {
-    let url = dynamicUrl?.getMarkup
+    let url = dynamicUrl.getMarkup
     return async (dispatch) => {
         dispatch(getMarkupRequest());
         try {
@@ -85,7 +85,7 @@ export const getMarkup = (data) => {
 }
 
 export const getFloorPlan = (data) => {
-    const url = dynamicUrl?.getFloorPlan
+    const url = dynamicUrl.getFloorPlan
     return async (dispatch) => {
         dispatch(getFloorPlanRequest());
         try {
@@ -93,7 +93,7 @@ export const getFloorPlan = (data) => {
             const records = res.records
             if (records) {
                 dispatch(getFloorPlanSuccess(records))
-            }
+            } 
         } catch (e) {
             toast(e.response ? e.response.data : 'Что-то пошло не так');
             dispatch(getFloorPlanError());
@@ -103,7 +103,7 @@ export const getFloorPlan = (data) => {
 
 
 export const getConstructionCost = (data) => {
-    const url = dynamicUrl?.getConstructionCost
+    const url = dynamicUrl.getConstructionCost
     return async (dispatch) => {
         dispatch(getConstructionCostRequest());
         try {
@@ -120,7 +120,7 @@ export const getConstructionCost = (data) => {
 }
 
 export const getConstructionCostNew = (data) => {
-    const url = dynamicUrl?.getConstructionCostNew
+    const url = dynamicUrl.getConstructionCostNew
     return async (dispatch) => {
         dispatch(getConstructionCostNewRequest());
         try {
