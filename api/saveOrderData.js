@@ -7,13 +7,12 @@ if (typeof window !== 'undefined') {
 
 
 const dynamicUrl= urlObjects[userCompany]
-console.log("dynamic",dynamicUrl)
 
 
 export const saveOrderData=async (data)=>{
     let url = `https://api.airtable.com/v0/${dynamicUrl?.key}/Orders`;
 
-    console.log("url",url)
+    
    
     const res =  await fetch(url, {
       method: "post",
