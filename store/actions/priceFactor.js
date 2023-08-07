@@ -85,7 +85,9 @@ export const getMarkup = (data) => {
 }
 
 export const getFloorPlan = (data) => {
+    console.log("url",dynamicUrl.getFloorPlan)
     const url = dynamicUrl.getFloorPlan
+    console.log("url",url)
     return async (dispatch) => {
         dispatch(getFloorPlanRequest());
         try {
