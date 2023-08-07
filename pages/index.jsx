@@ -18,8 +18,7 @@ export default function Home() {
 
 
   useEffect(() => {
-    dispatch(clientProfile()),
-    dispatch(getFloorPlan())
+    dispatch(clientProfile())
 
     return () => {
       sessionStorage.clear()
