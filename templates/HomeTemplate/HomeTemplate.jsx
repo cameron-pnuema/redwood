@@ -412,7 +412,7 @@ const HomeTemplate = (categoryType) => {
         Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()), dispatch(getConstructionCostNew())]).then((res) => {
             setLoading(false)
         })
-    }
+    } 
 
     function capitalizeAllLetters(str) {
         return str === "fawaffordablehomes" ?

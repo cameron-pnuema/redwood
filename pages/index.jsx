@@ -52,7 +52,7 @@ export default function Home() {
     setDetails({ ...userDetails, errors })
     userValidation ? toast.success('Login successful!', {
       position: toast.POSITION.TOP_CENTER
-    }) : toast.error('Invalid email or password.', {
+    }) : toast.error('Invalid email or password.', { 
       position: toast.POSITION.TOP_CENTER
     });
     userValidation && (localStorage.setItem('username', userDetails.username))
