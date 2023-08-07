@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev -p 4000",
     "build": "next build",
-    "start": "next start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "test": "jest",
     "coverage": "jest --coverage"
   },
