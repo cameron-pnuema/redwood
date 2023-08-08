@@ -110,10 +110,7 @@ const HomeTemplate = (categoryType) => {
         };
     });
 
-    useEffect(() => {
-        console.log("hy")
-        dispatch(getFloorPlan())
-    }, [])
+    
     
 
     const handleFetch = async (offsetId) => {
