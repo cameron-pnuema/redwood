@@ -78,8 +78,8 @@ const Heder = () => {
 
     const logout = () => {
         localStorage.clear()
-        dispatch(userLogOut())
-        Router.reload()    
+        Router.push("/")  
+        dispatch(userLogOut())  
     }
 
     return (
