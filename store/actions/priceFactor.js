@@ -24,12 +24,7 @@ const getFloorPlanRequest = () => ({ type: actionTypes.FLOORPLAN_REQUEST });
 const getFloorPlanSuccess = (data) => ({ type: actionTypes.FLOORPLAN_SUCCESS, payload: data });
 const getFloorPlanError = (data) => ({ type: actionTypes.FLOORPLAN_ERROR, payload: data });
 
-let userCompany
-if (typeof window !== 'undefined') {
-    userCompany = localStorage.getItem('companyName')
-}
 
-const dynamicUrl= urlObjects[userCompany]
 
 
 
@@ -66,6 +61,12 @@ export const clientProfile = (data) => {
 }
 
 export const getMarkup = (data) => {
+    let userCompany
+    if (typeof window !== 'undefined') {
+        userCompany = localStorage.getItem('companyName')
+    }
+
+    const dynamicUrl = urlObjects[userCompany]
     let url = dynamicUrl.getMarkup
     return async (dispatch) => {
         dispatch(getMarkupRequest());
@@ -85,9 +86,13 @@ export const getMarkup = (data) => {
 }
 
 export const getFloorPlan = (data) => {
-    console.log("urlObjects[userCompany]",urlObjects[userCompany])
+    let userCompany
+    if (typeof window !== 'undefined') {
+        userCompany = localStorage.getItem('companyName')
+    }
+
+    const dynamicUrl = urlObjects[userCompany]
     const url = dynamicUrl.getFloorPlan
-    console.log("url",url)
     return async (dispatch) => {
         dispatch(getFloorPlanRequest());
         try {
@@ -95,7 +100,7 @@ export const getFloorPlan = (data) => {
             const records = res.records
             if (records) {
                 dispatch(getFloorPlanSuccess(records))
-            } 
+            }
         } catch (e) {
             toast(e.response ? e.response.data : 'Что-то пошло не так');
             dispatch(getFloorPlanError());
@@ -105,6 +110,12 @@ export const getFloorPlan = (data) => {
 
 
 export const getConstructionCost = (data) => {
+    let userCompany
+    if (typeof window !== 'undefined') {
+        userCompany = localStorage.getItem('companyName')
+    }
+
+    const dynamicUrl = urlObjects[userCompany]
     const url = dynamicUrl.getConstructionCost
     return async (dispatch) => {
         dispatch(getConstructionCostRequest());
@@ -122,6 +133,12 @@ export const getConstructionCost = (data) => {
 }
 
 export const getConstructionCostNew = (data) => {
+    let userCompany
+    if (typeof window !== 'undefined') {
+        userCompany = localStorage.getItem('companyName')
+    }
+
+    const dynamicUrl = urlObjects[userCompany]
     const url = dynamicUrl.getConstructionCostNew
     return async (dispatch) => {
         dispatch(getConstructionCostNewRequest());
