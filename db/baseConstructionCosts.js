@@ -195,11 +195,11 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
 
 
 
-  Object.entries(constructionOptions).forEach(([key, value]) => {
+  Object.entries(constructionOptions)?.forEach(([key, value]) => {
 
     if (key.includes("Per Sq Ft")) {
       // console.log("Per Sq Ft", constructionOptions[key] = value * data[category])
-      constructionOptions[key] = value * data[category];
+      constructionOptions[key] = value * data?.[category];
     }
     if (key.includes("Linear Feet")) {
       // console.log("Linear Feet", constructionOptions[key] = value * data?.homeLength)
