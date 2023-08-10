@@ -70,7 +70,7 @@ const SelectFloorPlan = () => {
         setFilterFloorPlan(data)
     }, [floorPlanFilter,plansSlot])
     
-      const modalDisplay= (typeof window !== "undefined" && window.sessionStorage.getItem('USER_DETAILS')) 
+      
    
     
 
@@ -84,7 +84,7 @@ const SelectFloorPlan = () => {
             <Collapse isOpen={showFilter}>
                 <FilterCriteria handleFilterOptionClick={handleFilterOptionClick} filterData={filterData} />
             </Collapse>
-            {!modalDisplay && <ApplyForm className="form-modal" data-testid="form-modal" />}
+          <ApplyForm className="form-modal" data-testid="form-modal" />
             {filterFloorPlan.length ? <SelectFloorPlanTemplate
                 plansSlot={filterFloorPlan} 
             /> : <h2 class="text-center">No Data Found</h2>}

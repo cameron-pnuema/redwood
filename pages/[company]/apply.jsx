@@ -18,17 +18,23 @@ import axios from "axios";
 // import base from "../../UTILS/airtable";
 import Airtable from 'airtable';
 import { urlObjects } from "../../UTILS/urlObjects";
+import { clientProfile } from "../../store/actions/priceFactor";
+import { useRouter } from "next/router";
 
 
 
 
 let userCompany
 if (typeof window !== 'undefined') {
-    userCompany = localStorage.getItem('companyName')
+  userCompany = localStorage.getItem('companyName')
 }
 
 
-const dynamicUrl= urlObjects[userCompany]
+
+
+const dynamicUrl = urlObjects[userCompany]
+
+
 
 const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl?.key);
 
@@ -137,6 +143,12 @@ const Apply = ({ data }) => {
   );
 
 
+  const router = useRouter()
+
+
+
+  const companyName = router.query.company
+
   const Plan = selectorLot.planData;
 
 
@@ -162,10 +174,12 @@ const Apply = ({ data }) => {
   const finalPrice = getTotalCustomizationPrice(customizationPrice);
   const floorplan = useSelector((state) => state.floorplan.floorplan);
   const lot = selectorLot.lotData;
-  
 
-  
-  
+  const client = useSelector(state => state.priceFactor.client.data)
+
+
+
+
 
 
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
@@ -180,6 +194,8 @@ const Apply = ({ data }) => {
       }
     }
 
+    dispatch(clientProfile())
+
   }, []);
 
 
@@ -191,8 +207,10 @@ const Apply = ({ data }) => {
   useTimeout();
 
   async function sendEmail(e) {
+
+
     let errors = formValidator(userDetails);
-   
+
 
 
     const totalPrice = formatPrice(
@@ -200,13 +218,14 @@ const Apply = ({ data }) => {
       (finalPrice || 0)
     )
 
-   
+
 
     const orderInfo = сustomizations.slice(0, 3);
     const orderInfo2 = сustomizations.slice(3, 6);
-    const orderInfo3 = сustomizations.slice(6,9);
+    const orderInfo3 = сustomizations.slice(6, 9);
     const orderInfo4 = сustomizations.slice(9);
 
+    setIsLoading(true);
     const responseData = await saveOrderData({
       fields: {
         email: userDetails?.email,
@@ -232,7 +251,7 @@ const Apply = ({ data }) => {
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
         orderInfo,
-        orderInfo2,orderInfo3 ,orderInfo4
+        orderInfo2, orderInfo3, orderInfo4
 
         // orderPDF: downloadFileName,
       },
@@ -250,7 +269,7 @@ const Apply = ({ data }) => {
     }
 
     try {
-      setIsLoading(true);
+
       let html = ``;
       let price = 0;
       html += `<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
@@ -370,7 +389,8 @@ const Apply = ({ data }) => {
         financeBlock += `Model, Size: ${floorplan.title} <b>${floorplan.width} x ${floorplan.length} Fairmont Builder</b>`;
         financeBlock += "</li>";
         financeBlock +=
-          '<li style="text-align: center; margin-left: 0;">Name of Community: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
+          `<li style="text-align: center; margin-left: 0;">Name of Community:  ${companyName === "fawaffordablehomes" ?
+            "Faw Afforable Homes" : "GS CourtYard Homes"}: 510 N. Range St. Westport, IN 47283</li>`;
         financeBlock += "</ul>";
       } else if (floorplan.floorplanName === "MHE") {
         financeBlock +=
@@ -382,7 +402,8 @@ const Apply = ({ data }) => {
         financeBlock += `Model, Size: ${floorplan.title} ${floorplan.width} x ${floorplan.length} <b>MHE Builder</b>`;
         financeBlock += "</li>";
         financeBlock +=
-          '<li style="text-align: center; margin-left: 0;">Name of Retailer: GS Courtyard Homes: 510 N. Range St. Westport, IN 47283</li>';
+          `<li style="text-align: center; margin-left: 0;">Name of Retailer: ${companyName === "fawaffordablehomes" ?
+            "Faw Afforable Homes" : "GS CourtYard Homes"}: 510 N. Range St. Westport, IN 47283</li>`;
         financeBlock += "</ul>";
       }
 
@@ -406,9 +427,9 @@ const Apply = ({ data }) => {
         obj,
         emailJsConfigs.USER_ID
       );
-   
-     
-     await emailjs.send(
+
+
+      await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "user_report",
         {
@@ -434,12 +455,14 @@ const Apply = ({ data }) => {
           customizatoins: html,
           financeBlock: financeBlock,
           to: userDetails?.email,
-          bcc: testEmail ? "" : bccList
+          bcc: testEmail ? "" : bccList,
+          cc: companyName === "fawaffordablehomes" ?
+          "hjanssen79@gmail.com" :"griffin@gscourtyardhomes.com"
         },
 
         emailJsConfigs.USER_ID
       )
-      
+
 
       const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" })
 
