@@ -9,7 +9,9 @@
         selectOptionHUD_DW:"https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-DW)",
         selectOptionHUD_SW:"https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/NEW%3A%20Selection%20Options%20(HUD-SW)",
         orderDetail: (orderID) => `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Orders?filterByFormula=SEARCH('${orderID}',{orderID})`,
-        key:"appoZqa8oxVNB0DVZ"
+        key:"appoZqa8oxVNB0DVZ",
+        email:"griffin@gscourtyardhomes.com",
+        Title:"GS CourtYard Homes"
     },
     "fawaffordablehomes":{
         clientProfile:"https://api.airtable.com/v0/appNSZE4sLntsJdpb/Client%20List%20%26%20Profiles?maxRecords=100&view=Client%20List%20%26%20General%20Info",
@@ -21,6 +23,8 @@
         selectOptionHUD_DW:"https://api.airtable.com/v0/appqwrDbUmW3KAXGN/NEW%3A%20Selection%20Options%20(HUD-DW)",
         selectOptionHUD_SW:"https://api.airtable.com/v0/appqwrDbUmW3KAXGN/NEW%3A%20Selection%20Options%20(HUD-SW)",
         orderDetail: (orderID) =>`https://api.airtable.com/v0/appqwrDbUmW3KAXGN/Orders?filterByFormula=SEARCH('${orderID}',{orderID})`,
-        key:"appqwrDbUmW3KAXGN"
+        key:"appqwrDbUmW3KAXGN",
+        email:"hjanssen79@gmail.com",
+        Title:"Faw Afforable Homes"
     }
 };

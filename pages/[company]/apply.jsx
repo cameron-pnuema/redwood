@@ -389,8 +389,7 @@ const Apply = ({ data }) => {
         financeBlock += `Model, Size: ${floorplan.title} <b>${floorplan.width} x ${floorplan.length} Fairmont Builder</b>`;
         financeBlock += "</li>";
         financeBlock +=
-          `<li style="text-align: center; margin-left: 0;">Name of Community:  ${companyName === "fawaffordablehomes" ?
-            "Faw Afforable Homes" : "GS CourtYard Homes"}: 510 N. Range St. Westport, IN 47283</li>`;
+          `<li style="text-align: center; margin-left: 0;">Name of Community:  ${dynamicUrl?.Title}: 510 N. Range St. Westport, IN 47283</li>`;
         financeBlock += "</ul>";
       } else if (floorplan.floorplanName === "MHE") {
         financeBlock +=
@@ -402,8 +401,7 @@ const Apply = ({ data }) => {
         financeBlock += `Model, Size: ${floorplan.title} ${floorplan.width} x ${floorplan.length} <b>MHE Builder</b>`;
         financeBlock += "</li>";
         financeBlock +=
-          `<li style="text-align: center; margin-left: 0;">Name of Retailer: ${companyName === "fawaffordablehomes" ?
-            "Faw Afforable Homes" : "GS CourtYard Homes"}: 510 N. Range St. Westport, IN 47283</li>`;
+          `<li style="text-align: center; margin-left: 0;">Name of Retailer: ${dynamicUrl?.Title}: 510 N. Range St. Westport, IN 47283</li>`;
         financeBlock += "</ul>";
       }
 
@@ -456,8 +454,8 @@ const Apply = ({ data }) => {
           financeBlock: financeBlock,
           to: userDetails?.email,
           bcc: testEmail ? "" : bccList,
-          cc: companyName === "fawaffordablehomes" ?
-          "hjanssen79@gmail.com" :"griffin@gscourtyardhomes.com"
+          cc:dynamicUrl?.email,
+          from_name:dynamicUrl?.Title
         },
 
         emailJsConfigs.USER_ID
