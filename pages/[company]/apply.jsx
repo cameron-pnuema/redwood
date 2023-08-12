@@ -32,7 +32,8 @@ if (typeof window !== 'undefined') {
 
 
 
-const dynamicUrl = urlObjects[userCompany]
+
+
 
 
 
@@ -145,11 +146,16 @@ const Apply = ({ data }) => {
   );
 
 
+  
   const router = useRouter()
+  const companyName = router.query.company 
 
 
 
-  const companyName = router.query.company
+const dynamicUrl = urlObjects[companyName]
+
+
+  
 
   const Plan = selectorLot.planData;
 
