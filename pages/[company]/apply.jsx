@@ -34,7 +34,7 @@ if (typeof window !== 'undefined') {
 
 const dynamicUrl = urlObjects[userCompany]
 
-console.log(dynamicUrl,"dymmmmmm")
+
 
 
 
@@ -184,6 +184,10 @@ const Apply = ({ data }) => {
 
 
 
+
+
+
+
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
   const housePrice = HousePrice(Plan?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
 
@@ -207,7 +211,8 @@ const Apply = ({ data }) => {
     setDetails(data);
   };
   useTimeout();
-  
+  console.log("dyyyyy",dynamicUrl)
+
  
 
   async function sendEmail(e) {
@@ -469,7 +474,7 @@ const Apply = ({ data }) => {
        
         },
 
-        emailJsConfigs.USER_ID
+        emailJsConfigs.USER_I
       )
 
 
