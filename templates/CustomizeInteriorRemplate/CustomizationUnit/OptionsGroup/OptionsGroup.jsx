@@ -43,7 +43,6 @@ const OptionsGroup = ({
 
   // console.log("options",options)
   // console.log("filterOptions",filterOptions,selectedPlan?.homeSeriesName)
-console.log("categoryName",categoryName,groupName)
 
   return (
     <div className={styles.group}>

@@ -24,22 +24,6 @@ import { useRouter } from "next/router";
 
 
 
-let userCompany
-if (typeof window !== 'undefined') {
-  userCompany = localStorage.getItem('companyName')
-}
-
-
-
-
-
-
-
-
-
-
-
-const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl?.key);
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -146,16 +130,24 @@ const Apply = ({ data }) => {
   );
 
 
-  
   const router = useRouter()
-  const companyName = router.query.company 
 
 
-
-const dynamicUrl = urlObjects[companyName]
-
-
+  let userCompany
+  if (typeof window !== 'undefined') {
+    userCompany = localStorage.getItem('companyName')
+  }
   
+  
+  
+  
+  const dynamicUrl = urlObjects[userCompany]
+  
+  
+  
+  const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl?.key);
+
+  const companyName = router.query.company
 
   const Plan = selectorLot.planData;
 
@@ -190,10 +182,6 @@ const dynamicUrl = urlObjects[companyName]
 
 
 
-
-
-
-
   const baseConstructionCosts = getBaseContructionCostsPerSqureFit(Plan);
   const housePrice = HousePrice(Plan?.floorplanPrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
 
@@ -217,8 +205,7 @@ const dynamicUrl = urlObjects[companyName]
     setDetails(data);
   };
   useTimeout();
-  console.log("dyyyyy",dynamicUrl)
-
+  
  
 
   async function sendEmail(e) {
