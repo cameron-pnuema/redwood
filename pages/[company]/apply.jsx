@@ -34,6 +34,8 @@ if (typeof window !== 'undefined') {
 
 const dynamicUrl = urlObjects[userCompany]
 
+console.log(dynamicUrl,"dymmmmmm")
+
 
 
 const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl?.key);
