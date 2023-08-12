@@ -11,7 +11,16 @@
         orderDetail: (orderID) => `https://api.airtable.com/v0/appoZqa8oxVNB0DVZ/Orders?filterByFormula=SEARCH('${orderID}',{orderID})`,
         key:"appoZqa8oxVNB0DVZ",
         email:"griffin@gscourtyardhomes.com",
-        Title:"GS CourtYard Homes"
+        Title:"GS CourtYard Homes",
+        templateDescription:(orderData)=> `Thes estimate of your dream home is $${orderData?.totalPrice}, which includes the base price, site prep, and all your customizations.All pricing is Turn-Key
+        includes Foundation (40” concrete block crawl space), backfill, insulated crawl space, Delivery, Set-up, all interior and exterior finish work, Utility hook-ups (inside the foundation), HVAC (priced as total electric), Gutters, Cleaning, Sales tax.
+
+        However, please note that the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforseen site conditions (ex. Limestone under your ground), etc
+        
+        
+           Your selected options are below. Note, you are able to make additional changes when representative reaches out, or you can feel free to call us in advance at 812-322-5151`,
+        
+
     },
     "fawaffordablehomes":{
         clientProfile:"https://api.airtable.com/v0/appNSZE4sLntsJdpb/Client%20List%20%26%20Profiles?maxRecords=100&view=Client%20List%20%26%20General%20Info",
@@ -25,6 +34,15 @@
         orderDetail: (orderID) =>`https://api.airtable.com/v0/appqwrDbUmW3KAXGN/Orders?filterByFormula=SEARCH('${orderID}',{orderID})`,
         key:"appqwrDbUmW3KAXGN",
         email:"hjanssen79@gmail.com",
-        Title:"Faw Afforable Homes"
+        Title:"Faw Afforable Homes",
+        templateDescription:(totalPrice)=>`Thes estimate of your dream home is $${totalPrice}, which includes the base price ,site prep, and all your customizations.Additionally  All pricing includes:Foundation, backfill,
+         Delivery, Set-up, all interior and exterior finish work, HVAC (excluding duct work beneath modular homes), Gutters, Cleaning, Sales tax and one of steps.
+
+        However, please note that the pricing does not include: Utility hooks-up, driveway, septic, Well, seed and straw, landscaping, & resolving all other unforeseen site conditions.
+        
+        
+             Your selected options are listed below.Prior to ordering the home,you can make additionalchanges to your home design by calling your representative at 217-508-7920`,
+        
+
     }
 };

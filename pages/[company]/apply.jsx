@@ -205,18 +205,26 @@ const Apply = ({ data }) => {
     setDetails(data);
   };
   useTimeout();
+  
+ 
 
   async function sendEmail(e) {
+
+    const totalPrice = formatPrice(
+      housePrice +
+      (finalPrice || 0)
+    )
+  
+    const templateDescription = dynamicUrl?.templateDescription(totalPrice)
+
 
 
     let errors = formValidator(userDetails);
 
 
 
-    const totalPrice = formatPrice(
-      housePrice +
-      (finalPrice || 0)
-    )
+
+
 
 
 
@@ -273,7 +281,6 @@ const Apply = ({ data }) => {
       let html = ``;
       let price = 0;
       html += `<h1 style="text-align: center"> Your order number is ${orderId} </h1>`
-      html += `<h3 style="border: 1px solid #000000; padding: 10px; text-align: center;" > Please note the pricing does not include: Steps, driveway, septic, Well, seed and straw, landscaping, & all other unforeseen site conditions (ex. Limestone under your ground), etc. </h3>`;
       сustomizations?.forEach((c) => {
         html += `<h3 style="text-align: center; border: 1px solid #dddddd; margin:0; padding:10px; background: #8e8e8e">${c.name}</h3>`;
         html +=
@@ -455,7 +462,9 @@ const Apply = ({ data }) => {
           to: userDetails?.email,
           bcc: testEmail ? "" : bccList,
           cc:dynamicUrl?.email,
-          from_name:dynamicUrl?.Title
+          from_name:dynamicUrl?.Title,
+          template_description:templateDescription,
+       
         },
 
         emailJsConfigs.USER_ID

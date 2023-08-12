@@ -41,14 +41,16 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
                 <div className={styles.wrapTitle}>
                     <h2>Here’s what to expect next</h2>
 
-                    <h3>STEP 1: Application</h3>
+                    <h3>STEP 1: Floor Plan & Design</h3>
                     <p>
-                        Once you submit, you’ll receive a confirmation email outlining your choices and showcasing your new home.
+                        Spend some time building your dream house with your sales rep. Once your design is submitted you'll
+                        receive a confirmation email outlining your choices & providing you with an intial quote.
                     </p>
 
                     <h3>STEP 2: Finalization</h3>
                     <p>
-                        A representative will reach out to finalize your selections, discuss flooring details, and answer any questions you have.
+                      We will confirm your customizations & intial quote with our manufacturer. Once approved we can address any
+                     remaining before discussing financing.
                     </p>
 
                     <h3>STEP 3: Financing</h3>
