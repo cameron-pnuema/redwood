@@ -8,7 +8,10 @@ import { userLogOut } from "../../store/actions/user"
 import { useSelector, useDispatch } from "react-redux";
 
 
+
 const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isCompleted, isLoading, orderId }) => {
+
+   
 
     const dispatch = useDispatch()
           
@@ -28,8 +31,11 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
             <h3>Thank you for customizing your home! Your order number is<div data-testid="orderId">{orderId}</div></h3>
             <Button text="Restart" noArrow style={{ height: 50, width: '100%' }}  data-testid="restartButton" onclick={() => {
                 dispatch(userLogOut())
+
                 Router.replace('/')
             }} />
+
+
         </div>
     );
 
@@ -50,7 +56,7 @@ const ApplyTemplate = ({ errors, register, submit, formValues, handleChange, isC
                     <h3>STEP 2: Finalization</h3>
                     <p>
                       We will confirm your customizations & intial quote with our manufacturer. Once approved we can address any
-                     remaining before discussing financing.
+                     remaining questions before discussing financing.
                     </p>
 
                     <h3>STEP 3: Financing</h3>
