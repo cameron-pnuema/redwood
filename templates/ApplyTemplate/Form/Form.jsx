@@ -21,7 +21,7 @@ const Form = ({ register, submit, isLoading, formValues = {}, handleChange }) =>
 
     const handleConfirmNavigation=()=>{
        setShowWarningModal(false)
-       Router.replace(`/${company}/detailed_floorplan`)
+       Router.replace(`/${company}/Customize_Home`)
     }
 
     const { firstName, lastName, email, phoneNumber, description, city, state, zipCode, country, errors } = formValues
