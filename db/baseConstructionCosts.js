@@ -1,8 +1,5 @@
 import store from "../store/index";
 
-
-
-
 export const baseContructionCostsStructure = [
   {
     Name: "Foundation",
@@ -85,7 +82,6 @@ export const baseContructionCostsStructure = [
 ];
 
 export let result;
-// export const baseContructionTotalCosts = {};
 
 const setCost = () => {
 
@@ -109,19 +105,6 @@ const setCost = () => {
     result[2].constructionOptionsHUD_SW[constructionSelectionName] = obj.fields.constructionOptionsHUD_SW;
   });
 
-
-
-
-
-
-  // if (!totalSqft) return 1;
-
-  // baseContructionTotalCosts["1200ft"] = totalSqft.fields["1200 sq ft"];
-  // baseContructionTotalCosts["1500ft"] = totalSqft.fields["1500 sq ft"];
-  // baseContructionTotalCosts["2000ft"] = totalSqft.fields["2000 sq ft"];
-  // baseContructionTotalCosts["1200ft-HUD-DW"] = totalSqft.fields["1200-sq-ft-HUD-DW"];
-  // baseContructionTotalCosts["1500ft-HUD-DW"] = totalSqft.fields["1500-sq-ft-HUD-DW"];
-  // baseContructionTotalCosts["2000ft-HUD-DW"] = totalSqft.fields["2000-sq-ft-HUD-DW"];
 };
 
 export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
@@ -160,7 +143,6 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
   const actualDeliveryPrice = getMaxPriceByCategory(data2, "Delivery", data);
   const actualGutterPrice = getMaxPriceByCategory(data2, "Gutters", data);
 
-  // console.log(" actualGutterPrice", actualGutterPrice, actualDeliveryPrice, actualHvacPrice)
 
 
   const filteredPrice = data2?.filter((house) => {
@@ -174,15 +156,12 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
       house.fields?.roofDependency === roofDependency
     );
   });
-  // console.log("filteredPrice", filteredPrice)
 
   const actualPrice = filteredPrice?.map((item) => {
     const { constructionOptionsHUD_DW, constructionOptionsMOD, constructionOptionsHUD_SW } = item.fields;
     const maxValue = Math.max(constructionOptionsHUD_DW, constructionOptionsMOD, constructionOptionsHUD_SW);
     return maxValue
   })
-
-  // console.log("actualPrice[0]", actualPrice[0])
 
   const category = "sq Ft";
   let sum = 0 + actualPrice[0] + actualHvacPrice + actualDeliveryPrice + actualGutterPrice
@@ -193,16 +172,16 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
       ? result[2].constructionOptionsHUD_SW
       : result[0].constructionOptionsMOD;
 
-
-
   Object.entries(constructionOptions)?.forEach(([key, value]) => {
 
     if (key.includes("Per Sq Ft")) {
-      // console.log("Per Sq Ft", constructionOptions[key] = value * data[category])
       constructionOptions[key] = value * data?.[category];
     }
-    if (key.includes("Linear Feet")) {
-      // console.log("Linear Feet", constructionOptions[key] = value * data?.homeLength)
+    else if (key.includes("Perimeter (Linear Feet)")) {
+      constructionOptions[key] = value * ((data?.homeLength * 2) + (data?.homeWidth * 2));
+    }
+
+    else if (key.includes("Linear Feet")) {
       constructionOptions[key] = value * data?.homeLength;
     }
     sum += constructionOptions[key];
@@ -211,10 +190,5 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
 
   return sum;
 
-
-
-  // if (!data?.[category] ) return null;
-  // if(data?.homeType==="HUD-DW")return baseContructionTotalCosts[data[category] + "ft"+"-HUD-DW"] * data[category]
-  // return baseContructionTotalCosts[data[category] + "ft"] * data[category]; 
 };
 
