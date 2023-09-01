@@ -80,13 +80,16 @@ const DetailedFloorPlan = () => {
                 : item.fields.constructionOptionsHUD_SW
 
 
-        return {
-            id: index + 1,
-            name: item.fields.constructionSelectionName,
-            price: price < 50 && selectorPlan ? (price * selectorPlan?.["sq Ft"]) : price,
-            category: item.fields?.category,
+                const sqFt = selectorPlan?.["sq Ft"];
 
-        };
+                return {
+                    id: index + 1,
+                    name: item.fields?.constructionSelectionName,
+                    price: price !== null && sqFt !== null && sqFt !== undefined
+                        ? price < 50 && sqFt ? price * sqFt : price
+                        : price,
+                    category: item.fields?.category,
+                };
     });
 
 
