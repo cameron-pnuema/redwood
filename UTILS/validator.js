@@ -1,5 +1,5 @@
 
-const emailValidation = /^[^@]+@[^@]+\.[^@\.]{2,}$/
+const emailValidation = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 const passwordReg = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,}/;
 export const phoneNumberReg =  /^\d+$/;
 
@@ -17,7 +17,6 @@ export const formValidator = (values) => {
     let errors = {}
 
     if (values.hasOwnProperty(formFeilds.EMAIL)) {
-        console.log("email",values.email.trim())
         if (values.email.trim() === '') {
             errors.email = "Email is required"
         } else if (!emailValidation.test(values.email.trim())) {
