@@ -59,14 +59,18 @@ const MyApp = ({ Component, pageProps }) => {
   useEffect(() => {
     if (!userCompany && router.pathname == "/") router.replace("/");
     else if (!userCompany && router.pathname !== `/${userCompany}`) router.replace('/');
-    else if (!userCompany && router.pathname !== `/${userCompany}/select_floorplan` ||
-      router.pathname !== `/${userCompany}/detailed_floorplan` ||
-      router.pathname !== `/${userCompany}/customize_lnterior` ||
-      router.pathname !== `/${userCompany}/apply`
+    else if (userCompany && router.pathname == "/"||router.pathname !== `/${company}/select_floorplan` ||
+    router.pathname !== `/${company}/detailed_floorplan` ||
+    router.pathname !== `/${company}/customize_lnterior` ||
+    router.pathname !== `/${company}/apply`) router.replace(`/${userCompany}`);
+    else if (!userCompany && router.pathname !== `/${company}/select_floorplan` ||
+      router.pathname !== `/${company}/detailed_floorplan` ||
+      router.pathname !== `/${company}/customize_lnterior` ||
+      router.pathname !== `/${company}/apply`
     ) router.replace('/')
 
     else if (userCompany && router.pathname !== "/") router.replace(`/${userCompany}`);
-    else if (userCompany && router.pathname == "/") router.replace(`/${userCompany}`);
+
 
     router.prefetch(`/${company}/select_floorplan`);
     router.prefetch(`/${company}/detailed_floorplan`);
