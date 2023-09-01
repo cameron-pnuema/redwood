@@ -45,7 +45,7 @@ let orderId
 
 
 
-const bccList = ['rex@redrootscapital.com', 'sam@redrootscapital.com', 'griffin@redrootscapital.com'];
+const bccList = ['rex@redrootscapital.com', 'sam@redrootscapital.com', 'griffin@redrootscapital.com','holly@faw-homes.com'];
 
 const toList = ['sam@redrootscapital.com', 'griffin@redrootscapital.com']
 
@@ -426,6 +426,9 @@ const Apply = ({ data }) => {
         bcc: testEmail ? "" : userBcc
       };
 
+
+     
+
       await emailjs.send(
         emailJsConfigs.SERVICE_ID,
         "applicatoin",
@@ -470,44 +473,9 @@ const Apply = ({ data }) => {
         emailJsConfigs.USER_ID
       )
 
-
+       
       const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" })
 
-
-
-
-      // const handleFileUpload = async (pdfBlob) => {
-      //   console.log("hhhhhhh")
-      //   try {
-      //     const formData = new FormData();
-      //     formData.append(`file-${orderId}`, pdfBlob);
-
-      //     console.log("hhhhhhh")
-
-      //     // Make a POST request to the file.io API to upload the file
-      //     const response = await axios.post('https://file.io', formData);
-
-      //     console.log('File uploaded successfully:', response.data);
-      //     console.log('Download link:', response.data.link);
-      //     const downloadURL =  response.data.link
-
-      //     base('Orders').update([{
-      //               id,
-      //               fields: {
-      //                 orderPDF: downloadURL
-      //               }
-      //             }], function (err, record) {
-      //               if (err) {
-      //                 return;
-      //               }
-      //             });
-      //   } catch (error) {
-
-      //   }
-      // };
-
-
-      // handleFileUpload(pdfBlob)
 
 
       const storageRef = ref(storage, `order-${orderId}/`);
@@ -532,12 +500,14 @@ const Apply = ({ data }) => {
               }
             }], function (err, record) {
               if (err) {
-                return;
+                    console.log("errr",err) ;
               }
             });
           });
         }
       );
+
+
 
       setCompleted(true);
       window &&

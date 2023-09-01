@@ -23,11 +23,11 @@ const tagManagerArgs = {
 const MyApp = ({ Component, pageProps }) => {
   let userCompany
   if (typeof window !== 'undefined') {
-       userCompany = localStorage.getItem('companyName')
-    }
+    userCompany = localStorage.getItem('companyName')
+  }
   const router = useRouter();
-  const{company}=router.query
- 
+  const { company } = router.query
+
   const selectorPopup = useSelector((state) => state.popup.popup);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const MyApp = ({ Component, pageProps }) => {
       <Head>
         <title>Build your home | Red Roots Capital</title>
       </Head>
-      <ToastContainer/>
+      <ToastContainer />
       {selectorPopup && (
         <Popup TimePopup>
           <TimePopup />
@@ -57,9 +57,17 @@ const MyApp = ({ Component, pageProps }) => {
   );
 
   useEffect(() => {
-    if (!userCompany && router.pathname == "/") router.replace("/")
+    if (!userCompany && router.pathname == "/") router.replace("/");
+    else if (!userCompany && router.pathname !== `/${userCompany}`) router.replace('/');
+    else if (!userCompany && router.pathname !== `/${userCompany}/select_floorplan` ||
+      router.pathname !== `/${userCompany}/detailed_floorplan` ||
+      router.pathname !== `/${userCompany}/customize_lnterior` ||
+      router.pathname !== `/${userCompany}/apply`
+    ) router.replace('/')
+
     else if (userCompany && router.pathname !== "/") router.replace(`/${userCompany}`);
     else if (userCompany && router.pathname == "/") router.replace(`/${userCompany}`);
+
     router.prefetch(`/${company}/select_floorplan`);
     router.prefetch(`/${company}/detailed_floorplan`);
     router.prefetch(`/${company}/customize_lnterior`);
