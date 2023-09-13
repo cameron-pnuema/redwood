@@ -116,7 +116,7 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
   const roofDependencyMap = {
     "Modular": "5/12",
     "HUD-DW": "3/12",
-    "HUD-SW": "7/12"
+    "HUD-SW": "3/12"
   };
 
   const getMaxPriceByCategory = (data2, category, data) => {

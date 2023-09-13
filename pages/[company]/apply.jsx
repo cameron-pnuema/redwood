@@ -370,16 +370,16 @@ const Apply = ({ data }) => {
       html +=
         '<ul style="list-style: none; text-align: center;  padding-left: 0;">';
       html += '<li style="text-align: center; margin-left: 0;">';
-      html += `Customer Name :${userDetails?.firstName}  ${userDetails?.lastName}`;
+      html += `Customer Name: ${userDetails?.firstName}  ${userDetails?.lastName}`;
       html += "</li>";
       html += '<li style="text-align: center; margin-left: 0;">';
-      html += `Phone Number :${userDetails.phoneNumber} `;
+      html += `Phone Number: ${userDetails.phoneNumber} `;
       html += "</li>";
 
       if
         (userDetails.zipCode && userDetails.state) {
         html += '<li style="text-align: center; margin-left: 0;">';
-        html += `Address:${userDetails.description}, ${userDetails.state} , ${userDetails.zipCode}`;
+        html += `Address: ${userDetails.description}, ${userDetails.state} , ${userDetails.zipCode}`;
         html += "</li>"
       };
 
@@ -429,12 +429,12 @@ const Apply = ({ data }) => {
 
      
 
-      await emailjs.send(
-        emailJsConfigs.SERVICE_ID,
-        "applicatoin",
-        obj,
-        emailJsConfigs.USER_ID
-      );
+      // await emailjs.send(
+      //   emailJsConfigs.SERVICE_ID,
+      //   "applicatoin",
+      //   obj,
+      //   emailJsConfigs.USER_ID
+      // );
 
 
       await emailjs.send(
