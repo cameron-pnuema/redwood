@@ -220,6 +220,17 @@ const CustomizationUnit = ({
     );
   };
 
+  const getBasePrice = () => {
+    const baseConstructionCosts = getBaseContructionCostsPerSqureFit(
+      selectedPlan
+    );
+    const basePrice = selectedPlan?.floorplanPrice;
+    const housePrice = HousePrice(basePrice, baseConstructionCosts, MARK_UP_MULTIPLIER)
+    return (
+      housePrice
+    );
+  };
+
   if (isAllStepsCompleted)
     body = (
       <>
@@ -230,8 +241,14 @@ const CustomizationUnit = ({
           </div>
           {/* <div className={styles.summary__item}>Base price:  ${formatPrice(selectedPlan?.price * MARK_UP_MULTIPLIER)}</div>
             <div className={styles.summary__item}>Base construction costs:  ${formatPrice(getBaseContructionCostsPerSqureFit(selectedPlan?.s) * MARK_UP_MULTIPLIER)}</div> */}
+         <div className={styles.summary__item} >
+           Base Price: ${formatPrice(getBasePrice())}
+          </div>
           <div className={styles.summary__item} >
             Customizations: ${formatPrice(totalCustomizationPrice)}
+          </div>
+          <div className={styles.summary__item} >
+           Sales Tax: $0
           </div>
           <div className={styles.summary__action}>
             <Button
