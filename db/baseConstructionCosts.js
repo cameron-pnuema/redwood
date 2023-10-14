@@ -153,7 +153,7 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
       house.fields?.homeWidth === data?.homeWidth &&
       house.fields?.homeLengthMinimum <= data?.homeLength &&
       house.fields?.homeLengthMaximum >= data?.homeLength &&
-      house.fields?.roofDependency === roofDependency
+      house.fields?.constructionSelectionName==="Foundation"
     );
   });
 
