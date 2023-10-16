@@ -86,11 +86,7 @@ export let result;
 const setCost = () => {
 
   const data = store().getState().priceFactor.constructionCost.data;
-
-
-
   const displayed = data?.filter((item) => item.fields.displayStatus === "Fixed Cost");
-
 
   result = [
     { constructionOptionsMOD: {} },
@@ -153,7 +149,7 @@ export const getBaseContructionCostsPerSqureFit = (data, roofPitch) => {
       house.fields?.homeWidth === data?.homeWidth &&
       house.fields?.homeLengthMinimum <= data?.homeLength &&
       house.fields?.homeLengthMaximum >= data?.homeLength &&
-      house.fields?.constructionSelectionName==="Foundation"
+    (  house.fields?.constructionSelectionName==="Foundation" ||house.fields?.constructionSelectionName==="Home Set")
     );
   });
 
