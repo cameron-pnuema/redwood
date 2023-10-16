@@ -22,6 +22,11 @@ import Popup from '../../components/UI/Popup/Popup';
 import store from "../../store/index";
 import { urlObjects } from '../../UTILS/urlObjects';
 
+import { userLogOut } from '../../store/actions/user';
+import Logout from '../../assets/img/selectFloorplan/icons8-logout-50.png'
+
+
+
 
 
 
@@ -410,6 +415,12 @@ const HomeTemplate = (categoryType) => {
     }
 
 
+    const logout = () => {
+        localStorage.clear()
+        Router.push("/")
+        dispatch(userLogOut())
+    }
+
 
     const getAllDataOfApp = () => {
         Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()), dispatch(getConstructionCostNew())]).then((res) => {
@@ -420,7 +431,6 @@ const HomeTemplate = (categoryType) => {
     function capitalizeAllLetters(str) {
         return str === "fawaffordablehomes" ?
          "FAW AFFORDABLE HOMES" : "GS COURTYARD HOMES"
-
     }
 
     React.useEffect(() => {
@@ -434,7 +444,12 @@ const HomeTemplate = (categoryType) => {
     return (
         <div className={styles.HomeTemplate}>
             <img className={styles.HomeTemplate__img} src={bgImg} alt="bgImg" />
-            <div className={styles.HomeTemplate__background}></div>
+            <div className={styles.HomeTemplate__background}>
+                <div className={styles.Logout} onClick={() => logout()}>
+                    <h1 >Logout</h1>
+                    <img src={Logout} alt="logOut" style={{ width: "50px", height: "50px" }} />
+                </div>
+            </div>
 
             <div className={styles.HomeTemplate__centerBlock}>
                 <p className={styles.HomeTemplate__title}>Welcome! {/* {process.env.NEXT_PUBLIC_APP_ENVIRONMENT} */}</p>
