@@ -187,7 +187,7 @@ const HomeTemplate = (categoryType) => {
                         mainOption.manufacturerName = buildingManufacturerName
 
                         mainOptionIndex = 0
-                        _(pageGroup).groupBy(x => x.fields.category).map((categoryGroup, categoryName, cateIndex, index) => {
+                        _(pageGroup).groupBy(x => x.fields.categoryText).map((categoryGroup, categoryName, cateIndex, index) => {
 
 
                             let item = {
