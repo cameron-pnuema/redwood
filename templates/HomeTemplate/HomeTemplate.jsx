@@ -431,7 +431,7 @@ const HomeTemplate = (categoryType) => {
 
 
     const getAllDataOfApp = () => {
-        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()), dispatch(getConstructionCostNew(),dispatch(getDisclaimer()))]).then((res) => {
+        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()), dispatch(getConstructionCostNew())]).then((res) => {
             setLoading(false)
         })
     } 
@@ -448,6 +448,12 @@ const HomeTemplate = (categoryType) => {
             handleFetch()
         }
     }, [selectorPlan])
+    
+    React.useEffect(() => {
+            dispatch(getDisclaimer())
+       
+    }, [])
+
 
     return (
         <div className={styles.HomeTemplate}>
