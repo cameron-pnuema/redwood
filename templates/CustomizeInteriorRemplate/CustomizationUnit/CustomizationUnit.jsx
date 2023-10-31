@@ -37,7 +37,6 @@ const CustomizationUnit = ({
     (state) => state.customization.customization
   );
 
-
   const markupValue = useSelector((state) => state.priceFactor.markup.data);
 
   let markUp;
@@ -131,6 +130,7 @@ const CustomizationUnit = ({
                 else {
                   optionGroup = (
                     <OptionGroup
+                       disclaimer={og.disclaimer}
                       categoryName={categoryName}
                       selectedPlan={selectedPlan}
                       groupName={og.name}
@@ -168,6 +168,7 @@ const CustomizationUnit = ({
               if (categoryName !== "Flooring")
                 optionGroup = (
                   <OptionGroup
+                  disclaimer={og.disclaimer}
                     categoryName={categoryName}
                     selectedPlan={selectedPlan}
                     groupName={og.name}

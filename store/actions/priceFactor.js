@@ -25,6 +25,11 @@ const getFloorPlanSuccess = (data) => ({ type: actionTypes.FLOORPLAN_SUCCESS, pa
 const getFloorPlanError = (data) => ({ type: actionTypes.FLOORPLAN_ERROR, payload: data });
 
 
+const getDisclaimerRequest = () => ({ type: actionTypes.DISCLAIMER_REQUEST });
+const getDisclaimerSuccess = (data) => ({ type: actionTypes.DISCLAIMER_SUCCESS, payload: data });
+const getDisclaimerError = (data) => ({ type: actionTypes.DISCLAIMER_ERROR, payload: data });
+
+
 
 
 
@@ -151,6 +156,30 @@ export const getConstructionCostNew = (data) => {
         } catch (e) {
             toast(e.response ? e.response.data : 'Что-то пошло не так111');
             dispatch(getConstructionCostNewError());
+        }
+    }
+}
+
+
+export const getDisclaimer = (data) => {
+    let userCompany
+    if (typeof window !== 'undefined') {
+        userCompany = localStorage.getItem('companyName')
+    }
+
+    const dynamicUrl = urlObjects[userCompany]
+    const url = dynamicUrl.categoryDisclaimer
+    return async (dispatch) => {
+        dispatch(getDisclaimerRequest());
+        try {
+            const res = await getAirtableData({ url, method: "get" })
+            const records = res.records
+            if (records) {
+                dispatch(getDisclaimerSuccess(records))
+            }
+        } catch (e) {
+            toast(e.response ? e.response.data : 'Что-то пошло не так111');
+            dispatch(getDisclaimerError());
         }
     }
 }

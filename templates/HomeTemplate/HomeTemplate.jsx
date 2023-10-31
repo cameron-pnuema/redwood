@@ -13,7 +13,7 @@ import _ from 'lodash'
 import { setAirtablecustomizationAction } from '../../store/actions/customization';
 import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames } from '../../db/custumizationGroupsFairmont';
 import { toast } from 'react-toastify';
-import { getMarkup, getFloorPlan, getConstructionCost, getConstructionCostNew } from "../../store/actions/priceFactor"
+import { getMarkup, getFloorPlan, getConstructionCost, getConstructionCostNew, getDisclaimer } from "../../store/actions/priceFactor"
 import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan"
 import { customizationAction } from "../../store/actions/customization"
 import { setUserData } from "../../store/actions/user"
@@ -88,6 +88,13 @@ const HomeTemplate = (categoryType) => {
 
     const homeSeries = selectorPlan?.homeSeriesName
     const homeLength = useSelector((state) => state.lot.planData?.homeLength);
+
+    const disclaimerData= useSelector(state => state.priceFactor.disclaimer.data);
+
+    const modifiedItems = disclaimerData?.map((item) => ({
+        Name: item.fields.Name,
+        disclaimer: item.fields.disclaimer,
+      }));
 
     const gotoFloorPlan = () => {
         dispatch(setLot(slotData));
@@ -189,13 +196,14 @@ const HomeTemplate = (categoryType) => {
                         mainOptionIndex = 0
                         _(pageGroup).groupBy(x => x.fields.categoryText).map((categoryGroup, categoryName, cateIndex, index) => {
 
-
+                            const matchingItem = modifiedItems.find(item => item.Name === categoryName);
                             let item = {
                                 id: 1,
                                 name: '',
                                 active: null,
                                 options: [
                                 ],
+                                disclaimer: matchingItem ? matchingItem.disclaimer : '',
                             }
 
                             item.id = mainOptionIndex + 1
@@ -423,7 +431,7 @@ const HomeTemplate = (categoryType) => {
 
 
     const getAllDataOfApp = () => {
-        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()), dispatch(getConstructionCostNew())]).then((res) => {
+        Promise.all([dispatch(getMarkup()), dispatch(getFloorPlan()), dispatch(getConstructionCost()), dispatch(getConstructionCostNew(),dispatch(getDisclaimer()))]).then((res) => {
             setLoading(false)
         })
     } 
@@ -436,7 +444,7 @@ const HomeTemplate = (categoryType) => {
     React.useEffect(() => {
 
         if (selectorPlan) {
-
+            dispatch(getDisclaimer())
             handleFetch()
         }
     }, [selectorPlan])

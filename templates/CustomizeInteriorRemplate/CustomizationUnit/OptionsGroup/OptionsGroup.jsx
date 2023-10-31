@@ -23,11 +23,13 @@ const OptionsGroup = ({
   handleIconClick,
   notesState,
   notes,
-  selectedPlan
+  selectedPlan,
+  disclaimer
 }) => {
   const key = groupName + groupId;
   const isSelected = isNotesSelected(notesState, key);
 
+  console.log("disclllll",disclaimer)
 
   // const filterOptions = options?.filter((item) => {
   //   if (categoryName==="Variable Cost")  {
@@ -47,7 +49,7 @@ const OptionsGroup = ({
   return (
     <div className={styles.group}>
       <div className={styles.group__name}>{groupName}</div>
-      {groupName === "Roof Pitch" && <div className={styles.Caution}>Caution: Choosing a roof pitch that is not standard may impact the construction costs associated with your home</div>}
+      <div className={styles.Caution}>{disclaimer}</div>
       <div className={styles.group__options}>
         {options
           ?.sort((a, b) => a.price - b.price)

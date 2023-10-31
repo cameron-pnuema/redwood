@@ -9,6 +9,7 @@ import { selectionCategoryFullNames, selectionFieldTypes, selectionCategoryNames
 import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan";
 import { useRouter } from 'next/router';
 import { urlObjects } from '../../UTILS/urlObjects';
+import { getDisclaimer } from '../../store/actions/priceFactor';
 
 
 
@@ -22,7 +23,7 @@ const getCategoryType = (categoryName) => {
         return selectionFieldTypes.SELECT_MULTIPLE
     }
     else if (cName == selectionCategoryFullNames.MULTIPLE_SELECT_LF) {
-      
+
         return selectionFieldTypes.SELECT_MULTIPLE_LF
     }
     else if (cName == selectionCategoryFullNames.SELECT_ONE_LF) {
@@ -57,16 +58,23 @@ const DetailedFloorPlan = () => {
     const homeLength = useSelector((state) => state.lot.planData?.homeLength);
 
     const router = useRouter()
-    const companyName = router.query.company 
+    const companyName = router.query.company
 
     //  console.log("company",companyName)
 
 
 
-     const dynamicUrl= urlObjects[companyName]
-       
-    
+    const dynamicUrl = urlObjects[companyName]
+
+
     const homeSeries = selectorPlan?.homeSeriesName
+    const disclaimerData= useSelector(state => state.priceFactor.disclaimer.data);
+
+    const modifiedItems = disclaimerData?.map((item) => ({
+        Name: item.fields.Name,
+        disclaimer: item.fields.disclaimer,
+      }));
+   
 
     useTimeout();
 
@@ -80,19 +88,17 @@ const DetailedFloorPlan = () => {
                 : item.fields.constructionOptionsHUD_SW
 
 
-                const sqFt = selectorPlan?.["sq Ft"];
+        const sqFt = selectorPlan?.["sq Ft"];
 
-                return {
-                    id: index + 1,
-                    name: item.fields?.constructionSelectionName,
-                    price: price !== null && sqFt !== null && sqFt !== undefined
-                        ? price < 50 && sqFt ? price * sqFt : price
-                        : price,
-                    category: item.fields?.category,
-                };
+        return {
+            id: index + 1,
+            name: item.fields?.constructionSelectionName,
+            price: price !== null && sqFt !== null && sqFt !== undefined
+                ? price < 50 && sqFt ? price * sqFt : price
+                : price,
+            category: item.fields?.category,
+        };
     });
-
-
 
 
     const handleFetch = async (offsetId) => {
@@ -126,14 +132,11 @@ const DetailedFloorPlan = () => {
         const realRes = await res.json()
 
         totalRecords.current = [...totalRecords.current, ...realRes.records]
-   
 
-           totalRecords.current = totalRecords.current.filter((record) => {
-             return record.fields.homeSeriesName === `${homeSeries}`
-             && record.fields.displayStatus === "On"
-          })
-         
-         
+        totalRecords.current = totalRecords.current.filter((record) => {
+            return record.fields?.homeSeriesName === `${homeSeries}`
+                && record.fields?.displayStatus === "On"
+        })
 
         if (realRes.offset) {
             handleFetch(realRes.offset)
@@ -148,7 +151,6 @@ const DetailedFloorPlan = () => {
                     let a = []
 
                     const buildingManufacturerName = group[0]?.fields.manufacturerName
-                
                     _(group).groupBy(x => x.fields.pageName).map((pageGroup, pageNameIndex) => {
 
                         let mainOption = {
@@ -160,7 +162,7 @@ const DetailedFloorPlan = () => {
                         }
 
                         const pageNumber = pageGroup[0]?.fields?.pageNumber;
-                    
+
                         mainOption.category = pageNumber;
                         mainOption.active = pageNumber === 1 ? true : false
                         mainOption.name = pageNameIndex
@@ -169,13 +171,16 @@ const DetailedFloorPlan = () => {
                         mainOptionIndex = 0
                         _(pageGroup).groupBy(x => x.fields.categoryText).map((categoryGroup, categoryName, cateIndex, index) => {
 
+                            const matchingItem = modifiedItems.find(item => item.Name === categoryName);
                             let item = {
                                 id: 1,
                                 name: '',
                                 active: null,
                                 options: [
                                 ],
+                                disclaimer: matchingItem ? matchingItem.disclaimer : '',
                             }
+
                             item.id = mainOptionIndex + 1
                             item.name = categoryName
 
@@ -202,14 +207,14 @@ const DetailedFloorPlan = () => {
 
                                     }
 
-                                   
-                                    
+
+
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
-                                        
+
                                     }
 
-                                    if (categoryName.includes('Roof Pitch')) { 
+                                    if (categoryName.includes('Roof Pitch')) {
                                         item.active = 1
                                     }
 
@@ -226,16 +231,16 @@ const DetailedFloorPlan = () => {
                                     else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_MULTIPLE_LF) {
                                         itemObject.categoryType = selectionFieldTypes.SELECT_MULTIPLE
                                         item.categoryType = selectionFieldTypes.QUANTITY
-                                        itemObject.price = itemObject.price*homeLength
+                                        itemObject.price = itemObject.price * homeLength
 
                                     }
                                     else if (getCategoryType(mainOption.fields.categoryType) === selectionFieldTypes.SELECT_ONE_LF) {
-                                       item.categoryType = selectionFieldTypes.SELECT_ONE_LF
-                                       itemObject.price = itemObject.price*homeLength
+                                        item.categoryType = selectionFieldTypes.SELECT_ONE_LF
+                                        itemObject.price = itemObject.price * homeLength
                                     }
 
                                     if (item.categoryType && getCategoryName(categoryName)) {
-                                       item.categoryType = getCategoryName(categoryName)
+                                        item.categoryType = getCategoryName(categoryName)
                                     }
 
                                     item.options.push(itemObject)
@@ -247,11 +252,11 @@ const DetailedFloorPlan = () => {
 
                             return categoryGroup
                         }).value()
-                        
+
                         a.push(mainOption)
-                      
+
                     }).value()
-              
+
 
                     const obj = {
                         category: a.length + 1,
@@ -275,7 +280,7 @@ const DetailedFloorPlan = () => {
                                 active: 1,
                                 options: optionsCategory[category],
                                 categoryType: selectionFieldTypes.QUANTITY
-                            };   
+                            };
                         }
                         else {
                             return {
@@ -300,7 +305,7 @@ const DetailedFloorPlan = () => {
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
 
             dispatch(customizationAction(manufacturerData.current[selectorPlan?.manufacturerName]));
-           
+
             setIsLoading(false)
 
         }
@@ -308,6 +313,7 @@ const DetailedFloorPlan = () => {
 
     useEffect(() => {
         handleFetch()
+        dispatch(getDisclaimer())
     }, [])
 
     return (
