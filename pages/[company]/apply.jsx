@@ -45,7 +45,7 @@ let orderId
 
 
 
-const bccList = ['rex@redrootscapital.com', 'sam@redrootscapital.com', 'griffin@redrootscapital.com','holly@faw-homes.com'];
+const bccList = ['rex@redrootscapital.com', 'sam@redrootscapital.com', 'griffin@redrootscapital.com', 'holly@faw-homes.com'];
 
 const toList = ['sam@redrootscapital.com', 'griffin@redrootscapital.com']
 
@@ -137,14 +137,14 @@ const Apply = ({ data }) => {
   if (typeof window !== 'undefined') {
     userCompany = localStorage.getItem('companyName')
   }
-  
-  
-  
-  
+
+
+
+
   const dynamicUrl = urlObjects[userCompany]
-  
-  
-  
+
+
+
   const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl?.key);
 
   const companyName = router.query.company
@@ -205,8 +205,8 @@ const Apply = ({ data }) => {
     setDetails(data);
   };
   useTimeout();
-  
- 
+
+
 
   async function sendEmail(e) {
 
@@ -214,7 +214,7 @@ const Apply = ({ data }) => {
       housePrice +
       (finalPrice || 0)
     )
-  
+
     const templateDescription = dynamicUrl?.templateDescription(totalPrice)
 
 
@@ -259,9 +259,8 @@ const Apply = ({ data }) => {
         floorplanName: Plan?.floorplanName,
         streetAddress: userDetails?.description,
         orderInfo,
-        orderInfo2, orderInfo3, orderInfo4
+        orderInfo2, orderInfo3, orderInfo4,
 
-        // orderPDF: downloadFileName,
       },
 
 
@@ -427,7 +426,7 @@ const Apply = ({ data }) => {
       };
 
 
-     
+
 
       // await emailjs.send(
       //   emailJsConfigs.SERVICE_ID,
@@ -464,19 +463,16 @@ const Apply = ({ data }) => {
           financeBlock: financeBlock,
           to: userDetails?.email,
           bcc: testEmail ? "" : bccList,
-          cc:dynamicUrl?.email,
-          from_name:dynamicUrl?.Title,
-          template_description:templateDescription,
-       
-        },
+          cc: dynamicUrl?.email,
+          from_name: dynamicUrl?.Title,
+          template_description: templateDescription,
 
+        },
         emailJsConfigs.USER_ID
       )
 
-       
+
       const pdfBlob = await pdfOrder({ rootElementId: html, downloadFileName: "test.js" })
-
-
 
       const storageRef = ref(storage, `order-${orderId}/`);
       const uploadTask = uploadBytesResumable(storageRef, pdfBlob);
@@ -492,22 +488,20 @@ const Apply = ({ data }) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("downloadURL",downloadURL)
             base('Orders').update([{
               id,
               fields: {
                 orderPDF: downloadURL,
-
               }
             }], function (err, record) {
               if (err) {
-                    console.log("errr",err) ;
+                console.log("errr", err);
               }
             });
           });
         }
       );
-
-
 
       setCompleted(true);
       window &&
