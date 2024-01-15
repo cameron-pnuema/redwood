@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { setUserData } from "../../store/actions/user";
 import { useRouter } from 'next/router';
 import { urlObjects } from '../../UTILS/urlObjects';
+import { personalAT } from '../../UTILS/api';
 
 const ApplyForm = (props) => {
   const {
@@ -82,7 +83,7 @@ const ApplyForm = (props) => {
     const res = await fetch(url, {
       method: "post",
       headers: new Headers({
-        Authorization: "Bearer key0AV84zSplHpV5B",
+        Authorization: `Bearer ${personalAT}`,
         'Content-Type': 'application/json'
       }),
       body: JSON.stringify(x)

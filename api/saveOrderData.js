@@ -1,5 +1,5 @@
 import { urlObjects } from "../UTILS/urlObjects"
-
+import { personalAT } from "../UTILS/api"
 
 
 
@@ -19,7 +19,7 @@ export const saveOrderData = async (data) => {
   const res = await fetch(url, {
     method: "post",
     headers: new Headers({
-      Authorization: "Bearer key0AV84zSplHpV5B",
+      Authorization: `Bearer ${personalAT}`,
       'Content-Type': 'application/json'
     }),
     body: JSON.stringify(data)

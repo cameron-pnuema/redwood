@@ -24,6 +24,7 @@ import { urlObjects } from '../../UTILS/urlObjects';
 
 import { userLogOut } from '../../store/actions/user';
 import Logout from '../../assets/img/selectFloorplan/icons8-logout-50.png'
+import { personalAT } from '../../UTILS/api';
 
 
 
@@ -145,7 +146,7 @@ const HomeTemplate = (categoryType) => {
         const res = await fetch(url, {
             method: 'get',
             headers: new Headers({
-                'Authorization': "Bearer key0AV84zSplHpV5B",
+                'Authorization': `Bearer ${personalAT}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             })
         })
@@ -352,7 +353,7 @@ const HomeTemplate = (categoryType) => {
         const res = await fetch(url, {
             method: "get",
             headers: new Headers({
-                Authorization: "Bearer key0AV84zSplHpV5B",
+                Authorization: `Bearer ${personalAT}`,
                 'Content-Type': 'application/json'
             }),
         });
@@ -448,7 +449,7 @@ const HomeTemplate = (categoryType) => {
             handleFetch()
         }
     }, [selectorPlan])
-    
+
     React.useEffect(() => {
             dispatch(getDisclaimer())
        

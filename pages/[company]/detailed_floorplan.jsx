@@ -10,6 +10,7 @@ import { HOME_TYPE } from "../../UTILS/filterSelectFloorplan";
 import { useRouter } from 'next/router';
 import { urlObjects } from '../../UTILS/urlObjects';
 import { getDisclaimer } from '../../store/actions/priceFactor';
+import { personalAT } from '../../UTILS/api';
 
 
 
@@ -75,7 +76,7 @@ const DetailedFloorPlan = () => {
         disclaimer: item.fields.disclaimer,
       }));
    
-
+console.log("modified",modifiedItems)
     useTimeout();
 
     const data = store().getState().priceFactor.constructionCost.data;
@@ -124,7 +125,7 @@ const DetailedFloorPlan = () => {
         const res = await fetch(url, {
             method: 'get',
             headers: new Headers({
-                'Authorization': "Bearer key0AV84zSplHpV5B",
+                'Authorization':  `Bearer ${personalAT}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             })
         })
@@ -171,7 +172,9 @@ const DetailedFloorPlan = () => {
                         mainOptionIndex = 0
                         _(pageGroup).groupBy(x => x.fields.categoryText).map((categoryGroup, categoryName, cateIndex, index) => {
 
-                            const matchingItem = modifiedItems.find(item => item.Name === categoryName);
+                            const matchingItem = modifiedItems.find(item => item.Name == categoryName);
+
+                            console.log("matchinfititi",matchingItem?.disclaimer,categoryName)
                             let item = {
                                 id: 1,
                                 name: '',
@@ -206,9 +209,6 @@ const DetailedFloorPlan = () => {
                                         }
 
                                     }
-
-
-
                                     if (categoryName.includes('Optional')) { //if the category is optional then let the user to skip it
                                         item.active = 0
 
@@ -302,6 +302,7 @@ const DetailedFloorPlan = () => {
                 })
                 .value();
 
+            console.log("maunfff,",manufacturerData.current)
             dispatch(setAirtablecustomizationAction(manufacturerData.current))
 
             dispatch(customizationAction(manufacturerData.current[selectorPlan?.manufacturerName]));
@@ -313,7 +314,9 @@ const DetailedFloorPlan = () => {
 
     useEffect(() => {
         handleFetch()
+
         dispatch(getDisclaimer())
+  
     }, [])
 
     return (

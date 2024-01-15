@@ -3,6 +3,7 @@ import { addUser, authorizationUser, getUser, addStor } from '../../UTILS/api';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { urlObjects } from '../../UTILS/urlObjects';
+import { personalAT } from '../../UTILS/api';
 
 const getMarkupRequest = () => ({ type: actionTypes.MARKUP_REQUEST });
 const getMarkupSuccess = (data) => ({ type: actionTypes.MARKUP_SUCCESS, payload: data });
@@ -37,7 +38,7 @@ export async function getAirtableData({ url, method }) {
     const res = await fetch(url, {
         method,
         headers: new Headers({
-            'Authorization': "Bearer key0AV84zSplHpV5B",
+            'Authorization': `Bearer ${personalAT}`,
             'Content-Type': 'application/json'
         })
     })

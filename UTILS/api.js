@@ -119,12 +119,12 @@ const getTables = async() => {
             method: 'get',
             url: 'https://api.airtable.com/v0/meta/bases',
             headers: {
-                'Authorization': 'Bearer key0AV84zSplHpV5B',
-                'X-Airtable-Client-Secret': 'key0AV84zSplHpV5B'
+                'Authorization': `Bearer ${personalAT}`,
+                'X-Airtable-Client-Secret': `${personalAT}`,
 
             },
         })
-    
+
     } catch (error) {
         console.log(error, '>>>>>>>>>>>>>>>>>');
     }
@@ -132,4 +132,7 @@ const getTables = async() => {
 
 export const airtableApis = {
     getTables
-}
+}  
+
+
+export const personalAT = "patDQKJUdZWunFgnE.7aafccc20ddb4795c34428adcfc16de18a3e3d1f76423828497d68839a0b55f2"

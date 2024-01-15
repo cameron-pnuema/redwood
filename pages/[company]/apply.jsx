@@ -20,6 +20,7 @@ import Airtable from 'airtable';
 import { urlObjects } from "../../UTILS/urlObjects";
 import { clientProfile } from "../../store/actions/priceFactor";
 import { useRouter } from "next/router";
+import { personalAT } from "../../UTILS/api";
 
 
 
@@ -145,7 +146,7 @@ const Apply = ({ data }) => {
 
 
 
-  const base = new Airtable({ apiKey: 'key0AV84zSplHpV5B' }).base(dynamicUrl?.key);
+  const base = new Airtable({ apiKey: `${personalAT}` }).base(dynamicUrl?.key);
 
   const companyName = router.query.company
 
@@ -206,27 +207,13 @@ const Apply = ({ data }) => {
   };
   useTimeout();
 
-
-
   async function sendEmail(e) {
-
     const totalPrice = formatPrice(
       housePrice +
       (finalPrice || 0)
     )
-
     const templateDescription = dynamicUrl?.templateDescription(totalPrice)
-
-
-
     let errors = formValidator(userDetails);
-
-
-
-
-
-
-
 
     const orderInfo = сustomizations.slice(0, 3);
     const orderInfo2 = сustomizations.slice(3, 6);
@@ -263,11 +250,10 @@ const Apply = ({ data }) => {
 
       },
 
-
       typecast: true
     })
 
-    var id = responseData.id
+    var id = responseData?.id
     orderId = responseData.fields.orderID
     if (Object.keys(errors).length) {
       setDetails({ ...userDetails, errors });
@@ -484,11 +470,11 @@ const Apply = ({ data }) => {
           setProgresspercent(progress);
         },
         (error) => {
-          alert(error);
+          console.log(error, "error");
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("downloadURL",downloadURL)
+         
             base('Orders').update([{
               id,
               fields: {
